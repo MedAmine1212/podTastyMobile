@@ -66,15 +66,7 @@ public class ServiceUser {
          User user = new User();
                 float id = Float.parseFloat(obj.get("id").toString());
                 user.setId((int)id);
-                
-            
-           System.out.println("aaaaaaaaa haw hnéééé com");
-           System.out.println("aaaaaaaaa haw hnéééé com");
-           System.out.println("aaaaaaaaa haw hnéééé com");
-           System.out.println(obj.get("UserInfoId"));
-           System.out.println("aaaaaaaaa haw hnéééé com");
-           System.out.println("aaaaaaaaa haw hnéééé com");
-           System.out.println("aaaaaaaaa haw hnéééé com");
+               
                UserInfo userInfo = parseUserInfo((Map<String,Object>)obj.get("UserInfoId"));
                 
                 user.setUserInfoIdId(userInfo);

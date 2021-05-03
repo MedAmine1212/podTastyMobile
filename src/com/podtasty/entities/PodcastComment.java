@@ -20,8 +20,6 @@ public class PodcastComment {
     private Podcast podcastIdId;
     private String userName;
 
-   
-    
     public String getUserName() {
         return userName;
     }
@@ -72,6 +70,12 @@ public class PodcastComment {
 
     public void setUserIdId(User userIdId) {
         this.userIdId = userIdId;
+        try {
+            this.userName = userIdId.getUserInfoIdId().getUserFirstName()+" "+userIdId.getUserInfoIdId().getUserLastName();
+        } catch(NullPointerException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
     }
 
     public Podcast getPodcastIdId() {

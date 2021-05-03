@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="" scrollableY="false" name="CommentView">
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  preferredSize="124.89416mm 24.767147mm" name="Box_Layout_X">
+    <layoutConstraint insets="2.4233701mm 0.72988987mm 1.57663mm 3.2701101mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+    <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  name="Box_Layout_Y_2">
+      <component type="ImageViewer" preferredSize="18.416595mm 16.934801mm" name="userImg">
+      </component>
+      <component type="SpanLabel" text="Span Label" styles="font:45px;" name="commentDate">
+      </component>
+    </component>
+    <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  preferredSize="70.49111mm 33.02286mm" name="Box_Layout_Y">
+      <component type="SpanLabel" text="Span Label" styles="font:70px;" name="userName">
+      </component>
+      <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  scrollableY="true" name="Box_Layout_Y_1">
+        <component type="SpanLabel" text="Span Label" styles="font:50px;" name="commentText">
+        </component>
+      </component>
+    </component>
+  </component>
+</component>

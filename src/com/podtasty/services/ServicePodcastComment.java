@@ -48,7 +48,6 @@ public class ServicePodcastComment {
         req.setPost(true);
         req.addArgument("comText", com.getCommentText());
         req.addArgument("podId", com.getPodcastIdId().getId().toString());
-        req.addArgument("comDate", com.getCommentDate().toString());
         req.addArgument("userId", com.getUserIdId().getId().toString());
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -128,7 +127,11 @@ public class ServicePodcastComment {
     public ArrayList<PodcastComment> getCommentsByPodcastId(Podcast pod){
         String url = Statics.BASE_URL+"/getCommentsByPodcastId/"+pod.getId();
         req.setUrl(url);
+        try {
         req.setPost(false);
+        } catch(IllegalStateException ex) {
+            System.out.println(ex.getMessage());
+        }
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
