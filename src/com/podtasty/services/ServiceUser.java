@@ -43,31 +43,45 @@ public class ServiceUser {
         return instance;
     }
     
+    
+    
+    
+    // !important !!!! test 3la kol obj.("faza") null walé 9bal; sinin baaarcha errors
+    
      public ArrayList<User> parseUsers(String jsonText) throws IOException{
           users = new ArrayList<>();
-         JSONParser j = new JSONParser();
-        Map<String,Object> userJSON = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-           
+          jsonText = "["+jsonText+"]";
+            JSONParser j = new JSONParser();
+            Map<String,Object> userJSON = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
             List<Map<String,Object>> list = (List<Map<String,Object>>)userJSON.get("root");
+            
               for(Map<String,Object> obj : list){
-                
-                  User user = new User();
-                float id = Float.parseFloat(obj.get("id").toString());
-                user.setId((int)id);
-                
-                float userInfoId = Float.parseFloat(obj.get("UserInfoIdForMobile").toString());
-                ArrayList<UserInfo> usInfo = getUserInfoById((int)userInfoId);
-                
-                UserInfo userInfo = usInfo.iterator().next();
-                user.setUserInfoIdId(userInfo);
+                  User user = parseUser(obj);
                 users.add(user);
             }
             
         return users;
     }
+     public User parseUser(Map<String,Object>obj) {
+         User user = new User();
+                float id = Float.parseFloat(obj.get("id").toString());
+                user.setId((int)id);
+                
+            
+           System.out.println("aaaaaaaaa haw hnéééé com");
+           System.out.println("aaaaaaaaa haw hnéééé com");
+           System.out.println("aaaaaaaaa haw hnéééé com");
+           System.out.println(obj.get("UserInfoId"));
+           System.out.println("aaaaaaaaa haw hnéééé com");
+           System.out.println("aaaaaaaaa haw hnéééé com");
+           System.out.println("aaaaaaaaa haw hnéééé com");
+               UserInfo userInfo = parseUserInfo((Map<String,Object>)obj.get("UserInfoId"));
+                
+                user.setUserInfoIdId(userInfo);
+                return user;
+     }
      
-     
-       public ArrayList<UserInfo> parseUserInfo(String jsonText) throws IOException{
+       public ArrayList<UserInfo> parseUsersInfo(String jsonText) throws IOException{
 
           usersInfo = new ArrayList<>();
           JSONParser j = new JSONParser();
@@ -75,17 +89,20 @@ public class ServiceUser {
            
             List<Map<String,Object>> list = (List<Map<String,Object>>)podcastJSON.get("root");
               for(Map<String,Object> obj : list){
+               UserInfo userInfo = parseUserInfo(obj);
+                usersInfo.add(userInfo);
+            }
+        return usersInfo;
+    }
+    public UserInfo parseUserInfo(Map<String,Object>obj) {
                 UserInfo userInfo = new UserInfo();
                 float id = Float.parseFloat(obj.get("id").toString());
                 userInfo.setId((int)id);
                 userInfo.setUserFirstName(obj.get("UserFirstName").toString());
                 userInfo.setUserLastName(obj.get("UserLastName").toString());
                 userInfo.setUserImage(obj.get("UserImage").toString());
-                usersInfo.add(userInfo);
-            }
-        return usersInfo;
+                return userInfo;
     }
-    
      public ArrayList<User> getUserById(int id){
         String url = Statics.BASE_URL+"/getUserById/"+id;
         req.setUrl(url);
@@ -115,7 +132,7 @@ public class ServiceUser {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 try {
-                    usersInfo = parseUserInfo(new String(req.getResponseData()));
+                    usersInfo = parseUsersInfo(new String(req.getResponseData()));
                 } catch (IOException ex) {
                     System.out.println("User info exception: "+ex.getMessage());
                 }

@@ -108,8 +108,8 @@ public class PodcastComment {
                 ", CommentText: "+commentText+
                 ", CommentDate: "+commentDate+
                 ", PodcastName; "+podcastIdId.getPodcastName()+
-//                ", UserName: "+userIdId.getUserInfoIdId().getUserFirstName()+
-//                " "+userIdId.getUserInfoIdId().getUserLastName()+
+                ", UserName: "+userIdId.getUserInfoIdId().getUserFirstName()+
+                " "+userIdId.getUserInfoIdId().getUserLastName()+
                 " ]";
     }
     

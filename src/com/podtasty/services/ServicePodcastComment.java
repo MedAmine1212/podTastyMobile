@@ -101,9 +101,8 @@ public class ServicePodcastComment {
             comments=new ArrayList<>();
             JSONParser j = new JSONParser();
             Map<String,Object> commentsListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-            
-           
             List<Map<String,Object>> list = (List<Map<String,Object>>)commentsListJson.get("root");
+            
             
             for(Map<String,Object> obj : list){
                 PodcastComment com = new PodcastComment();
@@ -114,10 +113,8 @@ public class ServicePodcastComment {
                 com.setCommentText(obj.get("CommentText").toString());
                 com.setPodcastIdId(pod);
                 ServiceUser srUser = ServiceUser.getInstance(); 
-                float userId = Float.parseFloat(obj.get("UserIdForMobile").toString());
-                ArrayList<User> users = srUser.getUserById((int)userId);
-//                User user = users.iterator().next();
-//                com.setUserIdId(user);
+               User user  = srUser.parseUser((Map<String,Object>)obj.get("UserId"));
+                com.setUserIdId(user);
                 comments.add(com);
             }
             
