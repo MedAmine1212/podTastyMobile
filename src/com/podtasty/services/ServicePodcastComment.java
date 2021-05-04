@@ -18,13 +18,14 @@ import com.podtasty.utils.Statics;
 import com.podtasty.entities.Podcast;
 import com.podtasty.entities.User;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class ServicePodcastComment {
-
+    public PodcastComment comment;
     public ArrayList<PodcastComment> comments;
     
     private static ServicePodcastComment instance=null;
@@ -42,7 +43,7 @@ public class ServicePodcastComment {
         return instance;
     }
 
-    public boolean addComment(PodcastComment com) {
+public PodcastComment addComment(PodcastComment com) {
         String url = Statics.BASE_URL + "/addComment";
         req.setUrl(url);
         req.setPost(true);
@@ -52,12 +53,36 @@ public class ServicePodcastComment {
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                resultOK = req.getResponseCode() == 200;
-                req.removeResponseListener(this);     
+                try{
+                    switch (new String(req.getResponseData())) {
+                        case "403":
+                            comment = new PodcastComment();
+                            comment.setId(-1);
+                            break;
+                        case "401":
+                            comment = new PodcastComment();
+                            comment.setId(-2);
+                            break;
+                        default:
+                            comments = parseComments("["+new String(req.getResponseData())+"]", com.getPodcastIdId());
+                            comment = comments.iterator().next();
+                            String url = "http://127.0.0.1:8000/callMercure/comments/"+comment.getId()+"/"+com.getPodcastIdId().getId();
+                            ConnectionRequest mercReq = new ConnectionRequest();
+                            mercReq.setUrl(url);
+                            mercReq.setPost(false);
+                            NetworkManager.getInstance().addToQueueAndWait(mercReq);
+                            comment = comments.iterator().next();
+                            req.removeResponseListener(this);
+                            break;                        
+                    }
+                    
+                } catch(ParseException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
-        return resultOK;
+        return comment;
     }
     
     
@@ -102,7 +127,6 @@ public class ServicePodcastComment {
             Map<String,Object> commentsListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
             List<Map<String,Object>> list = (List<Map<String,Object>>)commentsListJson.get("root");
             
-            
             for(Map<String,Object> obj : list){
                 PodcastComment com = new PodcastComment();
                 float id = Float.parseFloat(obj.get("id").toString());
@@ -111,7 +135,7 @@ public class ServicePodcastComment {
                 com.setCommentDate(comDate);
                 com.setCommentText(obj.get("CommentText").toString());
                 com.setPodcastIdId(pod);
-                ServiceUser srUser = ServiceUser.getInstance(); 
+                ServiceUser srUser = ServiceUser.getInstance();
                User user  = srUser.parseUser((Map<String,Object>)obj.get("UserId"));
                 com.setUserIdId(user);
                 comments.add(com);

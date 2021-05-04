@@ -6,22 +6,32 @@
 package com.podtasty.GUI;
 
 import com.codename1.io.BufferedInputStream;
+import static com.codename1.io.Log.e;
 import com.codename1.io.URL;
 import com.codename1.io.URL.URLConnection;
 import com.codename1.l10n.SimpleDateFormat;
+import static com.codename1.ui.CN.callSerially;
+import com.codename1.ui.Display;
 import com.codename1.ui.Image;
 import com.podtasty.entities.PodcastComment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import com.codename1.ui.Form;
+import com.codename1.ui.URLImage;
+import com.codename1.util.EasyThread;
+import com.codename1.util.RunnableWithResult;
+import com.codename1.util.SuccessCallback;
 
 /**
  * GUI builder created Form
  *
  * @author khail
  */
-public class CommentView extends com.codename1.ui.Form {
+public class CommentView extends Form {
 SimpleDateFormat simpleDateFormat;
+PodcastComment comm;
+InputStream stream;
     public CommentView() {
         this(com.codename1.ui.util.Resources.getGlobalResources());
     }
@@ -30,21 +40,51 @@ SimpleDateFormat simpleDateFormat;
         simpleDateFormat = new SimpleDateFormat("dd MMM, yyyy");
         initGuiBuilderComponents(resourceObjectInstance);
     }
+    public void setImage(Image img) {
+        gui_userImg.setImage(img);
+
+    }
+    public Image fetchImage() {
+        try {
+            URL  url = new URL("http://127.0.0.1:8000/Files/podcastFiles/"+comm.getUserIdId().getUserInfoIdId().getUserImage());
+            URLConnection httpcon = url.openConnection();
+            stream = new BufferedInputStream(httpcon.getInputStream());
+            Image img = Image.createImage(stream);
+        return img;
+      } catch (URISyntaxException ex) {
+          System.out.println(ex.getMessage());
+      } catch (IOException ex) {
+          System.out.println(ex.getMessage());
+      }
+    return null;
+    }
     
     public void setView(PodcastComment com) throws URISyntaxException, IOException{
+        this.comm = com;
         gui_userName.setText(com.getUserName());
         String date = simpleDateFormat.format(com.getCommentDate());  
         gui_commentDate.setText(date);
         gui_commentText.setText(com.getCommentText());
-        URL url = new URL("http://127.0.0.1:8000/Files/podcastFiles/"+com.getUserIdId().getUserInfoIdId().getUserImage());
-          URLConnection httpcon = url.openConnection();
-         InputStream stream = new BufferedInputStream(httpcon.getInputStream());
-         Image img = Image.createImage(stream);
-        gui_userImg.setImage(img);
-        
+           try {
+                   InputStream in = Display.getInstance().getResourceAsStream(null, "/avatar.jpg");
+                   Image  loadImg = Image.createImage(in);
+                   gui_userImg.setImage(loadImg);
+               } catch (IOException ex) {
+                   System.out.println(ex.getMessage());
+               }
+                     if(com.getUserIdId().getUserInfoIdId().getUserImage() != null) {
+          EasyThread e = EasyThread.start("laod" + com.getUserIdId().getUserInfoIdId().getUserImage());
+           e.run(() -> {
+               Image img = fetchImage();
+               setImage(img);
+            });
+
+    }
+         
     }
 
-////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+
+////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_2 = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.ImageViewer gui_userImg = new com.codename1.components.ImageViewer();

@@ -45,7 +45,9 @@ public class PodTasty {
     
     public void start() {
         try{
-        new PodcastComments().show();
+       PodcastComments podCom =  new PodcastComments();
+       podCom.show();
+       podCom.setUpView();
         } catch(IOException | URISyntaxException e) {
             System.out.println(e.getMessage());
         }
