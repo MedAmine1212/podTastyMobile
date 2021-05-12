@@ -8,6 +8,7 @@ import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.Toolbar;
 import com.podtasty.GUI.PodcastComments;
+import com.podtasty.services.LoadAudio;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -44,17 +45,25 @@ public class PodTasty {
     }
     
     public void start() {
-        try{
-       PodcastComments podCom =  new PodcastComments();
-       podCom.show();
-       podCom.setUpView();
-        } catch(IOException | URISyntaxException e) {
-            System.out.println(e.getMessage());
+       PodcastComments podCom;
+        try {
+            podCom = new PodcastComments();
+            podCom.show();
+            podCom.setUpView();
+        } catch (IOException | URISyntaxException ex) {
+            System.out.println(ex.getMessage()); 
         }
-       
+      
     }
 
     public void stop() {
+        LoadAudio ld = LoadAudio.getInstance();
+        try {
+            ld.stopAudio();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        LoadAudio.destroyInstance();
         current = getCurrentForm();
         if(current instanceof Dialog) {
             ((Dialog)current).dispose();

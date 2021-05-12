@@ -6,11 +6,12 @@
 package com.podtasty.GUI;
 
 import com.codename1.io.BufferedInputStream;
-import static com.codename1.io.Log.e;
 import com.codename1.io.URL;
 import com.codename1.io.URL.URLConnection;
 import com.codename1.l10n.SimpleDateFormat;
-import static com.codename1.ui.CN.callSerially;
+import com.codename1.ui.Button;
+import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Image;
 import com.podtasty.entities.PodcastComment;
@@ -18,10 +19,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import com.codename1.ui.Form;
-import com.codename1.ui.URLImage;
+import com.codename1.ui.TextArea;
+import com.codename1.ui.TextField;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.util.EasyThread;
-import com.codename1.util.RunnableWithResult;
-import com.codename1.util.SuccessCallback;
+import com.podtasty.services.ServicePodcastComment;
+import com.podtasty.utils.Statics;
+import java.util.Objects;
 
 /**
  * GUI builder created Form
@@ -31,6 +35,8 @@ import com.codename1.util.SuccessCallback;
 public class CommentView extends Form {
 SimpleDateFormat simpleDateFormat;
 PodcastComment comm;
+PodcastComments parent;
+
 InputStream stream;
     public CommentView() {
         this(com.codename1.ui.util.Resources.getGlobalResources());
@@ -46,7 +52,7 @@ InputStream stream;
     }
     public Image fetchImage() {
         try {
-            URL  url = new URL("http://127.0.0.1:8000/Files/podcastFiles/"+comm.getUserIdId().getUserInfoIdId().getUserImage());
+            URL  url = new URL(Statics.BASE_URL+"/Files/podcastFiles/"+comm.getUserIdId().getUserInfoIdId().getUserImage());
             URLConnection httpcon = url.openConnection();
             stream = new BufferedInputStream(httpcon.getInputStream());
             Image img = Image.createImage(stream);
@@ -59,7 +65,9 @@ InputStream stream;
     return null;
     }
     
-    public void setView(PodcastComment com) throws URISyntaxException, IOException{
+    
+    public void setView(PodcastComment com, PodcastComments podView) throws URISyntaxException, IOException{
+        parent = podView;
         this.comm = com;
         gui_userName.setText(com.getUserName());
         String date = simpleDateFormat.format(com.getCommentDate());  
@@ -69,6 +77,16 @@ InputStream stream;
                    InputStream in = Display.getInstance().getResourceAsStream(null, "/avatar.jpg");
                    Image  loadImg = Image.createImage(in);
                    gui_userImg.setImage(loadImg);
+                   
+                    gui_userImg.addLongPressListener(e -> {
+                               if (!Objects.equals(com.getUserIdId().getId(), PodcastComments.getCurrentUser().getId())) {
+                                    Dialog.show("Comment details", "Owner: "+com.getUserName()+"\n\nDate: "+date, "Close", null);
+                               } else {
+                                   
+                                   setDialog(com, date);
+                               }
+                                
+                              });   
                } catch (IOException ex) {
                    System.out.println(ex.getMessage());
                }
@@ -79,12 +97,94 @@ InputStream stream;
                setImage(img);
             });
 
+    } 
     }
-         
+public void setDialog(PodcastComment com, String date) {
+     Button delButton = new Button();
+    delButton.setText("Delete");
+    Button editButton = new Button();
+    editButton.setText("Edit");
+   
+    Button cancelButton = new Button();
+    cancelButton.setText("Close");
+    Container pn = new Container();
+    Dialog d = new Dialog("Comment details");
+    TextArea popupBody = new TextArea("Owner: "+com.getUserName()+"\n\nDate: "+date, 3, 20);
+    popupBody.setEditable(false);
+    popupBody.setEnabled(false);
+    pn.addComponent(popupBody);
+    pn.addComponent(editButton);
+    pn.addComponent(delButton);
+    pn.addComponent(cancelButton);
+    d.setLayout(new BorderLayout());
+
+    d.add(BorderLayout.CENTER, pn);
+     
+    editButton.addActionListener(e -> {
+        showEdit(com, d);
+        
+    });
+    
+    delButton.addActionListener(e -> {
+        delComment(com.getId());
+        d.dispose();
+    });
+     cancelButton.addActionListener(e -> {
+        d.dispose();
+        
+    });
+    d.show();
+}
+public void delComment(int id) {
+    ServicePodcastComment sr = ServicePodcastComment.getInstance();
+    if (sr.deleteComment(id)) {
+    parent.removeCommentView(this);
+    } else {
+        System.out.println("error");
     }
+    
+}
 
-
-////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+public void showEdit(PodcastComment com, Dialog par) {
+        Dialog d = new Dialog("Edit comment");
+        TextArea popupBody = new TextArea(com.getCommentText(), 3, 20);
+        popupBody.setUIID("comText");
+        d.setLayout(new BorderLayout());
+        Button saveButton = new Button();
+        saveButton.setText("Save");
+        Button cancelButton = new Button();
+        cancelButton.setText("Cancel");
+        Container buttons = new Container();
+        Container pn = new Container();
+        buttons.add(saveButton);
+        buttons.add(cancelButton);
+        pn.add(popupBody);
+        pn.add(buttons);
+        d.setLayout(new BorderLayout());
+        d.add(BorderLayout.CENTER, pn);
+        cancelButton.addActionListener(e -> {
+            d.dispose();
+        
+        });
+        
+        saveButton.addActionListener(e -> {
+            if (!popupBody.getText().equals(com.getCommentText()) && popupBody.getText().length() > 0) {
+                
+            ServicePodcastComment sr = ServicePodcastComment.getInstance();
+            if(sr.updateComment(com.getId(), popupBody.getText())) {
+                
+             com.setCommentText(popupBody.getText());
+             this.gui_commentText.setText(com.getCommentText());
+             d.dispose();
+             par.dispose();
+             parent.updateCommentView();
+            }
+            }
+        
+        });
+        d.show();
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_2 = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.ImageViewer gui_userImg = new com.codename1.components.ImageViewer();

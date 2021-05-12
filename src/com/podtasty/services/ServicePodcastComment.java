@@ -18,7 +18,6 @@ import com.podtasty.utils.Statics;
 import com.podtasty.entities.Podcast;
 import com.podtasty.entities.User;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +43,7 @@ public class ServicePodcastComment {
     }
 
 public PodcastComment addComment(PodcastComment com) {
-        String url = Statics.BASE_URL + "/addComment";
+        String url = Statics.BASE_URL + "/mobile/addComment";
         req.setUrl(url);
         req.setPost(true);
         req.addArgument("comText", com.getCommentText());
@@ -66,11 +65,15 @@ public PodcastComment addComment(PodcastComment com) {
                         default:
                             comments = parseComments("["+new String(req.getResponseData())+"]", com.getPodcastIdId());
                             comment = comments.iterator().next();
-                            String url = "http://127.0.0.1:8000/callMercure/comments/"+comment.getId()+"/"+com.getPodcastIdId().getId();
-                            ConnectionRequest mercReq = new ConnectionRequest();
-                            mercReq.setUrl(url);
-                            mercReq.setPost(false);
-                            NetworkManager.getInstance().addToQueueAndWait(mercReq);
+                            try {
+                                String url = Statics.BASE_URL+"/callMercure/comments/"+comment.getId()+"/"+com.getPodcastIdId().getId();
+                                ConnectionRequest mercReq = new ConnectionRequest();
+                                mercReq.setUrl(url);
+                                mercReq.setPost(false);
+                                NetworkManager.getInstance().addToQueueAndWait(mercReq);
+                            } catch (Exception ex) {
+                                System.out.println(ex.getMessage());
+                            }
                             comment = comments.iterator().next();
                             req.removeResponseListener(this);
                             break;                        
@@ -87,11 +90,11 @@ public PodcastComment addComment(PodcastComment com) {
     
     
      public boolean updateComment(int id, String comText) {
-        String url = Statics.BASE_URL + "/UpdateComment";
+        String url = Statics.BASE_URL + "/mobile/UpdateComment";
         req.setUrl(url);
         req.setPost(true);
         req.addArgument("comText", comText);
-        req.addArgument("commentId", id+"");
+        req.addArgument("comId", id+"");
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -105,7 +108,7 @@ public PodcastComment addComment(PodcastComment com) {
      
      
         public boolean deleteComment(int id) {
-        String url = Statics.BASE_URL + "/deleteComment/"+id;
+        String url = Statics.BASE_URL + "/mobile/deleteComment/"+id;
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -149,7 +152,7 @@ public PodcastComment addComment(PodcastComment com) {
     }
     
     public ArrayList<PodcastComment> getCommentsByPodcastId(Podcast pod){
-        String url = Statics.BASE_URL+"/getCommentsByPodcastId/"+pod.getId();
+        String url = Statics.BASE_URL+"/mobile/getCommentsByPodcastId/"+pod.getId();
         req.setUrl(url);
         try {
         req.setPost(false);

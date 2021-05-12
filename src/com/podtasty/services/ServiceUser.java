@@ -96,7 +96,7 @@ public class ServiceUser {
                 return userInfo;
     }
      public ArrayList<User> getUserById(int id){
-        String url = Statics.BASE_URL+"/getUserById/"+id;
+        String url = Statics.BASE_URL+"/mobile/getUserById/"+id;
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -117,7 +117,7 @@ public class ServiceUser {
      
      
      public ArrayList<UserInfo> getUserInfoById(int id){
-        String url = Statics.BASE_URL+"/getUserInfoById/"+id;
+        String url = Statics.BASE_URL+"/mobile/getUserInfoById/"+id;
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
