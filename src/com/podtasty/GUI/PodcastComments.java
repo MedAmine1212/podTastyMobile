@@ -5,8 +5,8 @@
  */
 package com.podtasty.GUI;
 
-import com.codename1.ext.codescan.CodeScanner;
 import com.codename1.ext.codescan.ScanResult;
+import com.codename1.ext.codescan.CodeScanner;
 import com.codename1.io.BufferedInputStream;
 import com.codename1.io.URL;
 import static com.codename1.ui.CN.callSerially;
@@ -190,7 +190,7 @@ public class PodcastComments extends com.codename1.ui.Form {
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_Y = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_1  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_toolsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
@@ -435,11 +435,10 @@ public class PodcastComments extends com.codename1.ui.Form {
       if (CodeScanner.isSupported()) {
          
         try {
-          CodeScanner.getInstance().scanBarCode(new ScanResult() {
+          CodeScanner.getInstance().scanQRCode(new ScanResult() {
 
         @Override
         public void scanCompleted(String contents, String formatName, byte[] rawBytes) {
-            //barCode.setText("Bar: " + contents);
             ServicePodcast sr = ServicePodcast.getInstance();
             float id = Float.parseFloat(contents);
             Podcast pod = sr.getPodcastById((int)id);
@@ -449,7 +448,12 @@ public class PodcastComments extends com.codename1.ui.Form {
                     
                 Dialog.show("Notice", "This podcast is currently blocked and can't be loaded.", "Ok", null);
                 } else {
-                    
+                try {
+                    audioLoader.stopAudio();
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                LoadAudio.destroyInstance();
                 currentPod = pod;
                 setUpView();
                 

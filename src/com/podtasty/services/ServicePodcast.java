@@ -12,6 +12,7 @@ import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
 import com.podtasty.entities.Podcast;
 import com.podtasty.utils.Statics;
@@ -36,7 +37,19 @@ public class ServicePodcast {
     private ConnectionRequest req;
     
      private ServicePodcast() {
-         req = new ConnectionRequest();
+          req = new ConnectionRequest() {
+              @Override
+            protected void handleErrorResponseCode(int code, String message) {
+                if (code == 400) {
+                    Dialog.show("Notice", code + ": " + message, "Ok",null);
+                } else {
+                    Dialog.show("Error", code + ": " + message, "Retry", "Cancel");
+                }
+    }
+         };
+          req.addExceptionListener(e -> {
+                    Dialog.show("Error","Ex: "+e.getMessage(), "OK", null);
+          });
     }
 
     public static ServicePodcast getInstance() {
@@ -88,7 +101,7 @@ public class ServicePodcast {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 try {
-                    podcast = parsePodcast(new String(req.getResponseData()));
+                    podcast = parsePodcast("["+new String(req.getResponseData())+"]");
                 } catch (ParseException | IOException ex) {
                     System.out.println("getPod ex: "+ex.getMessage());
                 }

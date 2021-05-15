@@ -12,6 +12,8 @@ import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.ui.Dialog;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.podtasty.entities.PodcastComment;
 import com.podtasty.utils.Statics;
@@ -32,7 +34,7 @@ public class ServicePodcastComment {
     private ConnectionRequest req;
 
     private ServicePodcastComment() {
-         req = new ConnectionRequest();
+        req = new ConnectionRequest();
     }
 
     public static ServicePodcastComment getInstance() {
@@ -152,26 +154,39 @@ public PodcastComment addComment(PodcastComment com) {
     }
     
     public ArrayList<PodcastComment> getCommentsByPodcastId(Podcast pod){
-        String url = Statics.BASE_URL+"/mobile/getCommentsByPodcastId/"+pod.getId();
-        req.setUrl(url);
-        try {
-        req.setPost(false);
-        } catch(IllegalStateException ex) {
-            System.out.println(ex.getMessage());
-        }
-        req.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                try {
-                    pod.setPodcastCommentCollection(null);
-                    comments = parseComments(new String(req.getResponseData()), pod);
-                } catch (ParseException ex) {
-                    System.out.println("getCom ex: "+ex.getMessage());
-                }
-                req.removeResponseListener(this);
+        
+            String url = Statics.BASE_URL+"/mobile/getCommentsByPodcastId/"+pod.getId();
+            req.setUrl(url);
+            
+            try {
+            req.setPost(false);
+            } catch(IllegalStateException ex) {
+                System.out.println(ex.getMessage());
             }
-        });
-        NetworkManager.getInstance().addToQueueAndWait(req);
-        return comments;
+            req.addResponseListener(new ActionListener<NetworkEvent>() {
+                @Override
+                public void actionPerformed(NetworkEvent evt) {
+                    try {
+                        pod.setPodcastCommentCollection(null);
+                        comments = parseComments(new String(req.getResponseData()), pod);
+                    } catch (ParseException ex) {
+                        System.out.println("getCom ex: "+ex.getMessage());
+                    }
+                    req.removeResponseListener(this);
+                }
+            });
+            try {
+                NetworkManager.getInstance().addErrorListener(new ActionListener() {
+               @Override
+              public void actionPerformed(ActionEvent evt) {
+                  NetworkEvent n = (NetworkEvent) evt;              
+                 Dialog.show("my Error", "Exception :"+ n.getMessage(),"OK", null);                  
+              }});
+                NetworkManager.getInstance().addToQueueAndWait(req);
+               
+            }catch(Exception ex) {
+                Dialog.show("Error", "Exception: "+ex.getMessage(), "Ok", null);
+            }
+            return comments;
     }
 }
