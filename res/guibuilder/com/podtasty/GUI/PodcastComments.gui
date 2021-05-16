@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="107.3243" layeredLayoutPreferredHeightMM="161.30399"  autolayout="true" title="PodcastComments" scrollableY="true" name="PodcastComments">
-  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  styles="bgColor:ffffff;" preferredSize="100.127014mm 160.24556mm" scrollableY="false" name="Box_Layout_Y">
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="107.3243" layeredLayoutPreferredHeightMM="161.30399"  autolayout="true" title="PodcastComments" scrollableX="false" scrollableY="true" name="PodcastComments">
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  styles="bgColor:ffffff;" preferredSize="100.127014mm 160.24556mm" scrollableY="false" name="Box_Layout_Y	">
     <layoutConstraint insets="0.0mm 0.0mm 0.0mm 0.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
     <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  styles="bgColor:ffffff;" name="Box_Layout_Y_1 ">
       <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  name="toolsContainer">
-        <component type="Button" styles="font:40px;" icon="fontImage:e3a3" name="qrCodeScanButton" actionEvent="true">
-        </component>
       </component>
       <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  styles="bgColor:ffffff;" preferredSize="83.61558mm 191.15157mm" name="playerAndLoading">
-        <component type="ImageViewer" name="podcastImage">
+        <component type="ImageViewer" name="podcastImage	">
         </component>
-        <component type="Button" text="			" styles="font:60px;" icon="fontImage:e038" disabledIcon="fontImage:e000" name="playStopButton" actionEvent="true">
+        <component type="Button" text="			" styles="font:60px; alignment:center;" icon="fontImage:e038" disabledIcon="fontImage:e000" name="playStopButton" actionEvent="true">
         </component>
         <component type="Label" text=" " styles="font:70px; alignment:left;" name="podcastName">
         </component>

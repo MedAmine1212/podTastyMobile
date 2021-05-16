@@ -47,7 +47,11 @@ public class ServicePodcastComment {
 public PodcastComment addComment(PodcastComment com) {
         String url = Statics.BASE_URL + "/mobile/addComment";
         req.setUrl(url);
+        try{ 
         req.setPost(true);
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         req.addArgument("comText", com.getCommentText());
         req.addArgument("podId", com.getPodcastIdId().getId().toString());
         req.addArgument("userId", com.getUserIdId().getId().toString());
@@ -90,11 +94,53 @@ public PodcastComment addComment(PodcastComment com) {
         return comment;
     }
     
+    public boolean addRmvFav(int podId, int userId) {
+    String url = Statics.BASE_URL + "/mobile/addRmvFav/"+podId+"/"+userId;
+    req.setUrl(url);
+      try {
+            req.setPost(false);
+        } catch(IllegalStateException ex) {
+            System.out.println(ex.getMessage());
+        }
+      req.addResponseListener(new ActionListener<NetworkEvent>() {
+          @Override
+          public void actionPerformed(NetworkEvent evt) {
+              resultOK = req.getResponseCode() == 200;
+              req.removeResponseListener(this);     
+          }
+      });
+       NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+    
+    
+    public boolean checkFav(int podId, int userId) {
+        String url = Statics.BASE_URL + "/mobile/checkIfFav/"+podId+"/"+userId;
+    req.setUrl(url);
+      try {
+            req.setPost(false);
+        } catch(IllegalStateException ex) {
+            System.out.println(ex.getMessage());
+        }
+      req.addResponseListener(new ActionListener<NetworkEvent>() {
+          @Override
+          public void actionPerformed(NetworkEvent evt) {
+              resultOK = new String(req.getResponseData()).equals("1");
+              req.removeResponseListener(this);     
+          }
+      });
+       NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
     
      public boolean updateComment(int id, String comText) {
         String url = Statics.BASE_URL + "/mobile/UpdateComment";
         req.setUrl(url);
-        req.setPost(true);
+        try{ 
+            req.setPost(true);
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         req.addArgument("comText", comText);
         req.addArgument("comId", id+"");
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -112,7 +158,11 @@ public PodcastComment addComment(PodcastComment com) {
         public boolean deleteComment(int id) {
         String url = Statics.BASE_URL + "/mobile/deleteComment/"+id;
         req.setUrl(url);
+        try {
         req.setPost(false);
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -190,3 +240,4 @@ public PodcastComment addComment(PodcastComment com) {
             return comments;
     }
 }
+

@@ -4,23 +4,35 @@
  * and open the template in the editor.
  */
 package com.podtasty.GUI;
-
+import com.codename1.components.ImageViewer;
 import com.codename1.ext.codescan.ScanResult;
 import com.codename1.ext.codescan.CodeScanner;
 import com.codename1.io.BufferedInputStream;
 import com.codename1.io.URL;
+import com.codename1.ui.Button;
 import static com.codename1.ui.CN.callSerially;
+import com.codename1.ui.Command;
 import com.codename1.ui.Component;
+import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Image;
+import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
+import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.Style;
 import com.podtasty.entities.Podcast;
 import com.podtasty.entities.PodcastComment;
+import com.podtasty.entities.PodcastReview;
 import com.podtasty.entities.User;
 import com.podtasty.services.LoadAudio;
+import com.podtasty.services.LoadImage;
 import com.podtasty.services.ServicePodcast;
 import com.podtasty.services.ServicePodcastComment;
+import com.podtasty.services.ServicePodcastReview;
 import com.podtasty.utils.Statics;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,45 +47,84 @@ import java.util.List;
  * @author khail
  */
 public class PodcastComments extends com.codename1.ui.Form {
-
+    
     private static Podcast currentPod;
     private static User currentUser;
+    private Command scanQr;
+    private Command report;
+    private Command rate;
+    private Command addFav;
+    private Command rmvFav;
+    private float rating;
+    private Container qsContainer;
+    private Container qsOneContainer;
+    private Container qsTwoContainer;
+    private Container qsThreeContainer;
+    private Container qsFourContainer;
+    private int currentQs;
+    Container ratingContainer;
     LoadAudio audioLoader;
+    Dialog ratingDialog;
+    Container reactions;
     
     public PodcastComments() throws IOException, URISyntaxException {
         this(com.codename1.ui.util.Resources.getGlobalResources());
+    
+        Style style = this.getAllStyles();
+        scanQr = Command.create("Scan QRCode", FontImage.createMaterial(FontImage.MATERIAL_BLUR_LINEAR, style) , (e) -> scanQrCode());
+        report = Command.create("Report", FontImage.createMaterial(FontImage.MATERIAL_FLAG,style), (e) -> reportPodcst());
+        rate = Command.create("Rate", FontImage.createMaterial(FontImage.MATERIAL_STAR,style), (e) -> retePodcast());
+        addFav = Command.create("Add to favorite", FontImage.createMaterial(FontImage.MATERIAL_FAVORITE_BORDER,style), (e) -> addRmvFav(addFav, rmvFav));
+        rmvFav = Command.create("Remove favorite", FontImage.createMaterial(FontImage.MATERIAL_FAVORITE,style), (e) -> addRmvFav(rmvFav, addFav));
+        this.getToolbar().addCommandToOverflowMenu(scanQr);
+        if (currentUser != null) {
+            this.getToolbar().addCommandToOverflowMenu(report);
+            this.getToolbar().addCommandToOverflowMenu(rate);
+            if (ServicePodcastComment.getInstance().checkFav(currentPod.getId(),currentUser.getId())) {
+                
+          this.getToolbar().addCommandToOverflowMenu(rmvFav);
+            } else {
+                
+            this.getToolbar().addCommandToOverflowMenu(addFav);
+            }
+        }
+           
     }
     
     public PodcastComments(com.codename1.ui.util.Resources resourceObjectInstance) throws IOException{
         currentUser = new User();
         currentUser.setId(5);
-        currentPod = new Podcast();
-        currentPod.setId(10);
-        currentPod.setPodcastName("Podcast 1");
-        currentPod.setPodcastDescription("This is a description");
-        currentPod.setPodcastViews(120);
-        currentPod.setPodcastSource("6074b2a184d44.mp3");
-        currentPod.setPodcastImage("2f0ec7ff2aa6ea0871bfb26e324683bd.jpeg");
-        initGuiBuilderComponents(resourceObjectInstance);       
+        initGuiBuilderComponents(resourceObjectInstance);   
+              this.getContentPane().addPullToRefresh(() -> {
+                System.out.println("refreshing..");
+                    try {
+                    audioLoader.stopAudio();
+                    
+            FontImage.setMaterialIcon(gui_playStopButton, FontImage.MATERIAL_PLAY_CIRCLE_FILLED);
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                LoadAudio.destroyInstance();
+                setUpView();
+            });
 
     }
     
     public void setUpView(){
-         gui_commentsContainer.setPreferredSizeStr("AUTO");
-         gui_playerAndLoading.setPreferredSizeStr("AUTO");
-        gui_Box_Layout_Y.setPreferredSizeStr("AUTO");
-        gui_addComButton.setEnabled(false);
-       gui_podcastDescription.setText(currentPod.getPodcastDescription());
-        gui_podcastViews.setText(currentPod.getPodcastViews()+" Views");
-        gui_podcastName.setText(currentPod.getPodcastName());
-        new Thread(() -> {
-            callSerially(() -> {
+        
         audioLoader = LoadAudio.getInstance();
         audioLoader.setAudioUrl(currentPod.getPodcastSource());
         audioLoader.start();
-         });
         
-        }).start();
+        System.out.println(currentPod.getPodcastImage());
+         gui_commentsContainer.setPreferredSizeStr("AUTO");
+         gui_playerAndLoading.setPreferredSizeStr("AUTO");
+        gui_Box_Layout_Y.setPreferredSizeStr("AUTO");
+        
+       gui_podcastDescription.setText(currentPod.getPodcastDescription());
+        gui_podcastViews.setText(currentPod.getPodcastViews()+" Views");
+        gui_podcastName.setText(currentPod.getPodcastName());
+        gui_playStopButton.setEnabled(false);
         try {
         URL url = new URL(Statics.BASE_URL+"/Files/podcastFiles/"+currentPod.getPodcastImage());
           URL.URLConnection httpcon = url.openConnection();
@@ -100,24 +151,31 @@ public class PodcastComments extends com.codename1.ui.Form {
         gui_addComButton.setVisible(false);
         gui_playerAndLoading.refreshTheme();
         gui_playerAndLoading.revalidate();
+        
         new Thread(() -> {
             callSerially(() -> {
                 showComments(); 
-                
                 gui_loading2.remove();
                 gui_loading3.remove();
                 gui_loading4.remove();
                 gui_loadingCom.remove();
                 gui_commentsCount.setVisible(true);
                 gui_addCommentText.setVisible(true);
-                gui_addComButton.setVisible(true);
+                if (currentPod.getCommentsAllowed() == 1) {
+                gui_addComButton.setEnabled(false);
+                        gui_addComButton.setVisible(true);
+                } else {
+                gui_addCommentText.setText("Comments currently disabled");
+                gui_addCommentText.setEditable(false);
+                gui_addComButton.setVisible(false);
+                }
                 gui_commentsContainer.refreshTheme();
                 gui_playerAndLoading.refreshTheme();
                 
             });
         
         }).start();
-
+        gui_playStopButton.setEnabled(true);
     }
     public void showComments() { 
         List<Component> list = gui_commentsContainer.getChildrenAsList(true);
@@ -151,11 +209,19 @@ public class PodcastComments extends com.codename1.ui.Form {
                 comView.setView(comment, this);
                 comView.getToolbar().hideToolbar();
                 if(sender == 1){
-                    
                 gui_commentsContainer.addComponent(comView);
                 } else {
                 gui_commentsContainer.addComponent(TOP, comView);
                 }
+                
+        new Thread(() -> {
+            callSerially(() -> {
+                LoadImage loader = new LoadImage(comment, comView);
+                loader.start();
+                loader = null;
+            });
+       
+        }).start();
             } catch (URISyntaxException ex) {
                 System.out.println("Img error1: "+ex.getMessage());
             } catch (IOException ex) {
@@ -190,13 +256,12 @@ public class PodcastComments extends com.codename1.ui.Form {
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
-    protected com.codename1.ui.Container gui_Box_Layout_Y = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+    protected com.codename1.ui.Container gui_Box_Layout_Y  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_1  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_toolsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
-    protected com.codename1.ui.Button gui_qrCodeScanButton = new com.codename1.ui.Button();
     protected com.codename1.ui.Container gui_playerAndLoading = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
-    protected com.codename1.components.ImageViewer gui_podcastImage = new com.codename1.components.ImageViewer();
+    protected com.codename1.components.ImageViewer gui_podcastImage  = new com.codename1.components.ImageViewer();
     protected com.codename1.ui.Button gui_playStopButton = new com.codename1.ui.Button();
     protected com.codename1.ui.Label gui_podcastName = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_podcastViews = new com.codename1.ui.Label();
@@ -217,7 +282,6 @@ public class PodcastComments extends com.codename1.ui.Form {
 // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void guiBuilderBindComponentListeners() {
         EventCallbackClass callback = new EventCallbackClass();
-        gui_qrCodeScanButton.addActionListener(callback);
         gui_playStopButton.addActionListener(callback);
         gui_addCommentText.addDataChangedListener(new EventCallbackClass(gui_addCommentText));
         gui_addComButton.addActionListener(callback);
@@ -239,9 +303,6 @@ public class PodcastComments extends com.codename1.ui.Form {
                 sourceComponent = sourceComponent.getParent().getLeadParent();
             }
 
-            if(sourceComponent == gui_qrCodeScanButton) {
-                onqrCodeScanButtonActionEvent(ev);
-            }
             if(sourceComponent == gui_playStopButton) {
                 onplayStopButtonActionEvent(ev);
             }
@@ -258,23 +319,24 @@ public class PodcastComments extends com.codename1.ui.Form {
         guiBuilderBindComponentListeners();
         setLayout(new com.codename1.ui.layouts.LayeredLayout());
         setInlineStylesTheme(resourceObjectInstance);
+        setScrollableX(false);
         setScrollableY(true);
                 setInlineStylesTheme(resourceObjectInstance);
         setTitle("PodcastComments");
         setName("PodcastComments");
-        gui_Box_Layout_Y.setPreferredSizeStr("100.127014mm 160.24556mm");
-        gui_Box_Layout_Y.setScrollableY(false);
-                gui_Box_Layout_Y.setInlineStylesTheme(resourceObjectInstance);
-        gui_Box_Layout_Y.setInlineAllStyles("bgColor:ffffff;");
-        gui_Box_Layout_Y.setName("Box_Layout_Y");
-        addComponent(gui_Box_Layout_Y);
+        gui_Box_Layout_Y .setPreferredSizeStr("100.127014mm 160.24556mm");
+        gui_Box_Layout_Y .setScrollableY(false);
+                gui_Box_Layout_Y .setInlineStylesTheme(resourceObjectInstance);
+        gui_Box_Layout_Y .setInlineAllStyles("bgColor:ffffff;");
+        gui_Box_Layout_Y .setName("Box_Layout_Y ");
+        addComponent(gui_Box_Layout_Y );
                 gui_Box_Layout_Y_1 .setInlineStylesTheme(resourceObjectInstance);
         gui_Box_Layout_Y_1 .setInlineAllStyles("bgColor:ffffff;");
         gui_Box_Layout_Y_1 .setName("Box_Layout_Y_1 ");
         gui_commentsContainer.setPreferredSizeStr("inherit 125.7409mm");
                 gui_commentsContainer.setInlineStylesTheme(resourceObjectInstance);
         gui_commentsContainer.setName("commentsContainer");
-        gui_Box_Layout_Y.addComponent(gui_Box_Layout_Y_1 );
+        gui_Box_Layout_Y .addComponent(gui_Box_Layout_Y_1 );
                 gui_toolsContainer.setInlineStylesTheme(resourceObjectInstance);
         gui_toolsContainer.setName("toolsContainer");
         gui_playerAndLoading.setPreferredSizeStr("83.61558mm 191.15157mm");
@@ -282,17 +344,12 @@ public class PodcastComments extends com.codename1.ui.Form {
         gui_playerAndLoading.setInlineAllStyles("bgColor:ffffff;");
         gui_playerAndLoading.setName("playerAndLoading");
         gui_Box_Layout_Y_1 .addComponent(gui_toolsContainer);
-                gui_qrCodeScanButton.setInlineStylesTheme(resourceObjectInstance);
-        gui_qrCodeScanButton.setInlineAllStyles("font:40px;");
-        gui_qrCodeScanButton.setName("qrCodeScanButton");
-        com.codename1.ui.FontImage.setMaterialIcon(gui_qrCodeScanButton,"\ue3a3".charAt(0));
-        gui_toolsContainer.addComponent(gui_qrCodeScanButton);
         gui_Box_Layout_Y_1 .addComponent(gui_playerAndLoading);
-                gui_podcastImage.setInlineStylesTheme(resourceObjectInstance);
-        gui_podcastImage.setName("podcastImage");
+                gui_podcastImage .setInlineStylesTheme(resourceObjectInstance);
+        gui_podcastImage .setName("podcastImage ");
         gui_playStopButton.setText("   ");
                 gui_playStopButton.setInlineStylesTheme(resourceObjectInstance);
-        gui_playStopButton.setInlineAllStyles("font:60px;");
+        gui_playStopButton.setInlineAllStyles("font:60px; alignment:center;");
         gui_playStopButton.setName("playStopButton");
         com.codename1.ui.FontImage.setMaterialIcon(gui_playStopButton,"\ue038".charAt(0));
         gui_playStopButton.setDisabledIcon(com.codename1.ui.FontImage.createMaterial("\ue000".charAt(0), gui_playStopButton.getDisabledStyle()));
@@ -328,7 +385,7 @@ public class PodcastComments extends com.codename1.ui.Form {
         gui_commentsCount.setName("commentsCount");
                 gui_Box_Layout_X_1.setInlineStylesTheme(resourceObjectInstance);
         gui_Box_Layout_X_1.setName("Box_Layout_X_1");
-        gui_playerAndLoading.addComponent(gui_podcastImage);
+        gui_playerAndLoading.addComponent(gui_podcastImage );
         gui_playerAndLoading.addComponent(gui_playStopButton);
         gui_playerAndLoading.addComponent(gui_podcastName);
         gui_playerAndLoading.addComponent(gui_podcastViews);
@@ -353,17 +410,17 @@ public class PodcastComments extends com.codename1.ui.Form {
         gui_addComButton.setName("addComButton");
         gui_Box_Layout_X_1.addComponent(gui_addCommentText);
         gui_Box_Layout_X_1.addComponent(gui_addComButton);
-        gui_Box_Layout_Y.addComponent(gui_commentsContainer);
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Box_Layout_Y.getParent().getLayout()).setInsets(gui_Box_Layout_Y, "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Box_Layout_Y, "-1 -1 -1 -1").setReferencePositions(gui_Box_Layout_Y, "0.0 0.0 0.0 0.0");
+        gui_Box_Layout_Y .addComponent(gui_commentsContainer);
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Box_Layout_Y .getParent().getLayout()).setInsets(gui_Box_Layout_Y , "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Box_Layout_Y , "-1 -1 -1 -1").setReferencePositions(gui_Box_Layout_Y , "0.0 0.0 0.0 0.0");
     }// </editor-fold>
 
 //-- DON'T EDIT ABOVE THIS LINE!!!
     
-    public static Podcast getPod() {
+    public static Podcast getCurrentPodcast() {
         return currentPod;
     }
 
-    public static void setPod(Podcast pod) {
+    public static void setCurrentPodcast(Podcast pod) {
         PodcastComments.currentPod = pod;
     }
 
@@ -377,7 +434,7 @@ public class PodcastComments extends com.codename1.ui.Form {
     }
 
     public void onaddComButtonActionEvent(com.codename1.ui.events.ActionEvent ev){
-        
+        this.gui_addComButton.setEnabled(false);
         new Thread(() -> {
             callSerially(() -> {
                   
@@ -390,10 +447,9 @@ public class PodcastComments extends com.codename1.ui.Form {
         gui_addCommentText.setText("");
         if(com.getId() == -1) {
             
-            System.out.println("comments blocked");
+            Dialog.show("Comment blocked", "Comments are currently disabled for this podcast", "Okay", null);
         } else if(com.getId() == -2) {
-            
-            System.out.println("bad word");
+            Dialog.show("Comment blocked", "Please watch your langage !", "Okay", null);
             } else {
             
             String comNumb = gui_commentsCount.getText();
@@ -431,7 +487,9 @@ public class PodcastComments extends com.codename1.ui.Form {
     public static void setCurrentUser(User currentUser) {
         PodcastComments.currentUser = currentUser;
  }  
-    public void onqrCodeScanButtonActionEvent(com.codename1.ui.events.ActionEvent ev) {
+    public void scanQrCode() {
+      
+        
       if (CodeScanner.isSupported()) {
          
         try {
@@ -442,26 +500,7 @@ public class PodcastComments extends com.codename1.ui.Form {
             ServicePodcast sr = ServicePodcast.getInstance();
             float id = Float.parseFloat(contents);
             Podcast pod = sr.getPodcastById((int)id);
-            
-            if (pod != null) {
-                if (pod.getIsBlocked() == 1) {
-                    
-                Dialog.show("Notice", "This podcast is currently blocked and can't be loaded.", "Ok", null);
-                } else {
-                try {
-                    audioLoader.stopAudio();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-                LoadAudio.destroyInstance();
-                currentPod = pod;
-                setUpView();
-                
-                }
-            } else{
-                Dialog.show("Error", "There was an error loading this podcast.", "Ok", null);
-            }
-                
+            showNewPod(pod);
         }
 
         @Override
@@ -480,8 +519,205 @@ public class PodcastComments extends com.codename1.ui.Form {
       }
          
       } else {
-           Dialog.show("Error", "Qr code scanner is not supported by this device", "Ok", null);
+            Dialog d = new Dialog();
+            TextArea label = new TextArea("Qr code scanner not supported on this device. Enter podcast ID",3,20);
+            label.setEditable(false);
+            label.setEnabled(false);
+            TextArea popupBody = new TextArea("", 3, 20);
+            popupBody.setUIID("podId");
+            d.setLayout(new BorderLayout());
+            Button loadButton = new Button();
+            loadButton.setText("Load");
+            Button cancelButton = new Button();
+            cancelButton.setText("Cancel");
+            Container buttons = new Container();
+            Container pn = new Container();
+            buttons.add(loadButton);
+            buttons.add(cancelButton);
+            pn.add(label);
+            pn.add(popupBody);
+            pn.add(buttons);
+            d.setLayout(new BorderLayout());
+            d.add(BorderLayout.CENTER, pn);
+            cancelButton.addActionListener(e -> {
+            d.dispose();
+        
+        });
+               loadButton.addActionListener(e -> {
+           try{
+            
+            int id =Integer.parseInt(popupBody.getText());
+            ServicePodcast sr = ServicePodcast.getInstance();
+            Podcast pod = sr.getPodcastById(id);
+            showNewPod(pod);
+            d.dispose();
+            } catch (Exception ex) {
+                Dialog.show("Error", "Invalid id", "Try again",null);
+            }
+        });
+        d.show();
       }
     }
  
+    public void showNewPod(Podcast pod) {
+           
+            if (pod != null) {
+                if (pod.getIsBlocked() == 1) {
+                Dialog.show("Notice", "This podcast is currently blocked and can't be loaded.", "Ok", null);
+                } else {
+                try {
+                    audioLoader.stopAudio();
+                    
+            FontImage.setMaterialIcon(gui_playStopButton, FontImage.MATERIAL_PLAY_CIRCLE_FILLED);
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                LoadAudio.destroyInstance();
+                currentPod = pod;
+                setUpView();
+                
+                }
+            } else{
+                Dialog.show("Error", "There was an error loading this podcast.", "Ok", null);
+            }
+   
+    }
+    
+    
+    public void reportPodcst() {
+        
+    }
+    public Button getImage(String imgName, int rate) {
+        
+        try {
+            Button bt = new Button();
+            InputStream in = Display.getInstance().getResourceAsStream(null, "/"+imgName);
+            Image im = Image.createImage(in);
+            im = im.scaled(110, 110);
+            bt.setIcon(im);
+            bt.addActionListener((ev) -> {
+                rating+= rate;
+                nextRatingText();
+            });
+            return bt;
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+    public void nextRatingText() {
+      switch (currentQs) {
+            case 1:
+                currentQs++;
+                qsContainer.removeComponent(qsOneContainer);
+                qsContainer.add(qsTwoContainer);
+                ratingDialog.refreshTheme(true);
+                break;
+            case 2:
+                currentQs++;
+                qsContainer.removeComponent(qsTwoContainer);
+                qsContainer.add(qsThreeContainer);
+                ratingDialog.refreshTheme(true);
+                break;
+            case 3:
+                currentQs++;
+                qsContainer.removeComponent(qsThreeContainer);
+                qsContainer.add(qsFourContainer);
+                ratingDialog.refreshTheme(true);
+                break;
+            default:
+                reactions.setVisible(false);
+                qsContainer.removeComponent(qsFourContainer);
+                ratingDialog.dispose();
+                showSendingReview();
+                break;
+        }
+    }
+    
+    private void showSendingReview() {
+        if (sendRate()) {
+            ratingDialog = new Dialog("Review added successfully !");
+            int h = Display.getInstance().getDisplayHeight();
+            ImageViewer img = new ImageViewer();
+            try {
+                InputStream in = Display.getInstance().getResourceAsStream(null, "/realDonut.png");
+                img.setImage(Image.createImage(in));
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+            Container cont = FlowLayout.encloseCenter(img);
+            ratingDialog.setDisposeWhenPointerOutOfBounds(true);
+            ratingDialog.setLayout(new BorderLayout());
+            ratingDialog.add(BorderLayout.CENTER, cont);
+            ratingDialog.show(h /7 * 5, 0, 0, 0);
+        }else {
+            Dialog.show("Error", "Couldn't add review", "Clsoe", null);
+       }
+    }
+      private boolean sendRate(){
+       rating /=4;
+       String strDouble = rating+"";
+       
+       if (strDouble.indexOf(".")>-1) {
+        strDouble = strDouble.substring(0, strDouble.indexOf(".")+1);
+       }
+       rating = Float.parseFloat(strDouble);
+       PodcastReview review = new PodcastReview();
+       review.setPodcastIdId(currentPod);
+       review.setUserIdId(currentUser);
+       review.setRating(rating);
+          System.out.println(review.getRating());
+       return ServicePodcastReview.getInstance().addReview(review);
+        
+    }
+    
+    public void retePodcast(){
+        currentQs = 1;
+        rating = 0;
+        reactions = new Container();
+        reactions.setLayout(new BoxLayout(1));
+        reactions.setPreferredSizeStr("AUTO");
+        //setimages;
+        reactions.add(getImage("love.png", 10));
+        reactions.add(getImage("like.png", 8));
+        reactions.add(getImage("meh.png", 6));
+        reactions.add(getImage("dislike.png", 4));
+        reactions.add(getImage("hate.png", 2));
+        reactions.add(getImage("loath.png", 0));
+        //done
+        ratingDialog = new Dialog("Rate this Podcast");
+        ratingContainer = new Container();
+        ratingContainer.setLayout(new BoxLayout(2));
+        qsOneContainer = FlowLayout.encloseCenter(new Label("Are you generally happy with this podcast ?"));
+        qsTwoContainer = FlowLayout.encloseCenter(new Label("Is the topic interesting ?"));
+        qsThreeContainer = FlowLayout.encloseCenter(new Label("What do you think about the host ?"));
+        qsFourContainer = FlowLayout.encloseCenter(new Label("Voice quality ?"));
+        Container flow = FlowLayout.encloseCenter(new Label(" "));
+        Container flowReact = FlowLayout.encloseCenter(reactions);
+        qsContainer = FlowLayout.encloseCenter(qsOneContainer);
+        ratingContainer.add(qsContainer);
+        ratingContainer.add(flow);
+        ratingContainer.add(flowReact);
+        ratingDialog.setLayout(new BorderLayout());
+        ratingDialog.add(BorderLayout.CENTER, ratingContainer);
+        int h = Display.getInstance().getDisplayHeight();
+        ratingDialog.setDisposeWhenPointerOutOfBounds(true);
+        
+        ratingDialog.setDisposeWhenPointerOutOfBounds(true);
+        ratingDialog.show(h /7 * 5, 0, 0, 0);
+    }
+    public void addRmvFav(Command com1, Command com2){
+        
+        if (ServicePodcastComment.getInstance().addRmvFav(currentPod.getId(), currentUser.getId())) {
+        
+        this.getToolbar().removeOverflowCommand(com1);
+        this.getToolbar().addCommandToOverflowMenu(com2);
+        this.getToolbar().refreshTheme();
+        this.getToolbar().repaint();
+        
+        } else {
+            Dialog.show("Error", "Error acquired, try again", "Okay", null);
+        }
+        
+    }
 }

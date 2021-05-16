@@ -20,9 +20,10 @@ import java.net.URISyntaxException;
  */
 public class LoadAudio extends Thread{
    
-    public static LoadAudio instance;
+    private static LoadAudio instance;
     private String audioUrl;
     Media audio;
+  
     public static LoadAudio getInstance() {
         if(instance == null){
             instance = new LoadAudio();

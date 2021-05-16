@@ -5,9 +5,6 @@
  */
 package com.podtasty.GUI;
 
-import com.codename1.io.BufferedInputStream;
-import com.codename1.io.URL;
-import com.codename1.io.URL.URLConnection;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -20,11 +17,8 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import com.codename1.ui.Form;
 import com.codename1.ui.TextArea;
-import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BorderLayout;
-import com.codename1.util.EasyThread;
 import com.podtasty.services.ServicePodcastComment;
-import com.podtasty.utils.Statics;
 import java.util.Objects;
 
 /**
@@ -36,9 +30,8 @@ public class CommentView extends Form {
 SimpleDateFormat simpleDateFormat;
 PodcastComment comm;
 PodcastComments parent;
-
-InputStream stream;
-    public CommentView() {
+    public CommentView(){
+        
         this(com.codename1.ui.util.Resources.getGlobalResources());
     }
     
@@ -46,26 +39,6 @@ InputStream stream;
         simpleDateFormat = new SimpleDateFormat("dd MMM, yyyy");
         initGuiBuilderComponents(resourceObjectInstance);
     }
-    public void setImage(Image img) {
-        gui_userImg.setImage(img);
-
-    }
-    public Image fetchImage() {
-        try {
-            URL  url = new URL(Statics.BASE_URL+"/Files/podcastFiles/"+comm.getUserIdId().getUserInfoIdId().getUserImage());
-            URLConnection httpcon = url.openConnection();
-            stream = new BufferedInputStream(httpcon.getInputStream());
-            Image img = Image.createImage(stream);
-        return img;
-      } catch (URISyntaxException ex) {
-          System.out.println(ex.getMessage());
-      } catch (IOException ex) {
-          System.out.println(ex.getMessage());
-      }
-    return null;
-    }
-    
-    
     public void setView(PodcastComment com, PodcastComments podView) throws URISyntaxException, IOException{
         parent = podView;
         this.comm = com;
@@ -73,6 +46,7 @@ InputStream stream;
         String date = simpleDateFormat.format(com.getCommentDate());  
         gui_commentDate.setText(date);
         gui_commentText.setText(com.getCommentText());
+                
            try {
                    InputStream in = Display.getInstance().getResourceAsStream(null, "/avatar.jpg");
                    Image  loadImg = Image.createImage(in);
@@ -90,14 +64,12 @@ InputStream stream;
                } catch (IOException ex) {
                    System.out.println(ex.getMessage());
                }
-                     if(com.getUserIdId().getUserInfoIdId().getUserImage() != null) {
-          EasyThread e = EasyThread.start("laod" + com.getUserIdId().getUserInfoIdId().getUserImage());
-           e.run(() -> {
-               Image img = fetchImage();
-               setImage(img);
-            });
-
-    } 
+             
+               
+    }
+    
+    public void setUserImg(Image img) {
+        this.gui_userImg.setImage(img);
     }
 public void setDialog(PodcastComment com, String date) {
      Button delButton = new Button();
@@ -184,7 +156,7 @@ public void showEdit(PodcastComment com, Dialog par) {
         });
         d.show();
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_2 = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.ImageViewer gui_userImg = new com.codename1.components.ImageViewer();
