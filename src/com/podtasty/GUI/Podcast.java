@@ -5,6 +5,23 @@
  */
 package com.podtasty.GUI;
 
+import com.codename1.components.SpanLabel;
+import com.codename1.ext.filechooser.FileChooser;
+import com.codename1.io.FileSystemStorage;
+import com.codename1.io.Log;
+import com.codename1.io.Util;
+import com.codename1.ui.CN;
+import com.codename1.ui.CheckBox;
+import com.codename1.ui.Image;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.util.ImageIO;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+
 /**
  * GUI builder created Form
  *
@@ -20,21 +37,62 @@ public class Podcast extends com.codename1.ui.Form {
         initGuiBuilderComponents(resourceObjectInstance);
     }
     
-    
+        CheckBox multiSelect = new CheckBox("Multi-select");
+        CheckBox multiSelected = new CheckBox("Multi-select");
 
-////////////////-- DON'T EDIT BELOW THIS LINE!!!
+       
+
+////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.TextField gui_podcastname = new com.codename1.ui.TextField();
     protected com.codename1.ui.Label gui_Label_1 = new com.codename1.ui.Label();
     protected com.codename1.ui.TextField gui_poddesc = new com.codename1.ui.TextField();
     protected com.codename1.ui.Button gui_Btnupimage = new com.codename1.ui.Button();
     protected com.codename1.ui.Button gui_Btnupaudio = new com.codename1.ui.Button();
-    protected com.codename1.ui.ComboBox gui_CBplaylist = new com.codename1.ui.ComboBox("Playlist","","","");
+    protected com.codename1.ui.ComboBox gui_CBplaylist = new com.codename1.ui.ComboBox("Playlist");
     protected com.codename1.ui.Button gui_BtnAjout = new com.codename1.ui.Button();
 
 
 // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void guiBuilderBindComponentListeners() {
+        EventCallbackClass callback = new EventCallbackClass();
+        gui_Btnupimage.addActionListener(callback);
+        gui_Btnupaudio.addActionListener(callback);
+        gui_BtnAjout.addActionListener(callback);
+    }
+
+    class EventCallbackClass implements com.codename1.ui.events.ActionListener, com.codename1.ui.events.DataChangedListener {
+        private com.codename1.ui.Component cmp;
+        public EventCallbackClass(com.codename1.ui.Component cmp) {
+            this.cmp = cmp;
+        }
+
+        public EventCallbackClass() {
+        }
+
+        public void actionPerformed(com.codename1.ui.events.ActionEvent ev) {
+            com.codename1.ui.Component sourceComponent = ev.getComponent();
+
+            if(sourceComponent.getParent().getLeadParent() != null && (sourceComponent.getParent().getLeadParent() instanceof com.codename1.components.MultiButton || sourceComponent.getParent().getLeadParent() instanceof com.codename1.components.SpanButton)) {
+                sourceComponent = sourceComponent.getParent().getLeadParent();
+            }
+
+            if(sourceComponent == gui_Btnupimage) {
+                onBtnupimageActionEvent(ev);
+            }
+            if(sourceComponent == gui_Btnupaudio) {
+                onBtnupaudioActionEvent(ev);
+            }
+            if(sourceComponent == gui_BtnAjout) {
+                onBtnAjoutActionEvent(ev);
+            }
+        }
+
+        public void dataChanged(int type, int index) {
+        }
+    }
     private void initGuiBuilderComponents(com.codename1.ui.util.Resources resourceObjectInstance) {
+        guiBuilderBindComponentListeners();
         setLayout(new com.codename1.ui.layouts.LayeredLayout());
         setInlineStylesTheme(resourceObjectInstance);
         setScrollableX(false);
@@ -42,15 +100,13 @@ public class Podcast extends com.codename1.ui.Form {
                 setInlineStylesTheme(resourceObjectInstance);
         setTitle("Add details ");
         setName("Podcast");
-        gui_Label.setPreferredSizeStr("110.49958mm 167.01947mm");
-        gui_Label.setText("");
+        gui_Label.setPreferredSizeStr("294.24216mm 176.5453mm");
                 gui_Label.setInlineStylesTheme(resourceObjectInstance);
         gui_Label.setInlineAllStyles("transparency:70; opacity:255;");
         gui_Label.setName("Label");
         gui_Label.setIcon(resourceObjectInstance.getImage("82483820_1016345628721934_5629308034506293248_n.jpg"));
         gui_podcastname.setPreferredSizeStr("91.44793mm 10.160881mm");
         gui_podcastname.setHint("Podcast Name");
-        gui_podcastname.setText("");
                 gui_podcastname.setInlineStylesTheme(resourceObjectInstance);
         gui_podcastname.setInlineAllStyles("font:4.0mm native:MainRegular native:MainRegular; bgColor:ffffff; fgColor:ffffff;");
         gui_podcastname.setName("podcastname");
@@ -60,7 +116,6 @@ public class Podcast extends com.codename1.ui.Form {
         gui_Label_1.setName("Label_1");
         gui_poddesc.setPreferredSizeStr("91.44793mm inherit");
         gui_poddesc.setHint("Add a description");
-        gui_poddesc.setText("");
                 gui_poddesc.setInlineStylesTheme(resourceObjectInstance);
         gui_poddesc.setInlineAllStyles("font:3.0mm native:MainRegular native:MainRegular; bgColor:ffffff; fgColor:ffffff;");
         gui_poddesc.setName("poddesc");
@@ -91,7 +146,7 @@ public class Podcast extends com.codename1.ui.Form {
         addComponent(gui_Btnupaudio);
         addComponent(gui_CBplaylist);
         addComponent(gui_BtnAjout);
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Label.getParent().getLayout()).setInsets(gui_Label, "auto auto 2.9635906mm auto").setReferenceComponents(gui_Label, "-1 -1 -1 -1").setReferencePositions(gui_Label, "0.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Label.getParent().getLayout()).setInsets(gui_Label, "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Label, "-1 -1 -1 -1").setReferencePositions(gui_Label, "0.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_podcastname.getParent().getLayout()).setInsets(gui_podcastname, "5.0mm 0.0mm auto 0.0mm").setReferenceComponents(gui_podcastname, "0 2 -1 2 ").setReferencePositions(gui_podcastname, "0.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_Label_1.getParent().getLayout()).setInsets(gui_Label_1, "3.3869598mm 5.0mm auto 5.0mm").setReferenceComponents(gui_Label_1, "-1 -1 -1 0 ").setReferencePositions(gui_Label_1, "0.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_poddesc.getParent().getLayout()).setInsets(gui_poddesc, "6.1388702mm 0.0mm auto 0.0mm").setReferenceComponents(gui_poddesc, "1 2 -1 2 ").setReferencePositions(gui_poddesc, "1.0 0.0 0.0 0.0");
@@ -102,4 +157,159 @@ public class Podcast extends com.codename1.ui.Form {
     }// </editor-fold>
 
 //-- DON'T EDIT ABOVE THIS LINE!!!
+  
+    // traje3 esm l image elli bech nhotouha fel application
+    protected String saveFileToDevice(String hi, String ext) throws IOException {
+        URI uri;
+        try {
+            uri = new URI(hi);
+            String path = uri.getPath(); //bech yekhou l path taswira 
+            int index = hi.lastIndexOf("/"); 
+            hi = hi.substring(index + 1);  //hi hiya l file 
+            return hi;
+        } catch (URISyntaxException ex) {
+        }
+        return "hh";
+    }
+
+    
+    public void onBtnAjoutActionEvent(com.codename1.ui.events.ActionEvent ev) {
+     
+        
+    }
+
+    public void onBtnupaudioActionEvent(com.codename1.ui.events.ActionEvent ev) {
+ if (FileChooser.isAvailable()){
+            FileChooser.setOpenFilesInPlace(true);
+            FileChooser.showOpenDialog(".mp3, .WAV, .mp3/plain", (ActionEvent e2) -> {
+                    if (e2 == null || e2.getSource() == null) {
+                        add("No file was selected");
+                        revalidate();
+                        return;
+                    }
+                    if (multiSelected.isSelected()) {
+                        String[] paths = (String[]) e2.getSource();
+                        for (String path : paths) {
+                            System.out.println(path);
+                            CN.execute(path);
+                        }
+                        return;
+                    }
+            String file = (String) e2.getSource();
+                    if (file == null) {
+                        add("No file was selected");
+                        revalidate();
+                    } /*else {
+			//String hh = "c:/...";									
+                        //Image logo;
+                          String extension = null;
+                            if (file.lastIndexOf(".") > 0) {
+                           extension = file.substring(file.lastIndexOf(".")+1);
+           }*/
+                        /*try {
+                            //logo = Image.createImage(file).scaledHeight(500);;
+                            add(logo);
+                            String imageFile = FileSystemStorage.getInstance().getAppHomePath() + "photo.png";
+
+                            try (OutputStream os = FileSystemStorage.getInstance().openOutputStream(imageFile)) {
+                                System.out.println(imageFile);
+                                ImageIO.getImageIO().save(logo, os, ImageIO.FORMAT_PNG, 1);
+                            } catch (IOException err) {
+                            }
+                        } catch (IOException ex) {
+                        }*/
+                        String extension = null;
+                        if (file.lastIndexOf(".") > 0) {
+                            extension = file.substring(file.lastIndexOf(".") + 1);
+                            StringBuilder hi = new StringBuilder(file);
+                            if (file.startsWith("file://")) {
+                                hi.delete(0, 7);
+                            }
+                            int lastIndexPeriod = hi.toString().lastIndexOf(".");
+                            Log.p(hi.toString());
+                            String ext = hi.toString().substring(lastIndexPeriod);
+                            String hmore = hi.toString().substring(0, lastIndexPeriod - 1);
+                            try {
+                                String namePic = saveFileToDevice(file, ext);
+                                System.out.println(namePic);
+                            } catch (IOException ex) {
+                            }
+
+                            revalidate();
+
+                        
+                    }
+                        });
+            }
+                
+                        
+    }
+   
+    public void onBtnupimageActionEvent(com.codename1.ui.events.ActionEvent ev) {
+        
+        if (FileChooser.isAvailable()){
+            FileChooser.setOpenFilesInPlace(true);
+            FileChooser.showOpenDialog(multiSelect.isSelected(), ".jpg, .jpeg, .png/plain", (ActionEvent e2) -> {
+                    if (e2 == null || e2.getSource() == null) {
+                        add("No file was selected");
+                        revalidate();
+                        return;
+                    }
+                    if (multiSelect.isSelected()) {
+                        String[] paths = (String[]) e2.getSource();
+                        for (String path : paths) {
+                            System.out.println(path);
+                            CN.execute(path);
+                        }
+                        return;
+                    }
+            String file = (String) e2.getSource();
+                    if (file == null) {
+                        add("No file was selected");
+                        revalidate();
+                    } else {
+			//String hh = "c:/...";									
+                        Image logo;
+
+                        try {
+                            logo = Image.createImage(file).scaledHeight(500);;
+                            add(logo);
+                            String imageFile = FileSystemStorage.getInstance().getAppHomePath() + "photo.png";
+
+                            try (OutputStream os = FileSystemStorage.getInstance().openOutputStream(imageFile)) {
+                                System.out.println(imageFile);
+                                ImageIO.getImageIO().save(logo, os, ImageIO.FORMAT_PNG, 1);
+                            } catch (IOException err) {
+                            }
+                        } catch (IOException ex) {
+                        }
+                        String extension = null;
+                        if (file.lastIndexOf(".") > 0) {
+                            extension = file.substring(file.lastIndexOf(".") + 1);
+                            StringBuilder hi = new StringBuilder(file);
+                            if (file.startsWith("file://")) {
+                                hi.delete(0, 7);
+                            }
+                            int lastIndexPeriod = hi.toString().lastIndexOf(".");
+                            Log.p(hi.toString());
+                            String ext = hi.toString().substring(lastIndexPeriod);
+                            String hmore = hi.toString().substring(0, lastIndexPeriod - 1);
+                            try {
+                                String namePic = saveFileToDevice(file, ext);
+                                System.out.println(namePic);
+                            } catch (IOException ex) {
+                            }
+
+                            revalidate();
+
+                        
+                    }
+                    }
+                        });
+            }
+                
+                        
+        }
+
+
 }
