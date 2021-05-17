@@ -66,10 +66,11 @@ public class ServiceUser {
          User user = new User();
                 float id = Float.parseFloat(obj.get("id").toString());
                 user.setId((int)id);
-               
+               try {
                UserInfo userInfo = parseUserInfo((Map<String,Object>)obj.get("UserInfoId"));
                 
                 user.setUserInfoIdId(userInfo);
+               }catch(Exception ex) {}
                 return user;
      }
      
@@ -92,7 +93,9 @@ public class ServiceUser {
                 userInfo.setId((int)id);
                 userInfo.setUserFirstName(obj.get("UserFirstName").toString());
                 userInfo.setUserLastName(obj.get("UserLastName").toString());
+                try {
                 userInfo.setUserImage(obj.get("UserImage").toString());
+                } catch(Exception e){}
                 return userInfo;
     }
      public ArrayList<User> getUserById(int id){

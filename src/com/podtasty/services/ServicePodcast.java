@@ -82,6 +82,8 @@ public class ServicePodcast {
                 float views = Float.parseFloat(obj.get("PodcastViews").toString());
                 pod.setPodcastViews((int)views);
                 pod.setPodcastImage(obj.get("PodcastImage").toString());
+                pod.setPlaylistIdId(ServicePlaylist.getInstance().parsePlaylist((Map<String,Object>)obj.get("PlaylistId")));
+                pod.setPodcastReviewCollection(ServicePodcastReview.getInstance().parseReviews((ArrayList<Map<String,Object>>)obj.get("ReviewList")));
                 pod.setPodcastSource(obj.get("PodcastSource").toString());
                 return pod;
               }
@@ -90,7 +92,7 @@ public class ServicePodcast {
     }
     
     public Podcast getPodcastById(int id) {
-        String url = Statics.BASE_URL+"/mobile/getPodcastById/"+id;
+       String url = Statics.BASE_URL+"/mobile/getPodcastById/"+id;
         req.setUrl(url);
         try {
         req.setPost(false);
