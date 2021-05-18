@@ -20,8 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -159,9 +158,13 @@ public class ServiceReclamation {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 try {
-                    reclamations = parseReclamation(new String(req.getResponseData()), pod);
-                } catch (IOException | ParseException ex) {
-                    Logger.getLogger(ServiceReclamation.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        reclamations = parseReclamation(new String(req.getResponseData()), pod);
+                    } catch (ParseException ex) {
+                        System.out.println("getRec ex: "+ex.getMessage());
+                    }
+                    } catch (IOException ex ) {
+                      System.out.println("getRec ex: "+ex.getMessage());
                 }
                 req.removeResponseListener(this);
             }
