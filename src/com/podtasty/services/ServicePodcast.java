@@ -97,6 +97,8 @@ public class ServicePodcast {
                 pod.setPodcastViews((int)views);
                 pod.setPodcastImage(obj.get("PodcastImage").toString());
                 pod.setPodcastSource(obj.get("PodcastSource").toString());
+                
+                //float playlistId = Float.parseFloat(obj.get("playlistIdId").toString());
                 return pod;
               }
             
@@ -149,9 +151,10 @@ public class ServicePodcast {
         req.setPost(true);
         req.addArgument("podcastName", podcast.getPodcastName());
         req.addArgument("podcastDescription", podcast.getPodcastDescription());
-        req.addArgument("podcastDate", podcast.getPodcastDate().toString());
+        //req.addArgument("podcastDate", podcast.getPodcastDate().toString());
         req.addArgument("podcastImage", podcast.getPodcastImage());
         req.addArgument("podcastSource", podcast.getPodcastSource());
+     //   req.addArgument("playlistIdId", podcast.getPlaylistIdId().getId().toString());
         
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
