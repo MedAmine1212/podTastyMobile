@@ -72,7 +72,7 @@ public class ServicePodcast {
         }
         return instance;
     }
-    public Podcast parsePodcast(String jsonText) throws IOException, ParseException{
+   /* public Podcast parsePodcast(String jsonText) throws IOException, ParseException{
         Podcast pod = new Podcast();
          JSONParser j = new JSONParser();
         Map<String,Object> podcastJSON = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
@@ -103,10 +103,44 @@ public class ServicePodcast {
               }
             
         return pod;
-    }
+    }*/
     
-   
-   
+      
+    public ArrayList<Podcast> parsePodcasts(String jsonText) throws IOException, ParseException{
+        podcasts = new ArrayList<>();
+         JSONParser j = new JSONParser();
+        Map<String,Object> podcastJSON = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+           
+            List<Map<String,Object>> list = (List<Map<String,Object>>)podcastJSON.get("root");
+            
+              for(Map<String,Object> obj : list){
+                  
+                Podcast pod = new Podcast();
+                float id = Float.parseFloat(obj.get("id").toString());
+                pod.setId((int)id);
+                
+                Date comDate = new SimpleDateFormat("yyyy-MM-dd").parse(obj.get("PodcastDate").toString());
+                pod.setPodcastDate(comDate);
+                pod.setPodcastName(obj.get("PodcastName").toString());
+                pod.setPodcastDescription(obj.get("PodcastDescription").toString());
+                float allowed = Float.parseFloat(obj.get("commentsAllowed").toString());
+                pod.setCommentsAllowed((int)allowed);
+                float blocked = Float.parseFloat(obj.get("isBlocked").toString());
+                pod.setIsBlocked((int)blocked);
+                float live = Float.parseFloat(obj.get("currentlyLive").toString());
+                pod.setCurrentlyLive((int)live);
+                float views = Float.parseFloat(obj.get("PodcastViews").toString());
+                pod.setPodcastViews((int)views);
+                pod.setPodcastImage(obj.get("PodcastImage").toString());
+                pod.setPlaylistIdId(ServicePlaylist.getInstance().parsePlaylist((Map<String,Object>)obj.get("PlaylistId")));
+                pod.setPodcastReviewCollection(ServicePodcastReview.getInstance().parseReviews((ArrayList<Map<String,Object>>)obj.get("ReviewList")));
+                pod.setTagCollection(ServiceTag.getInstance().parseTags((ArrayList<Map<String,Object>>)obj.get("tagsList")));
+                pod.setPodcastSource(obj.get("PodcastSource").toString());
+                podcasts.add(pod);
+              }
+            
+        return podcasts;
+    }
     
     public Podcast getPodcastById(int id) {
         
@@ -169,6 +203,38 @@ public class ServicePodcast {
         
     }
     
+    
+    
+    
+  /*  public ArrayList<Podcast>getPodcasts() {
+        podcasts = new ArrayList<>();
+        
+        String url = Statics.BASE_URL+ "/getPodcast";
+        req.setUrl(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            
+                @Override
+                public void actionPerformed(NetworkEvent evt) {
+                    try {
+                    podcasts = parsePodcast(new String(req.getResponseData()));
+                } catch (ParseException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                req.removeResponseListener(this);
+                    /*try {
+                        podcasts = Parsepodcast(new String(req.getResponseData()));
+                    }catch (ParseException ex){
+                        System.out.println(ex.getMessage());
+                    }*/
+                    
+                /*req.removeResponseListener(this);
+            }
+        });
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return podcasts;
+        
+    }*/
     
     public ArrayList<Podcast>affichePodcast() {
         ArrayList<Podcast> result = new ArrayList<>();
