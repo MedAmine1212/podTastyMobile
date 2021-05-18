@@ -7,50 +7,59 @@ package com.podtasty.services;
 
 import com.codename1.io.BufferedInputStream;
 import com.codename1.io.URL;
-import com.codename1.ui.Component;
 import com.codename1.ui.Image;
-import com.codename1.ui.Stroke;
-import com.codename1.ui.plaf.RoundBorder;
-import com.codename1.ui.plaf.Style;
 import com.podtasty.GUI.CommentView;
-import com.podtasty.entities.PodcastComment;
+import com.podtasty.GUI.PodcastView;
 import com.podtasty.utils.Statics;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.ConcurrentModificationException;
 
 /**
  *
  * @author khail
  */
 public class LoadImage extends Thread{
-    PodcastComment comm;
-    CommentView view;
-    public LoadImage(PodcastComment comm, CommentView view) {
-        this.comm = comm;
-        this.view = view;
+    String imgUrl;
+    CommentView comView;
+    PodcastView podView;
+    boolean isUser;
+    public LoadImage(String url, CommentView view) {
+        this.imgUrl = url;
+        this.comView = view;
+    }
+    
+    
+    public LoadImage(String url, PodcastView view, boolean isUser) {
+        this.imgUrl = url;
+        this.podView = view;
+        this.isUser = isUser;
     }
     
      @Override
     public void run() {
-        
-         if(comm.getUserIdId().getUserInfoIdId().getUserImage() != null) {
-                    
              try {
-                URL url = new URL(Statics.BASE_URL+"/Files/podcastFiles/"+comm.getUserIdId().getUserInfoIdId().getUserImage());
+                URL url = new URL(Statics.BASE_URL+"/Files/podcastFiles/"+imgUrl);
                 URL.URLConnection httpcon = url.openConnection();
                 InputStream stream = new BufferedInputStream(httpcon.getInputStream());
-                
                 Image userImg = Image.createImage(stream);
-                view.setUserImg(userImg);
-                
-                
-                view.refreshTheme();
-                view.repaint();
-             } catch (Exception ex) {
+                if (podView != null) {
+                    if (isUser) {
+                    podView.setOwnerImage(userImg);
+                    } else {
+                    podView.setPodcastImg(userImg);
+                    }
+                    podView.refreshTheme();
+                    podView.repaint();
+                } else {
+                    comView.setUserImg(userImg);
+                    comView.refreshTheme();
+                    comView.repaint();
+                }
+             } catch (NullPointerException | IOException | URISyntaxException | ConcurrentModificationException ex) {
                 System.out.println(ex.getMessage());
              }
             }
-    }
     
 }

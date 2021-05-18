@@ -27,17 +27,17 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Style;
+import com.podtasty.app.PodTasty;
 import com.podtasty.entities.Podcast;
 import com.podtasty.entities.PodcastComment;
 import com.podtasty.entities.PodcastReview;
-import com.podtasty.entities.User;
 import com.podtasty.entities.UserInfo;
 import com.podtasty.services.LoadAudio;
 import com.podtasty.services.LoadImage;
+import com.podtasty.services.ServiceFavorites;
 import com.podtasty.services.ServicePodcast;
 import com.podtasty.services.ServicePodcastComment;
 import com.podtasty.services.ServicePodcastReview;
-import com.podtasty.services.ServiceUser;
 import com.podtasty.utils.Statics;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +55,6 @@ import java.util.Objects;
 public class PodcastComments extends com.codename1.ui.Form {
     
     private static Podcast currentPod;
-    private static User currentUser;
     private Command scanQr;
     private Command report;
     private Command rate;
@@ -77,8 +76,8 @@ public class PodcastComments extends com.codename1.ui.Form {
     
     public PodcastComments() throws IOException, URISyntaxException {
         this(com.codename1.ui.util.Resources.getGlobalResources());
-    
         Style style = this.getAllStyles();
+        this.getToolbar().setBackCommand(Command.create("Scan QRCode", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, style) , (e) -> backToHome()));
         scanQr = Command.create("Scan QRCode", FontImage.createMaterial(FontImage.MATERIAL_BLUR_LINEAR, style) , (e) -> scanQrCode());
         podDetails = Command.create("Podcast details", FontImage.createMaterial(FontImage.MATERIAL_INFO_OUTLINE, style) , (e) -> showDetailsDialog());
         report = Command.create("Report", FontImage.createMaterial(FontImage.MATERIAL_FLAG,style), (e) -> reportPodcst());
@@ -87,10 +86,10 @@ public class PodcastComments extends com.codename1.ui.Form {
         rmvFav = Command.create("Remove favorite", FontImage.createMaterial(FontImage.MATERIAL_FAVORITE,style), (e) -> addRmvFav(rmvFav, addFav));
         this.getToolbar().addCommandToOverflowMenu(podDetails);
         this.getToolbar().addCommandToOverflowMenu(scanQr);
-        if (currentUser != null) {
+        if (HomeView.getCurrentUser() != null) {
             this.getToolbar().addCommandToOverflowMenu(report);
             this.getToolbar().addCommandToOverflowMenu(rate);
-            if (ServicePodcastComment.getInstance().checkFav(currentPod.getId(),currentUser.getId())) {
+            if (ServicePodcastComment.getInstance().checkFav(currentPod.getId(),HomeView.getCurrentUser().getId())) {
                 
           this.getToolbar().addCommandToOverflowMenu(rmvFav);
             } else {
@@ -100,10 +99,19 @@ public class PodcastComments extends com.codename1.ui.Form {
         }
            
     }
-    
+    private void backToHome() {
+    currentPod = null;
+    try {
+        audioLoader.stopAudio();
+
+    } catch (IOException ex) {
+        System.out.println(ex.getMessage());
+    }
+    LoadAudio.destroyInstance();
+    this.deinitialize();
+    PodTasty.getHomeView().show();
+}
     public PodcastComments(com.codename1.ui.util.Resources resourceObjectInstance) throws IOException{
-        ArrayList<User> u= ServiceUser.getInstance().getUserById(5);
-        currentUser = u.get(0);
         initGuiBuilderComponents(resourceObjectInstance);   
               this.getContentPane().addPullToRefresh(() -> {
                 System.out.println("refreshing..");
@@ -116,8 +124,9 @@ public class PodcastComments extends com.codename1.ui.Form {
                 }
                 LoadAudio.destroyInstance();
                 currentPod = ServicePodcast.getInstance().getPodcastById(currentPod.getId());
-                ArrayList<User> us= ServiceUser.getInstance().getUserById(5);
-                currentUser = us.get(0);
+                if (HomeView.getCurrentUser() != null) {
+                    HomeView.refreshCurrentUser();
+                }
                 setUpView();
             });
 
@@ -138,15 +147,28 @@ public class PodcastComments extends com.codename1.ui.Form {
         gui_podcastName.setText(currentPod.getPodcastName());
         gui_playStopButton.setEnabled(false);
         try {
-        URL url = new URL(Statics.BASE_URL+"/Files/podcastFiles/"+currentPod.getPodcastImage());
-          URL.URLConnection httpcon = url.openConnection();
-         InputStream stream = new BufferedInputStream(httpcon.getInputStream());
-         Image img = Image.createImage(stream);
-        gui_podcastImage.setImage(img);
-        } catch(IOException | URISyntaxException ex) {
-            System.out.println("Podcast Image Exception: "+ex.getMessage());
+            InputStream in = Display.getInstance().getResourceAsStream(null, "/defPod.png");           
+            Image  loadImg = Image.createImage(in);
+            gui_podcastImage.setImage(loadImg);
+        }catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
-         
+        if (currentPod.getPodcastImage() != null) {
+            new Thread(() -> {
+            callSerially(() -> {
+            try {
+            URL url = new URL(Statics.BASE_URL+"/Files/podcastFiles/"+currentPod.getPodcastImage());
+              URL.URLConnection httpcon = url.openConnection();
+             InputStream stream = new BufferedInputStream(httpcon.getInputStream());
+             Image img = Image.createImage(stream);
+            gui_podcastImage.setImage(img);
+            } catch(IOException | URISyntaxException ex) {
+                System.out.println("Podcast Image Exception: "+ex.getMessage());
+            }
+            });
+        
+        }).start();
+        }
              try {
                  
                
@@ -225,15 +247,16 @@ public class PodcastComments extends com.codename1.ui.Form {
                 } else {
                 gui_commentsContainer.addComponent(TOP, comView);
                 }
-                
+        if (comment.getUserIdId().getUserInfoIdId().getUserImage() != null) {
         new Thread(() -> {
             callSerially(() -> {
-                LoadImage loader = new LoadImage(comment, comView);
+                LoadImage loader = new LoadImage(comment.getUserIdId().getUserInfoIdId().getUserImage(), comView);
                 loader.start();
                 loader = null;
             });
        
         }).start();
+        }
             } catch (URISyntaxException ex) {
                 System.out.println("Img error1: "+ex.getMessage());
             } catch (IOException ex) {
@@ -268,7 +291,7 @@ public class PodcastComments extends com.codename1.ui.Form {
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_Y  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_1  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_toolsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
@@ -454,7 +477,7 @@ public class PodcastComments extends com.codename1.ui.Form {
         PodcastComment com = new PodcastComment();
         com.setCommentText(gui_addCommentText.getText());
         com.setPodcastIdId(currentPod);
-        com.setUserIdId(currentUser);
+        com.setUserIdId(HomeView.getCurrentUser());
         com = sr.addComment(com);
         gui_addCommentText.setText("");
         if(com.getId() == -1) {
@@ -492,13 +515,9 @@ public class PodcastComments extends com.codename1.ui.Form {
 
         }
   }
- public static User getCurrentUser() {
-        return currentUser;
-    }
 
-    public static void setCurrentUser(User currentUser) {
-        PodcastComments.currentUser = currentUser;
- }  
+
+  
     public void scanQrCode() {
       
         
@@ -676,7 +695,7 @@ public class PodcastComments extends com.codename1.ui.Form {
        rating = Float.parseFloat(strDouble);
        PodcastReview review = new PodcastReview();
        review.setPodcastIdId(currentPod);
-       review.setUserIdId(currentUser);
+       review.setUserIdId(HomeView.getCurrentUser());
        review.setRating(rating);
        System.out.println(review.getRating());
        currentRev = ServicePodcastReview.getInstance().addReview(review);
@@ -691,7 +710,7 @@ public class PodcastComments extends com.codename1.ui.Form {
     public void retePodcast(){
         if (currentRev == null) {
         for(PodcastReview rev: currentPod.getPodcastReviewCollection()) {
-            if (Objects.equals(rev.getUserIdId().getId(), currentUser.getId())) {
+            if (Objects.equals(rev.getUserIdId().getId(), HomeView.getCurrentUser().getId())) {
                 currentRev = rev;
                 break;
             }
@@ -775,7 +794,7 @@ public class PodcastComments extends com.codename1.ui.Form {
     
     public void addRmvFav(Command com1, Command com2){
         
-        if (ServicePodcastComment.getInstance().addRmvFav(currentPod.getId(), currentUser.getId())) {
+        if (ServiceFavorites.getInstance().addRmvFav(currentPod.getId(), HomeView.getCurrentUser().getId())) {
         
         this.getToolbar().removeOverflowCommand(com1);
         this.getToolbar().addCommandToOverflowMenu(com2);

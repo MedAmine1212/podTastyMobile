@@ -94,26 +94,6 @@ public PodcastComment addComment(PodcastComment com) {
         return comment;
     }
     
-    public boolean addRmvFav(int podId, int userId) {
-    String url = Statics.BASE_URL + "/mobile/addRmvFav/"+podId+"/"+userId;
-    req.setUrl(url);
-      try {
-            req.setPost(false);
-        } catch(IllegalStateException ex) {
-            System.out.println(ex.getMessage());
-        }
-      req.addResponseListener(new ActionListener<NetworkEvent>() {
-          @Override
-          public void actionPerformed(NetworkEvent evt) {
-              resultOK = req.getResponseCode() == 200;
-              req.removeResponseListener(this);     
-          }
-      });
-       NetworkManager.getInstance().addToQueueAndWait(req);
-        return resultOK;
-    }
-    
-    
     public boolean checkFav(int podId, int userId) {
         String url = Statics.BASE_URL + "/mobile/checkIfFav/"+podId+"/"+userId;
     req.setUrl(url);

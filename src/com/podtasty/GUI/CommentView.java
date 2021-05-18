@@ -53,7 +53,7 @@ PodcastComments parent;
                    gui_userImg.setImage(loadImg);
                    
                     gui_userImg.addLongPressListener(e -> {
-                               if (!Objects.equals(com.getUserIdId().getId(), PodcastComments.getCurrentUser().getId())) {
+                               if (!Objects.equals(com.getUserIdId().getId(), HomeView.getCurrentUser().getId())) {
                                     Dialog.show("Comment details", "Owner: "+com.getUserName()+"\n\nDate: "+date, "Close", null);
                                } else {
                                    
@@ -156,7 +156,7 @@ public void showEdit(PodcastComment com, Dialog par) {
         });
         d.show();
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_2 = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.ImageViewer gui_userImg = new com.codename1.components.ImageViewer();

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="PodcastView" scrollableY="false" name="PodcastView">
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  preferredSize="53.767994mm 68.79763mm" name="Box_Layout_Y">
+    <layoutConstraint insets="0px 0px 1.0mm 0px" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+    <component type="Button" styles="margin:inherit 2.0mm inherit inherit;" preferredSize="80.22862mm 35.3514mm" name="podcastImage" actionEvent="true">
+    </component>
+    <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  styles="padding:2.0mm inherit inherit inherit;" name="Box_Layout_X">
+      <component type="ImageViewer" preferredSize="13.547841mm 13.759526mm" name="ownerImage">
+      </component>
+      <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  name="Box_Layout_Y_2">
+        <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  styles="padding:2.0mm inherit inherit inherit;" name="Box_Layout_Y_1">
+          <component type="Label" name="owner">
+          </component>
+          <component type="Label" text="-	" name="spaceLabel	">
+          </component>
+          <component type="Label" name="podName">
+          </component>
+        </component>
+        <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  name="Box_Layout_X_1">
+          <component type="Label" name="views">
+          </component>
+          <component type="Label" text="-" name="slash">
+          </component>
+          <component type="Label" text="		" name="date">
+          </component>
+        </component>
+      </component>
+    </component>
+  </component>
+</component>

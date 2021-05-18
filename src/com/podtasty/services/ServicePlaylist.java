@@ -5,17 +5,11 @@
  */
 package com.podtasty.services;
 
-import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
-import com.codename1.io.JSONParser;
 import com.codename1.l10n.ParseException;
-import com.codename1.l10n.SimpleDateFormat;
 import com.podtasty.entities.Playlist;
-import com.podtasty.entities.Podcast;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,7 +41,9 @@ public class ServicePlaylist {
         Playlist playlist = new Playlist();
         float id = Float.parseFloat(obj.get("id").toString());
         playlist.setId((int)id);
+        try {
         playlist.setPlaylistDescription(obj.get("PlaylistDescription").toString());
+        } catch (NullPointerException ex) {}
         playlist.setChannelIdId(ServiceChannel.getInstance().parseChannel((Map<String,Object>)obj.get("ChannelId")));
                 
         return playlist;
