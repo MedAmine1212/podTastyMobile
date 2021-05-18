@@ -8,7 +8,7 @@
     <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  styles="padding:2.0mm inherit inherit inherit;" name="Box_Layout_X">
       <component type="ImageViewer" preferredSize="13.547841mm 13.759526mm" name="ownerImage">
       </component>
-      <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  name="Box_Layout_Y_2">
+      <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  name="detailsContainer">
         <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  styles="padding:2.0mm inherit inherit inherit;" name="Box_Layout_Y_1">
           <component type="Label" name="owner">
           </component>

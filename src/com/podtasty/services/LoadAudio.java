@@ -45,6 +45,7 @@ public class LoadAudio extends Thread{
             URL.URLConnection httpcon = url.openConnection();
             InputStream stream = new BufferedInputStream(httpcon.getInputStream());
             audio = MediaManager.createMedia(stream, "audio",null);
+            audio.play();
         } catch (URISyntaxException ex) {
             System.out.println("Audio error 1: "+ex.getMessage());
         } catch (IOException ex) {
@@ -93,6 +94,10 @@ public class LoadAudio extends Thread{
     }
     
     public boolean isPlaying() {
+        if (audio!= null) {
         return audio.isPlaying();
+        } else {
+            return false;
+        }
     }
 }

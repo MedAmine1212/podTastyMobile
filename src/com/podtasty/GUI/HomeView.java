@@ -19,6 +19,7 @@ import com.podtasty.entities.Podcast;
 import com.podtasty.entities.Tag;
 import com.podtasty.entities.User;
 import com.podtasty.services.LoadImage;
+import com.podtasty.services.ServiceFavorites;
 import com.podtasty.services.ServiceUser;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class HomeView extends com.codename1.ui.Form {
     
     ArrayList<Podcast> podcasts;
     private Tag currentTag = new Tag();
+    private static Favorites favView;
     
     private static User currentUser;
     Command openFav;
@@ -43,12 +45,13 @@ public class HomeView extends com.codename1.ui.Form {
     
     public HomeView(com.codename1.ui.util.Resources resourceObjectInstance) {
         initGuiBuilderComponents(resourceObjectInstance);
+        this.setTitle("PodTasty");
         Style style = this.getAllStyles();
         openFav = Command.create("Favorites", FontImage.createMaterial(FontImage.MATERIAL_FAVORITE_BORDER, style) , (e) -> openFav());
         if (currentUser != null) {
             this.getToolbar().addCommandToLeftSideMenu(openFav);
         }
-       
+        
          Image loading;
         try {
             loading = GifImage.decode(getResourceAsStream("/spinner.gif"), 1177720);
@@ -57,9 +60,19 @@ public class HomeView extends com.codename1.ui.Form {
             System.out.println(ex.getMessage());
         }
     }
+    
+    public static Favorites geFavView() {
+        return favView;
+    }
+     public static void destroyFavViews() {
+         favView = null;
+    }
     private void openFav() {
-        Favorites fv  = new Favorites();
-        fv.show();
+        
+        
+        favView  = new Favorites();
+        favView.show();
+        favView.setPodcasts(ServiceFavorites.getInstance().getUserFavorites(currentUser.getId()));
     }
      public static User getCurrentUser() {
         return currentUser;
@@ -104,7 +117,7 @@ public class HomeView extends com.codename1.ui.Form {
     
     private void addPodToView(Podcast pod) {
         PodcastView podView = new PodcastView();
-        podView.setUpView(pod);
+        podView.setUpView(pod ,false);
         podView.getToolbar().hideToolbar();
         
         if (pod.getPodcastImage() != null) {
@@ -133,7 +146,6 @@ public class HomeView extends com.codename1.ui.Form {
           this.refreshTheme();
     }
     private void refreshPods(Tag tag) {
-         System.out.println(tag.getId());
         if (!Objects.equals(this.currentTag.getId(), tag.getId())) {
             this.currentTag = tag;
             int i =0;
@@ -161,6 +173,7 @@ public class HomeView extends com.codename1.ui.Form {
                  gui_podcastContainer.add(new Label(" "));
                  gui_podcastContainer.add(new Label(" "));
                  gui_podcastContainer.add(FlowLayout.encloseCenter(new Label("No podcasts to show")));
+                 i++;
                 }
             } else {
                  gui_podcastContainer.add(new Label(" "));
@@ -168,6 +181,7 @@ public class HomeView extends com.codename1.ui.Form {
                  gui_podcastContainer.add(new Label(" "));
                  gui_podcastContainer.add(new Label(" "));
                  gui_podcastContainer.add(FlowLayout.encloseCenter(new Label("No podcasts to show")));
+                 i++;
              }
              if (i == 0) {
                  gui_podcastContainer.add(new Label(" "));
@@ -183,7 +197,7 @@ public class HomeView extends com.codename1.ui.Form {
             this.refreshTheme();
         }
     }
-////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_bigContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_tagsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));

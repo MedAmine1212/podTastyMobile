@@ -7,6 +7,7 @@ package com.podtasty.services;
 
 import com.codename1.io.BufferedInputStream;
 import com.codename1.io.URL;
+import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.podtasty.GUI.CommentView;
 import com.podtasty.GUI.PodcastView;
@@ -44,16 +45,26 @@ public class LoadImage extends Thread{
                 URL.URLConnection httpcon = url.openConnection();
                 InputStream stream = new BufferedInputStream(httpcon.getInputStream());
                 Image userImg = Image.createImage(stream);
+                Image img = userImg.scaled(350, 350);
+                Image maskImage = Image.createImage(350, 350);
+                Graphics g = maskImage.getGraphics();
+                g.setAntiAliased(true);
+                g.setColor(0x000000);
+                g.fillRect(0, 0, 350, 350);
+                g.setColor(0xffffff);
+                g.fillArc(0, 0, 350, 350, 0, 360);
+                Object mask = maskImage.createMask();
+                Image maskedImage = img.applyMask(mask);
                 if (podView != null) {
                     if (isUser) {
-                    podView.setOwnerImage(userImg);
+                    podView.setOwnerImage(maskedImage);
                     } else {
                     podView.setPodcastImg(userImg);
                     }
                     podView.refreshTheme();
                     podView.repaint();
                 } else {
-                    comView.setUserImg(userImg);
+                    comView.setUserImg(maskedImage);
                     comView.refreshTheme();
                     comView.repaint();
                 }

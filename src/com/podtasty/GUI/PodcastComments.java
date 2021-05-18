@@ -73,11 +73,13 @@ public class PodcastComments extends com.codename1.ui.Form {
     Dialog ratingDialog;
     Container reactions;
     private PodcastReview currentRev;
+    private boolean isFav;
     
     public PodcastComments() throws IOException, URISyntaxException {
         this(com.codename1.ui.util.Resources.getGlobalResources());
+        this.setTitle("Listening to "+currentPod.getPodcastName());
         Style style = this.getAllStyles();
-        this.getToolbar().setBackCommand(Command.create("Scan QRCode", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, style) , (e) -> backToHome()));
+        this.getToolbar().setBackCommand(Command.create("", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, style) , (e) -> backToHome()));
         scanQr = Command.create("Scan QRCode", FontImage.createMaterial(FontImage.MATERIAL_BLUR_LINEAR, style) , (e) -> scanQrCode());
         podDetails = Command.create("Podcast details", FontImage.createMaterial(FontImage.MATERIAL_INFO_OUTLINE, style) , (e) -> showDetailsDialog());
         report = Command.create("Report", FontImage.createMaterial(FontImage.MATERIAL_FLAG,style), (e) -> reportPodcst());
@@ -100,16 +102,15 @@ public class PodcastComments extends com.codename1.ui.Form {
            
     }
     private void backToHome() {
-    currentPod = null;
-    try {
-        audioLoader.stopAudio();
-
-    } catch (IOException ex) {
-        System.out.println(ex.getMessage());
+    if (!audioLoader.isPlaying()) {
+        currentPod = null;
     }
-    LoadAudio.destroyInstance();
     this.deinitialize();
-    PodTasty.getHomeView().show();
+    if (!isFav) {
+        PodTasty.getHomeView().show();
+    }else {
+       HomeView.geFavView().show(); 
+    }
 }
     public PodcastComments(com.codename1.ui.util.Resources resourceObjectInstance) throws IOException{
         initGuiBuilderComponents(resourceObjectInstance);   
@@ -127,17 +128,25 @@ public class PodcastComments extends com.codename1.ui.Form {
                 if (HomeView.getCurrentUser() != null) {
                     HomeView.refreshCurrentUser();
                 }
-                setUpView();
+                setUpView(this.isFav);
             });
 
     }
     
-    public void setUpView(){
-        
-        audioLoader = LoadAudio.getInstance();
-        audioLoader.setAudioUrl(currentPod.getPodcastSource());
-        audioLoader.start();
-        
+    public void setUpView(boolean isFav){
+        this.isFav = isFav;
+        try {
+           audioLoader = LoadAudio.getInstance();
+        if (!audioLoader.isPlaying()) {
+            audioLoader.setAudioUrl(currentPod.getPodcastSource());
+            audioLoader.start();
+            
+        } 
+        FontImage.setMaterialIcon(gui_playStopButton, FontImage.MATERIAL_PAUSE_CIRCLE_FILLED);
+     
+        } catch (Exception e) {
+            
+        }
          gui_commentsContainer.setPreferredSizeStr("AUTO");
          gui_playerAndLoading.setPreferredSizeStr("AUTO");
         gui_Box_Layout_Y.setPreferredSizeStr("AUTO");
@@ -154,6 +163,7 @@ public class PodcastComments extends com.codename1.ui.Form {
             System.out.println(ex.getMessage());
         }
         if (currentPod.getPodcastImage() != null) {
+            try{
             new Thread(() -> {
             callSerially(() -> {
             try {
@@ -168,6 +178,7 @@ public class PodcastComments extends com.codename1.ui.Form {
             });
         
         }).start();
+            }catch(Exception e){}
         }
              try {
                  
@@ -185,7 +196,7 @@ public class PodcastComments extends com.codename1.ui.Form {
         gui_addComButton.setVisible(false);
         gui_playerAndLoading.refreshTheme();
         gui_playerAndLoading.revalidate();
-        
+    try{
         new Thread(() -> {
             callSerially(() -> {
                 showComments(); 
@@ -209,6 +220,7 @@ public class PodcastComments extends com.codename1.ui.Form {
             });
         
         }).start();
+    } catch(Exception e) {}
         gui_playStopButton.setEnabled(true);
     }
     public void showComments() { 
@@ -291,7 +303,7 @@ public class PodcastComments extends com.codename1.ui.Form {
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_Y  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_1  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_toolsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
@@ -505,15 +517,27 @@ public class PodcastComments extends com.codename1.ui.Form {
     }
 
    public void onplayStopButtonActionEvent(com.codename1.ui.events.ActionEvent ev) {
-        if(!audioLoader.isPlaying()){
+        if(audioLoader == null) {
+            if(LoadAudio.getInstance().isPlaying()) {
+                audioLoader = LoadAudio.getInstance();
+            } else {
+            audioLoader = LoadAudio.getInstance();
+            audioLoader.setAudioUrl(currentPod.getPodcastSource());
+            audioLoader.start();
+            }
+        }
+        
+       if(!audioLoader.isPlaying()){
             FontImage.setMaterialIcon(gui_playStopButton, FontImage.MATERIAL_PAUSE_CIRCLE_FILLED);
             audioLoader.startAudio();
+      
         } else {
             
             FontImage.setMaterialIcon(gui_playStopButton, FontImage.MATERIAL_PLAY_CIRCLE_FILLED);
             audioLoader.pauseAudio();
 
-        }
+        
+    }
   }
 
 
@@ -605,7 +629,7 @@ public class PodcastComments extends com.codename1.ui.Form {
                 }
                 LoadAudio.destroyInstance();
                 currentPod = pod;
-                setUpView();
+                setUpView(this.isFav);
                 
                 }
             } else{
