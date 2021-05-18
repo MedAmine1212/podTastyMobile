@@ -21,8 +21,8 @@ public class UserInfo {
     private String userGender;
     private Date userBirthDate;
     private String userBio;
-    private Collection<UserInfo> userInfoCollection;
-    private Collection<UserInfo> userInfoCollection1;
+    private Collection<UserInfo> Followers;
+    private Collection<UserInfo> Following;
     private User user;
 
     public UserInfo() {
@@ -96,20 +96,20 @@ public class UserInfo {
         this.userBio = userBio;
     }
 
-    public Collection<UserInfo> getUserInfoCollection() {
-        return userInfoCollection;
+    public Collection<UserInfo> getFollowers() {
+        return Followers;
     }
 
-    public void setUserInfoCollection(Collection<UserInfo> userInfoCollection) {
-        this.userInfoCollection = userInfoCollection;
+    public void setFollowers(Collection<UserInfo> userInfoCollection) {
+        this.Followers = userInfoCollection;
     }
 
-    public Collection<UserInfo> getUserInfoCollection1() {
-        return userInfoCollection1;
+    public Collection<UserInfo> getFollowing() {
+        return Following;
     }
 
-    public void setUserInfoCollection1(Collection<UserInfo> userInfoCollection1) {
-        this.userInfoCollection1 = userInfoCollection1;
+    public void setFollowing(Collection<UserInfo> userInfoCollection1) {
+        this.Following = userInfoCollection1;
     }
 
     public User getUser() {

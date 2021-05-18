@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="Register" scrollableY="true" name="Register">
+  <component type="Label" text=" " name="Label">
+    <layoutConstraint insets="0.0mm 10.0% auto 10.0%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text=" " name="ImageContainer">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="0 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Email" preferredSize="23.280424mm inherit" name="emaillabel">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="1 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" hint="Email" hintIcon="fontImage:e0be" name="EmailInput">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="2 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="First Name" name="FSLabel">
+    <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="3 -1 -1 2 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" hint="First Name" hintIcon="fontImage:e7fd" name="FSInput">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="4 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Last Name" name="LSLabel">
+    <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="5 -1 -1 2 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" hint="Last Name" hintIcon="fontImage:e7fd" name="LSInput">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="6 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Password" name="PasswordLabel">
+    <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="7 -1 -1 2 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" hint="Password" hintIcon="fontImage:e897" columns="20" name="PWInput">
+    <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="8 -1 -1 3 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Confirm Password" name="ConfirmPasswordLabel">
+    <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="9 -1 -1 2 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" hint="Confirm Password" hintIcon="fontImage:e897" name="CPWInput">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="10 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Button" text="Register" icon="fontImage:e163" name="RegisterBtn" actionEvent="true">
+    <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="11 -1 -1 2 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+</component>
