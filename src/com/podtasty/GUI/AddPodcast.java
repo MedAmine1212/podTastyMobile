@@ -16,6 +16,9 @@ import com.codename1.io.NetworkManager;
 import com.codename1.io.Util;
 import com.codename1.ui.CN;
 import static com.codename1.ui.CN.callSerially;
+import static com.codename1.ui.CN.createStorageOutputStream;
+import static com.codename1.ui.CN.getAppHomePath;
+import static com.codename1.ui.CN.openFileOutputStream;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Command;
 import com.codename1.ui.Dialog;
@@ -29,6 +32,9 @@ import java.net.URISyntaxException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import static com.codename1.ui.CN.* ;
+import com.codename1.ui.Display;
+import com.codename1.ui.events.ActionListener;
 
 
 /**
@@ -191,34 +197,29 @@ public class AddPodcast extends com.codename1.ui.Form {
         return "hh";
     }
 
-    
+     
     public void onBtnAjoutActionEvent(com.codename1.ui.events.ActionEvent ev) {
      try {
          if (gui_podcastname.getText()=="" || gui_poddesc.getText()==""){
              Dialog.show("Alert" , "Please fill all the fields",new Command("OK"));
          }
          else {
-             new Thread(()-> {
-                 callSerially(() -> {
-                   
-                     ServicePodcast sr = ServicePodcast.getInstance();
-                     this.podcast.setPodcastName(gui_podcastname.getText());
-                     this.podcast.setPodcastDescription(gui_poddesc.getText());
-                    // this.podcast.setPodcastImage();
-                    // this.podcast.setPodcastSource();
-                    this.podcast.setPodcastImage(podcastImage);
-                    this.podcast.setPodcastSource(podcastSource);
-                     sr.AjoutPodcast(podcast);
-                 });
-             }).start();
+             ServicePodcast sr = ServicePodcast.getInstance();
+             this.podcast.setPodcastName(gui_podcastname.getText());
+             this.podcast.setPodcastDescription(gui_poddesc.getText());
+             // this.podcast.setPodcastImage();
+             // this.podcast.setPodcastSource();
+              //this.podcast.setPodcastImage();
+             // this.podcast.setPodcastSource(podcastSource);
+             sr.AjoutPodcast(podcast);
              //InfiniteProgress ip = new InfiniteProgress();
              //final Dialog iDialog = ip.showInfiniteBlocking();
              
-             //ServicePodcast sr = ServicePodcast.getInstance();
-            // Podcast podcast = new Podcast(gui_podcastname.getText(),gui_poddesc.getText(), podcastImage , podcastSource , gui_CBplaylist  );
-             //if (ServicePodcast.getInstance().AjoutPodcast(podcast));
-             //Pod.setPodcastName(gui_podcastname.getText());
-             
+             // ServicePodcast sr = ServicePodcast.getInstance();
+             // Podcast podcast = new Podcast(gui_podcastname.getText(),gui_poddesc.getText(), podcastImage , podcastSource , gui_CBplaylist  );
+             // if (ServicePodcast.getInstance().AjoutPodcast(podcast));
+             // Pod.setPodcastName(gui_podcastname.getText());
+             System.out.println("ajout mrigla");
          }
      }catch (Exception ex){
           ex.printStackTrace();
@@ -226,188 +227,71 @@ public class AddPodcast extends com.codename1.ui.Form {
         
     }
 
+
     public void onBtnupaudioActionEvent(com.codename1.ui.events.ActionEvent ev) {
-        
-        if (FileChooser.isAvailable()) {
+         if (FileChooser.isAvailable()) {
          FileChooser.showOpenDialog(".mp3, .WAV, mp3/plain", (ActionEvent e2)-> {
-         String file = (String)e2.getSource();
-        if (file == null) {
-            add("No file was selected");
-            revalidate();
-        } else {
-           String extension = null;
-           
-           if ("mp3".equals(extension)) {
-               FileSystemStorage fs = FileSystemStorage.getInstance();
-               try {
-                   InputStream fis = fs.openInputStream(file);
-                   addComponent(new SpanLabel(Util.readToString(fis)));
-               } catch (Exception ex) {
-                   Log.e(ex);
-               }
-           }
-           if (file.lastIndexOf(".") > 0) {
-               extension = file.substring(file.lastIndexOf(".")+1);
-                StringBuilder hi = new StringBuilder(file);
-                if (file.startsWith("file://")) {
-                    hi.delete(0, 7);
-                }
-                int lastIndexPeriod = hi.toString().lastIndexOf(".");
-                            Log.p(hi.toString());
-                            String ext = hi.toString().substring(lastIndexPeriod);
-                            String hmore = hi.toString().substring(0, lastIndexPeriod - 1);
-           }
-                try {
-                String podcastSource = saveFileToDevice(file, ext);
-                System.out.println(podcastSource);
-                this.podcast.setPodcastSource(podcastSource);
-                } catch (IOException ex) {
-                            }
-        }
-        revalidate();
-    });
-}
-    }
-                    
+        if (ev != null && ev.getSource() != null) {
+             String fileaudioPath  = (String)e2.getSource();
+         int fileNameIndex = fileaudioPath.lastIndexOf("/") + 1;
+         String fileaudioName = fileaudioPath.substring(fileNameIndex);
 
-    
- /*if (FileChooser.isAvailable()){
-            FileChooser.setOpenFilesInPlace(true);
-            FileChooser.showOpenDialog(".mp3, .WAV, .mp3/plain", (ActionEvent e2) -> {
-                    if (e2 == null || e2.getSource()== null) {
-                        add("No file was selected");
-                        revalidate();
-                        return;
+        fileaudioPath  = null ;
+        ServicePodcast pod = new ServicePodcast();
+                       try {
+                        OutputStream os =  FileSystemStorage.getInstance().openOutputStream(fileaudioPath);  
+                            pod.podcastaudio( fileaudioPath, fileaudioName);
+                            podcast.setPodcastSource(fileaudioName);                 
+                   } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    if (multiSelected.isSelected()) {
-                        String[] paths = (String[]) e2.getSource();
-                        for (String path : paths) {
-                            System.out.println(path);
-                            CN.execute(path);
-                        }
-                        return;
-                    }
-            String file = (String) e2.getSource();
-                    if (file == null) {
-                        add("No file was selected");
-                        revalidate();*/
-                   /* } else {
-			//String hh = "c:/...";									
-                        //Image logo;
-                          String extension = null;
-                            if (file.lastIndexOf(".") > 0) {
-                           extension = file.substring(file.lastIndexOf(".")+1);
-           }*/
-                      /* try {
-                            //logo = Image.createImage(file).scaledHeight(500);;
-                           // add(logo);
-                            String imageFile = FileSystemStorage.getInstance().getAppHomePath() + "photo.png";
-
-                            try (OutputStream os = FileSystemStorage.getInstance().openOutputStream(imageFile)) {
-                                System.out.println(imageFile);
-                                ImageIO.getImageIO().save(logo, os, ImageIO.FORMAT_PNG, 1);
-                            } catch (IOException err) {
-                            }
-                        } catch (IOException ex) { 
-                        }*/
-                       /* String extension = null;
-                        if (file.lastIndexOf(".") > 0) {
-                            extension = file.substring(file.lastIndexOf(".") + 1);
-                            StringBuilder hi = new StringBuilder(file);
-                            if (file.startsWith("file://")) {
-                                hi.delete(0, 7);
-                            }
-                            int lastIndexPeriod = hi.toString().lastIndexOf(".");
-                            Log.p(hi.toString());
-                            String ext = hi.toString().substring(lastIndexPeriod);
-                            String hmore = hi.toString().substring(0, lastIndexPeriod - 1);
-                            try {
-                                String podcastSource = saveFileToDevice(file, ext);
-                                System.out.println(podcastSource);
-                                this.podcast.setPodcastSource(podcastSource);
-                            } catch (IOException ex) {
-                            }
-
-                            revalidate();
-
-                        
-                    }
-                        });
-           
-            }
                 
-                        
-    }*/
+        }
+              
+         });
+                 }
+                 
+    }
+               
+        
+    
     
    
     public void onBtnupimageActionEvent(com.codename1.ui.events.ActionEvent ev) {
         
-        if (FileChooser.isAvailable()){
-            FileChooser.setOpenFilesInPlace(true);
-            FileChooser.showOpenDialog(multiSelect.isSelected(), ".jpg, .jpeg, .png/plain", (ActionEvent e2) -> {
-                    if (e2 == null || e2.getSource() == null) {
-                        add("No file was selected");
-                        revalidate();
-                        return;
-                    }
-                    if (multiSelect.isSelected()) {
-                        String[] paths = (String[]) e2.getSource();
-                        for (String path : paths) {
-                            System.out.println(path);
-                            CN.execute(path);
-                        }
-                        return;
-                    }
-            String file = (String) e2.getSource();
-                    if (file == null) {
-                        add("No file was selected");
-                        revalidate();
-                    } else {
-			String hh = "http://127.0.0.1:8000/Files/podcastFiles/";									
+        Display.getInstance().openGallery(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                if (ev != null && ev.getSource() != null) {
+                    String filePath = (String) ev.getSource();
+                    int fileNameIndex = filePath.lastIndexOf("/") + 1;
+                    String fileName = filePath.substring(fileNameIndex);
+
+                    Image img = null;
+                    ServicePodcast pod = new ServicePodcast();
+                    //UserHolder holder = UserHolder.getInstance();
+
+                    try {
+                       img  = Image.createImage(FileSystemStorage.getInstance().openInputStream(filePath));  
                         
-                        try {
-                            logo = Image.createImage(file).scaledHeight(100);;
-                            add(logo);
-                            String imageFile = FileSystemStorage.getInstance().getAppHomePath();
-
-                            try (OutputStream os = FileSystemStorage.getInstance().openOutputStream(imageFile)) {
-                                System.out.println(imageFile);
-                                ImageIO.getImageIO().save(logo, os, ImageIO.FORMAT_PNG, 1);
-                            } catch (IOException err) {
-                            }
-                        } catch (IOException ex) {
-                        }
-                        String extension = null;
-                        if (file.lastIndexOf(".") > 0) {
-                            extension = file.substring(file.lastIndexOf(".") + 1);
-                            StringBuilder hi = new StringBuilder(file);
-                            if (file.startsWith("file://")) {
-                                hi.delete(0, 7);
-                            }
-                            int lastIndexPeriod = hi.toString().lastIndexOf(".");
-                            Log.p(hi.toString());
-                            String ext = hi.toString().substring(lastIndexPeriod);
-                            String hmore = hi.toString().substring(0, lastIndexPeriod - 1);
-                            try {
-                                String podcastImage = saveFileToDevice(file, ext);
-                                System.out.println(podcastImage);
-                                this.podcast.setPodcastImage(podcastImage);
-                            } catch (IOException ex) {
-                            }
-
-                            
-                            
-                            revalidate();
-
-                        
+                       pod.podcastimg( filePath, fileName);
+                       podcast.setPodcastImage(fileName);
+                                               
+                   } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    }
-                        });
-            
+
+                    // Do something, add to List
+                }
             }
-                
-                        
-        }
+
+        }, Display.GALLERY_IMAGE);
+        
+       }
+
+
+
 
 
 }
+
