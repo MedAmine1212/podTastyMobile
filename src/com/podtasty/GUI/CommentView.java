@@ -48,7 +48,7 @@ PodcastComments parent;
         gui_commentText.setText(com.getCommentText());
                 
            try {
-                   InputStream in = Display.getInstance().getResourceAsStream(null, "/avatar.jpg");
+                   InputStream in = Display.getInstance().getResourceAsStream(null, "/roundedAvatar.png");
                    Image  loadImg = Image.createImage(in);
                    gui_userImg.setImage(loadImg);
                    
@@ -156,7 +156,7 @@ public void showEdit(PodcastComment com, Dialog par) {
         });
         d.show();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_2 = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.ImageViewer gui_userImg = new com.codename1.components.ImageViewer();

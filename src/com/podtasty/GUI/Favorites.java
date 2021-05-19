@@ -6,16 +6,13 @@
 package com.podtasty.GUI;
 
 import com.codename1.gif.GifImage;
-import com.codename1.ui.Button;
 import static com.codename1.ui.CN.callSerially;
 import static com.codename1.ui.CN.getResourceAsStream;
 import com.codename1.ui.Command;
 import static com.codename1.ui.Component.TOP;
-import com.codename1.ui.Container;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Style;
 import com.podtasty.app.PodTasty;
@@ -62,13 +59,12 @@ private void backToHome() {
  
     public void removeComp(PodcastView podView){
         gui_podcastContainer.removeComponent(podView);
+          if(gui_podcastContainer.getChildrenAsList(true).isEmpty()) {
+              showEmpty();
+          }
           this.gui_podcastContainer.refreshTheme();
           gui_bigContainer.refreshTheme();
           this.refreshTheme();
-          if(gui_podcastContainer.getChildrenAsList(true).size() == 0) {
-              showEmpty();
-          }
-          
     }
     private void showEmpty() {
                  gui_podcastContainer.add(new Label(" "));
@@ -138,8 +134,8 @@ private void backToHome() {
             gui_bigContainer.refreshTheme();
             this.refreshTheme();
         }
-////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
-    protected com.codename1.ui.Container gui_bigContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
+//////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+    protected com.codename1.ui.Container gui_bigContainer  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.Container gui_podcastContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.ImageViewer gui_loadingImg = new com.codename1.components.ImageViewer();
@@ -153,9 +149,9 @@ private void backToHome() {
                 setInlineStylesTheme(resourceObjectInstance);
         setTitle("Favorites");
         setName("Favorites");
-                gui_bigContainer.setInlineStylesTheme(resourceObjectInstance);
-        gui_bigContainer.setName("bigContainer");
-        addComponent(gui_bigContainer);
+                gui_bigContainer .setInlineStylesTheme(resourceObjectInstance);
+        gui_bigContainer .setName("bigContainer ");
+        addComponent(gui_bigContainer );
         gui_Label.setText("Favorites");
                 gui_Label.setInlineStylesTheme(resourceObjectInstance);
         gui_Label.setInlineAllStyles("font:80px;");
@@ -165,10 +161,10 @@ private void backToHome() {
         gui_podcastContainer.setName("podcastContainer");
                 gui_loadingImg.setInlineStylesTheme(resourceObjectInstance);
         gui_loadingImg.setName("loadingImg");
-        gui_bigContainer.addComponent(gui_Label);
-        gui_bigContainer.addComponent(gui_podcastContainer);
-        gui_bigContainer.addComponent(gui_loadingImg);
-        ((com.codename1.ui.layouts.LayeredLayout)gui_bigContainer.getParent().getLayout()).setInsets(gui_bigContainer, "5.0mm 1.0mm 5.0mm 5.0mm").setReferenceComponents(gui_bigContainer, "-1 -1 -1 -1").setReferencePositions(gui_bigContainer, "0.0 0.0 0.0 0.0");
+        gui_bigContainer .addComponent(gui_Label);
+        gui_bigContainer .addComponent(gui_podcastContainer);
+        gui_bigContainer .addComponent(gui_loadingImg);
+        ((com.codename1.ui.layouts.LayeredLayout)gui_bigContainer .getParent().getLayout()).setInsets(gui_bigContainer , "5.0mm 1.0mm 5.0mm 5.0mm").setReferenceComponents(gui_bigContainer , "-1 -1 -1 -1").setReferencePositions(gui_bigContainer , "0.0 0.0 0.0 0.0");
     }// </editor-fold>
 
 //-- DON'T EDIT ABOVE THIS LINE!!!

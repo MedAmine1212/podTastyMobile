@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="Favorites" scrollableY="true" name="Favorites">
-  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  name="bigContainer	">
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  preferredSize="inherit inherit" name="bigContainer	">
     <layoutConstraint insets="5.0mm 1.0mm 5.0mm 5.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
     <component type="Label" text="Favorites" styles="font:80px;" name="Label">
     </component>
-    <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  scrollableY="true" name="podcastContainer">
+    <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  scrollableY="true" name="podcastContainer		">
     </component>
     <component type="ImageViewer" name="loadingImg">
     </component>

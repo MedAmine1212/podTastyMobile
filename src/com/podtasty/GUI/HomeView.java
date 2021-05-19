@@ -90,6 +90,9 @@ public class HomeView extends com.codename1.ui.Form {
         setUpView();
     }
     private void setUpView(){
+        
+        gui_podcastContainer.setPreferredSizeStr("AUTO");
+        gui_bigContainer.setPreferredSizeStr("AUTO");
         Button allTags = new Button("All");
         Tag all = new Tag();
         all.setId(-1);
@@ -141,9 +144,7 @@ public class HomeView extends com.codename1.ui.Form {
         }).start();
         }
         this.gui_podcastContainer.addComponent(TOP, podView);
-          this.gui_podcastContainer.refreshTheme();
-          gui_bigContainer.refreshTheme();
-          this.refreshTheme();
+         
     }
     private void refreshPods(Tag tag) {
         if (!Objects.equals(this.currentTag.getId(), tag.getId())) {
@@ -197,7 +198,7 @@ public class HomeView extends com.codename1.ui.Form {
             this.refreshTheme();
         }
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_bigContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_tagsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
@@ -215,7 +216,8 @@ public class HomeView extends com.codename1.ui.Form {
                 setInlineStylesTheme(resourceObjectInstance);
         setTitle("HomeView");
         setName("HomeView");
-        gui_bigContainer.setPreferredSizeStr("43.183743mm inherit");
+        gui_bigContainer.setPreferredSizeStr("51.22777mm 121.29551mm");
+        gui_bigContainer.setScrollableY(false);
                 gui_bigContainer.setInlineStylesTheme(resourceObjectInstance);
         gui_bigContainer.setName("bigContainer");
         addComponent(gui_bigContainer);
@@ -224,6 +226,7 @@ public class HomeView extends com.codename1.ui.Form {
         gui_tagsContainer.setName("tagsContainer");
                 gui_Box_Layout_X.setInlineStylesTheme(resourceObjectInstance);
         gui_Box_Layout_X.setName("Box_Layout_X");
+        gui_podcastContainer.setPreferredSizeStr("98.01016mm 0.0mm");
         gui_podcastContainer.setScrollableY(true);
                 gui_podcastContainer.setInlineStylesTheme(resourceObjectInstance);
         gui_podcastContainer.setName("podcastContainer");
@@ -234,7 +237,7 @@ public class HomeView extends com.codename1.ui.Form {
         gui_Label.setText("    ");
                 gui_Label.setInlineStylesTheme(resourceObjectInstance);
         gui_Label.setName("Label");
-        gui_Label_1.setText(" ");
+        gui_Label_1.setText("  ");
                 gui_Label_1.setInlineStylesTheme(resourceObjectInstance);
         gui_Label_1.setInlineAllStyles("font:80px;");
         gui_Label_1.setName("Label_1");

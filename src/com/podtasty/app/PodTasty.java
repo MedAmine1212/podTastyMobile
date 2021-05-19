@@ -8,12 +8,15 @@ import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.Toolbar;
 import com.podtasty.GUI.HomeView;
+import com.podtasty.GUI.PodcastComments;
+import com.podtasty.entities.Podcast;
 import com.podtasty.entities.User;
 import com.podtasty.services.LoadAudio;
 import com.podtasty.services.ServicePodcast;
 import com.podtasty.services.ServiceTag;
 import com.podtasty.services.ServiceUser;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /**
@@ -68,6 +71,20 @@ public class PodTasty{
         } catch(Exception ex) {
             System.out.println(ex.getMessage());
         }
+//        try {
+//            Podcast pod = new Podcast();
+//            pod.setId(1);
+//            pod.setPodcastName("test Pod");
+//            pod.setPodcastDescription("Description");
+//            pod.setCommentsAllowed(1);
+//            PodcastComments.setCurrentPodcast(pod);
+//            PodcastComments podCom = new PodcastComments();
+//            podCom.show();
+//            podCom.setUpView(false);
+//        } catch (IOException | URISyntaxException ex) {
+//            System.out.println(ex.getMessage());
+//        }
+        
        
     }
 
