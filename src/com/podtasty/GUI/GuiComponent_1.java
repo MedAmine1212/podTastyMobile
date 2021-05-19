@@ -11,7 +11,7 @@ public class GuiComponent_1 extends Form  {
         initGuiBuilderComponents(resourceObjectInstance);
     }
 
-////-- DON'T EDIT BELOW THIS LINE!!!
+//-- DON'T EDIT BELOW THIS LINE!!!
 
 
 // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
@@ -22,6 +22,5 @@ public class GuiComponent_1 extends Form  {
         setTitle("GuiComponent_1");
         setName("GuiComponent_1");
     }// </editor-fold>
-
 //-- DON'T EDIT ABOVE THIS LINE!!!
 }

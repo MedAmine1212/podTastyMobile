@@ -11,7 +11,7 @@ public class GuiComponent extends Container  {
         initGuiBuilderComponents(resourceObjectInstance);
     }
 
-////-- DON'T EDIT BELOW THIS LINE!!!
+//-- DON'T EDIT BELOW THIS LINE!!!
 
 
 // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
@@ -21,6 +21,5 @@ public class GuiComponent extends Container  {
                 setInlineStylesTheme(resourceObjectInstance);
         setName("GuiComponent");
     }// </editor-fold>
-
 //-- DON'T EDIT ABOVE THIS LINE!!!
 }

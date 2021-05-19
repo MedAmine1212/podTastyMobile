@@ -126,7 +126,7 @@ public class ServiceReclamation {
         //ajout 
         public boolean ajoutReclamation (Reclamation reclamation){
             
-            String url = Statics.BASE_URL+ "/NewReport";
+            String url = Statics.BASE_URL+ "/mobile/NewReport";
             req.setUrl(url);
             req.setPost(true);
             req.addArgument("type", reclamation.getType());
