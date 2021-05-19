@@ -57,7 +57,7 @@ public class AddRec extends com.codename1.ui.Form {
         
     }
 
-//////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+//////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_Label_1 = new com.codename1.ui.Label();
     protected com.codename1.ui.RadioButton gui_Radio_Button = new com.codename1.ui.RadioButton();
@@ -179,12 +179,13 @@ public class AddRec extends com.codename1.ui.Form {
           
                     
        
+       
+       if (rec==""){
+                  Dialog.show("Alert" , "Please select report type",new Command("OK"));
+                        }
        if ( gui_Text_Area.getText() ==""){
            Dialog.show("Alert" , "Please add your description",new Command("OK"));
             }
-       else if (rec==""){
-                  Dialog.show("Alert" , "Please select report type",new Command("OK"));
-                        }
        else {    
            try {
           ServiceReclamation srRec = ServiceReclamation.getInstance();
@@ -201,8 +202,7 @@ public class AddRec extends com.codename1.ui.Form {
             report.setUserIdId(usr);
           
           srRec.ajoutReclamation(report);
-           
-  
+             
           Dialog.show("Alert" , "Report added successfully",new Command("OK"));
        
            }catch (Exception ex){
