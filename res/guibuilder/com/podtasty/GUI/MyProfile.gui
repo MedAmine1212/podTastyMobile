@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="MyProfile" scrollableY="true" name="MyProfile">
+  <component type="Label" text=" " name="Label">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="  " preferredSize="40.74074mm inherit" name="ImageContainer">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="0 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="FirstNameLabel">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="1 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="LastName">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="2 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="BioLabel">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="3 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Button" text="Settings" preferredSize="inherit inherit" icon="fontImage:e8b8" name="Settings" actionEvent="true">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="8 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="birthdateLabel">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="4 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="Gender">
+    <layoutConstraint insets="0.0mm 45.67039% auto 89.41799mm" referenceComponents="6 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Button" text="Profile Picture" icon="fontImage:e439" name="Picture" actionEvent="true">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="7 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Followers" name="Label_1">
+    <layoutConstraint insets="8.465609mm auto auto auto" referenceComponents="5 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Following" name="Label_2">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="11 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="FollowerNb">
+    <layoutConstraint insets="6.878307mm auto auto auto" referenceComponents="5 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="dsfq" name="FollowingNb">
+    <layoutConstraint insets="6.878307mm auto auto auto" referenceComponents="10 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+</component>

@@ -5,16 +5,12 @@
  */
 package com.podtasty.services;
 
-import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
-import com.codename1.io.JSONParser;
 import com.codename1.l10n.ParseException;
 import com.podtasty.entities.Channel;
-import com.podtasty.entities.Playlist;
 import com.podtasty.entities.User;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**

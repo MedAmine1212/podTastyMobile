@@ -8,15 +8,12 @@ import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.Toolbar;
 import com.podtasty.GUI.HomeView;
-import com.podtasty.GUI.PodcastComments;
-import com.podtasty.entities.Podcast;
 import com.podtasty.entities.User;
 import com.podtasty.services.LoadAudio;
 import com.podtasty.services.ServicePodcast;
 import com.podtasty.services.ServiceTag;
 import com.podtasty.services.ServiceUser;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /**
@@ -55,10 +52,6 @@ public class PodTasty{
     }
     public void start() {
         
-        //set ccurrentUser
-        ArrayList<User> u= ServiceUser.getInstance().getUserById(5);
-        HomeView.setCurrentUser(u.get(0));
-        //end
         
         homeview = new HomeView();
         try{

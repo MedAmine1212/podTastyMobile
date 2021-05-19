@@ -31,3 +31,5 @@
 [0516/010526.680:ERROR:batching_media_log.cc(38)] MediaEvent: {"error":"FFmpegDemuxer: data source error"}
 [0516/010526.680:ERROR:batching_media_log.cc(35)] MediaEvent: {"pipeline_error":9}
 [0518/023516.557:WARNING:sync_reader.cc(170)] ASR: No room in socket buffer.: The pipe is being closed. (0xE8)
+[0519/035832.313:ERROR:batching_media_log.cc(38)] MediaEvent: {"error":"FFmpegDemuxer: data source error"}
+[0519/035832.314:ERROR:batching_media_log.cc(35)] MediaEvent: {"pipeline_error":9}

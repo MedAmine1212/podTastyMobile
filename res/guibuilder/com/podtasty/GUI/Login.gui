@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="Login" scrollableY="true" name="Login">
+  <component type="Label" text=" " preferredSize="12.433863mm inherit" name="Label">
+    <layoutConstraint insets="1.5873017mm 10.0% auto 10.0%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text=" " name="ImageContainer">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="0 0 -1 0 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" preferredSize="84.65608mm inherit" hint="Email" hintIcon="fontImage:e7fd" name="Email">
+    <layoutConstraint insets="1.3227501mm auto auto auto" referenceComponents="1 0 -1 0 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" preferredSize="84.65608mm inherit" hint="Password" hintIcon="fontImage:e897" name="Password">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="2 0 -1 0 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Button" text="Login" preferredSize="85.71429mm inherit" name="ButtonLogin" actionEvent="true">
+    <layoutConstraint insets="2.380951mm auto auto auto" referenceComponents="3 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="You don't have an account" styles="font:4.0mm;" preferredSize="81.48148mm inherit" name="Label_1">
+    <layoutConstraint insets="4.4973545mm auto auto auto" referenceComponents="4 0 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Button" text="Register" preferredSize="81.216934mm inherit" name="ButtonReg" actionEvent="true">
+    <layoutConstraint insets="3.4391534mm auto auto auto" referenceComponents="5 5 -1 0 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" uiid="error" text=" " styles="bgColor:ff0000; fgColor:ff0000;" name="error">
+    <layoutConstraint insets="auto auto 0.0mm auto" referenceComponents="4 1 5 5 " referencePositions="0.0 1.0 1.0 0.0" />
+  </component>
+</component>

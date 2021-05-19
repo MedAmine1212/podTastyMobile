@@ -11,6 +11,7 @@ import com.codename1.ui.Display;
 import com.codename1.ui.Image;
 import com.podtasty.entities.Channel;
 import com.podtasty.entities.Podcast;
+import com.podtasty.entities.UserHolder;
 import com.podtasty.services.LoadAudio;
 import com.podtasty.services.ServiceFavorites;
 import java.io.IOException;
@@ -45,7 +46,7 @@ SimpleDateFormat simpleDateFormat;
     public void addDelButt(Favorites fav) {
         Button delButt = new Button("Remove favorite");
         delButt.addActionListener((e) -> {
-            if(ServiceFavorites.getInstance().addRmvFav(pod.getId(), HomeView.getCurrentUser().getId())){
+            if(ServiceFavorites.getInstance().addRmvFav(pod.getId(), UserHolder.getInstance().getUser().getId())){
                 fav.removeComp(this);
             }
         });
@@ -109,7 +110,7 @@ SimpleDateFormat simpleDateFormat;
         String date = simpleDateFormat.format(pod.getPodcastDate());  
          gui_date.setText(date);
     }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_Y = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Button gui_podcastImage = new com.codename1.ui.Button();
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<resource majorVersion="1" minorVersion="11" useXmlUI="false">
+<resource majorVersion="1" minorVersion="10" useXmlUI="false">
     <image name="android-icon.png" type="multi"  />
     <image name="apple-icon.png" type="multi"  />
     <image name="back-command.png" type="multi"  />
@@ -607,15 +607,16 @@
         <val key="RadioButton.sel#padding" value="1.0,1.0,1.0,1.0" />
         <val key="RadioButton.sel#transparency" value="0" />
         <val key="RadioButton.transparency" value="0" />
-        <gradient key="SideCommand.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
-        <val key="SideCommand.bgType" value="0" />
+        <val key="SideCommand.align" value="1" />
+        <val key="SideCommand.bgColor" value="3333ff" />
+        <val key="SideCommand.bgImage" value="ComboBox.sel#borderBottom_1.png" />
+        <val key="SideCommand.bgType" value="33" />
         <border key="SideCommand.border" type="empty" />
         <val key="SideCommand.fgColor" value="ffffff" />
-        <font key="SideCommand.font" type="ttf" face="0" style="1" size="16" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
-        <val key="SideCommand.marUnit" value="2,2,2,2" />
-        <val key="SideCommand.margin" value="1.0,0.0,1.0,1.0" />
-        <val key="SideCommand.padUnit" value="2,0,2,0" />
-        <val key="SideCommand.padding" value="1.0,1.0,0.0,0.0" />
+        <font key="SideCommand.font" type="system" face="0" style="0" size="0" />
+        <val key="SideCommand.margin" value="0.0,1.0,0.0,0.0" />
+        <val key="SideCommand.padUnit" value="2,2,2,2" />
+        <val key="SideCommand.padding" value="3.0,3.0,3.0,3.0" />
         <gradient key="SideCommand.press#bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="SideCommand.press#bgType" value="0" />
         <border key="SideCommand.press#border" type="empty" />
@@ -638,11 +639,9 @@
         <val key="SideCommand.sel#padding" value="1.0,1.0,0.0,0.0" />
         <val key="SideCommand.sel#textDecoration" value="0" />
         <val key="SideCommand.sel#transparency" value="0" />
-        <val key="SideCommand.textDecoration" value="0" />
-        <val key="SideCommand.transparency" value="0" />
-        <val key="SideNavigationPanel.bgColor" value="2f97c7" />
-        <val key="SideNavigationPanel.margin" value="0.0,0.0,0.0,0.0" />
-        <val key="SideNavigationPanel.padding" value="0.0,0.0,0.0,0.0" />
+        <val key="SideCommand.transparency" value="255" />
+        <val key="SideNavigationPanel.bgColor" value="3399ff" />
+        <val key="SideNavigationPanel.fgColor" value="ffffff" />
         <val key="SideNavigationPanel.transparency" value="255" />
         <gradient key="Slider.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="Slider.bgType" value="0" />

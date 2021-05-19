@@ -134,10 +134,10 @@ private void backToHome() {
             gui_bigContainer.refreshTheme();
             this.refreshTheme();
         }
-//////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_bigContainer  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
-    protected com.codename1.ui.Container gui_podcastContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
+    protected com.codename1.ui.Container gui_podcastContainer   = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.ImageViewer gui_loadingImg = new com.codename1.components.ImageViewer();
 
 
@@ -149,6 +149,7 @@ private void backToHome() {
                 setInlineStylesTheme(resourceObjectInstance);
         setTitle("Favorites");
         setName("Favorites");
+        gui_bigContainer .setPreferredSizeStr("inherit inherit");
                 gui_bigContainer .setInlineStylesTheme(resourceObjectInstance);
         gui_bigContainer .setName("bigContainer ");
         addComponent(gui_bigContainer );
@@ -156,13 +157,13 @@ private void backToHome() {
                 gui_Label.setInlineStylesTheme(resourceObjectInstance);
         gui_Label.setInlineAllStyles("font:80px;");
         gui_Label.setName("Label");
-        gui_podcastContainer.setScrollableY(true);
-                gui_podcastContainer.setInlineStylesTheme(resourceObjectInstance);
-        gui_podcastContainer.setName("podcastContainer");
+        gui_podcastContainer  .setScrollableY(true);
+                gui_podcastContainer  .setInlineStylesTheme(resourceObjectInstance);
+        gui_podcastContainer  .setName("podcastContainer  ");
                 gui_loadingImg.setInlineStylesTheme(resourceObjectInstance);
         gui_loadingImg.setName("loadingImg");
         gui_bigContainer .addComponent(gui_Label);
-        gui_bigContainer .addComponent(gui_podcastContainer);
+        gui_bigContainer .addComponent(gui_podcastContainer  );
         gui_bigContainer .addComponent(gui_loadingImg);
         ((com.codename1.ui.layouts.LayeredLayout)gui_bigContainer .getParent().getLayout()).setInsets(gui_bigContainer , "5.0mm 1.0mm 5.0mm 5.0mm").setReferenceComponents(gui_bigContainer , "-1 -1 -1 -1").setReferencePositions(gui_bigContainer , "0.0 0.0 0.0 0.0");
     }// </editor-fold>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="ContinueReg" scrollableY="true" name="ContinueReg">
+  <component type="Picker" text="..." preferredSize="42.06349mm inherit" icon="fontImage:e916" pickerType="4" name="BirthdateInput">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="2 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="   " preferredSize="100.5291mm 8.465609mm" name="Label_1">
+    <layoutConstraint insets="0.0mm 19.972067% auto 26.396648%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="BirthDate" name="BDLabel">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="1 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Gender" name="GenderLabel">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="0 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="ComboBox" name="GenderInput">
+    <stringItem value="Male" /><stringItem value="Female" />    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="3 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Button" text="Register" icon="fontImage:e163" name="Register" actionEvent="true">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="4 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+</component>

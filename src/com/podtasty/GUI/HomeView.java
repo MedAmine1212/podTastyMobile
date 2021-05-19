@@ -18,10 +18,12 @@ import com.codename1.ui.plaf.Style;
 import com.podtasty.entities.Podcast;
 import com.podtasty.entities.Tag;
 import com.podtasty.entities.User;
+import com.podtasty.entities.UserHolder;
 import com.podtasty.services.LoadImage;
 import com.podtasty.services.ServiceFavorites;
 import com.podtasty.services.ServiceUser;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -35,9 +37,12 @@ public class HomeView extends com.codename1.ui.Form {
     ArrayList<Podcast> podcasts;
     private Tag currentTag = new Tag();
     private static Favorites favView;
+    private static MyProfile profileView;
+    private static Login loginView;
     
-    private static User currentUser;
     Command openFav;
+    Command openProfile;
+    Command openLogin;
     ArrayList<Tag> tags;
     public HomeView() {
         this(com.codename1.ui.util.Resources.getGlobalResources());
@@ -46,17 +51,49 @@ public class HomeView extends com.codename1.ui.Form {
     public HomeView(com.codename1.ui.util.Resources resourceObjectInstance) {
         initGuiBuilderComponents(resourceObjectInstance);
         this.setTitle("PodTasty");
-        Style style = this.getAllStyles();
-        openFav = Command.create("Favorites", FontImage.createMaterial(FontImage.MATERIAL_FAVORITE_BORDER, style) , (e) -> openFav());
-        if (currentUser != null) {
-            this.getToolbar().addCommandToLeftSideMenu(openFav);
-        }
         
+            setTheSideBar();
+            
          Image loading;
         try {
             loading = GifImage.decode(getResourceAsStream("/spinner.gif"), 1177720);
             gui_loadingImg.setImage(loading);
         } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    public void setTheSideBar() {
+        for(Command com : this.getToolbar().getSideMenuCommands()) {
+            this.getToolbar().removeCommand(com);
+        }
+        Style style = this.getAllStyles();
+        openFav = Command.create("Favorites", FontImage.createMaterial(FontImage.MATERIAL_FAVORITE_BORDER, style) , (e) -> openFav());
+        openLogin = Command.create("Login", FontImage.createMaterial(FontImage.MATERIAL_LOCK, style) , (e) -> openLogin());
+        openProfile = Command.create("Profile", FontImage.createMaterial(FontImage.MATERIAL_ACCOUNT_CIRCLE, style) , (e) -> openProfile());
+        if (UserHolder.getInstance().getUser() != null) {
+            this.getToolbar().addCommandToLeftSideMenu(openProfile);
+            this.getToolbar().addCommandToLeftSideMenu(openFav);
+        } else {
+            this.getToolbar().addCommandToLeftSideMenu(openLogin);
+        }
+        this.getToolbar().refreshTheme();
+        this.refreshTheme();
+    }
+    public void openLogin() {
+        try {
+            loginView  = new Login();
+        loginView.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    public void openProfile() {
+        try {
+            profileView  = new MyProfile();
+        profileView.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        } catch (URISyntaxException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -72,18 +109,10 @@ public class HomeView extends com.codename1.ui.Form {
         
         favView  = new Favorites();
         favView.show();
-        favView.setPodcasts(ServiceFavorites.getInstance().getUserFavorites(currentUser.getId()));
+        favView.setPodcasts(ServiceFavorites.getInstance().getUserFavorites(UserHolder.getInstance().getUser().getId()));
     }
-     public static User getCurrentUser() {
-        return currentUser;
-    }
-       public static void setCurrentUser(User currentUser) {
-        HomeView.currentUser = currentUser;
- }  
-    public static void refreshCurrentUser() {
-        ArrayList<User> u= ServiceUser.getInstance().getUserById(currentUser.getId());
-        currentUser = u.get(0);
-        }
+       
+        
     public void setPodcastsAndTags(ArrayList<Tag> tags, ArrayList<Podcast> podcasts) {
         this.podcasts = podcasts;
         this.tags = tags;
@@ -198,7 +227,7 @@ public class HomeView extends com.codename1.ui.Form {
             this.refreshTheme();
         }
     }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_bigContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_tagsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
@@ -216,7 +245,7 @@ public class HomeView extends com.codename1.ui.Form {
                 setInlineStylesTheme(resourceObjectInstance);
         setTitle("HomeView");
         setName("HomeView");
-        gui_bigContainer.setPreferredSizeStr("51.22777mm 121.29551mm");
+        gui_bigContainer.setPreferredSizeStr("71.97291mm 121.29551mm");
         gui_bigContainer.setScrollableY(false);
                 gui_bigContainer.setInlineStylesTheme(resourceObjectInstance);
         gui_bigContainer.setName("bigContainer");
@@ -230,6 +259,7 @@ public class HomeView extends com.codename1.ui.Form {
         gui_podcastContainer.setScrollableY(true);
                 gui_podcastContainer.setInlineStylesTheme(resourceObjectInstance);
         gui_podcastContainer.setName("podcastContainer");
+        gui_loadingImg.setPreferredSizeStr("28.154106mm 22.438612mm");
                 gui_loadingImg.setInlineStylesTheme(resourceObjectInstance);
         gui_loadingImg.setName("loadingImg");
         gui_bigContainer.addComponent(gui_tagsContainer);

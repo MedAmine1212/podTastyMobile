@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="UpdateProfile" scrollableY="true" name="UpdateProfile">
+  <component type="Label" text="   " name="Label">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="First Name" name="FNLabel">
+    <layoutConstraint insets="6.878307mm auto auto auto" referenceComponents="0 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" text="TextField" hintIcon="fontImage:e7fd" name="FNInput">
+    <layoutConstraint insets="6.878307mm auto auto auto" referenceComponents="0 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Last Name" name="LNLabel">
+    <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="2 -1 -1 1 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" text="TextField" name="LNInput">
+    <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="3 -1 -1 2 " referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Bio" name="BioLabel">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="4 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" text="TextField" hintIcon="fontImage:e23c" name="BioInput">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="5 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Button" text="Update" icon="fontImage:e163" name="UpdateBtn" actionEvent="true">
+    <layoutConstraint insets="3.1746025mm auto auto auto" referenceComponents="6 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+</component>

@@ -31,6 +31,7 @@ import com.podtasty.app.PodTasty;
 import com.podtasty.entities.Podcast;
 import com.podtasty.entities.PodcastComment;
 import com.podtasty.entities.PodcastReview;
+import com.podtasty.entities.UserHolder;
 import com.podtasty.entities.UserInfo;
 import com.podtasty.services.LoadAudio;
 import com.podtasty.services.LoadImage;
@@ -88,10 +89,10 @@ public class PodcastComments extends com.codename1.ui.Form {
         rmvFav = Command.create("Remove favorite", FontImage.createMaterial(FontImage.MATERIAL_FAVORITE,style), (e) -> addRmvFav(rmvFav, addFav));
         this.getToolbar().addCommandToOverflowMenu(podDetails);
         this.getToolbar().addCommandToOverflowMenu(scanQr);
-        if (HomeView.getCurrentUser() != null) {
+        if (UserHolder.getInstance().getUser() != null) {
             this.getToolbar().addCommandToOverflowMenu(report);
             this.getToolbar().addCommandToOverflowMenu(rate);
-            if (ServicePodcastComment.getInstance().checkFav(currentPod.getId(),HomeView.getCurrentUser().getId())) {
+            if (ServicePodcastComment.getInstance().checkFav(currentPod.getId(),UserHolder.getInstance().getUser().getId())) {
                 
           this.getToolbar().addCommandToOverflowMenu(rmvFav);
             } else {
@@ -125,8 +126,8 @@ public class PodcastComments extends com.codename1.ui.Form {
                 }
                 LoadAudio.destroyInstance();
                 currentPod = ServicePodcast.getInstance().getPodcastById(currentPod.getId());
-                if (HomeView.getCurrentUser() != null) {
-                    HomeView.refreshCurrentUser();
+                if (UserHolder.getInstance().getUser() != null) {
+                    UserHolder.refreshCurrentUser();
                 }
                 setUpView(this.isFav);
             });
@@ -303,7 +304,7 @@ public class PodcastComments extends com.codename1.ui.Form {
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_Y  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_1  = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_toolsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
@@ -489,7 +490,7 @@ public class PodcastComments extends com.codename1.ui.Form {
         PodcastComment com = new PodcastComment();
         com.setCommentText(gui_addCommentText.getText());
         com.setPodcastIdId(currentPod);
-        com.setUserIdId(HomeView.getCurrentUser());
+        com.setUserIdId(UserHolder.getInstance().getUser());
         com = sr.addComment(com);
         gui_addCommentText.setText("");
         if(com.getId() == -1) {
@@ -719,7 +720,7 @@ public class PodcastComments extends com.codename1.ui.Form {
        rating = Float.parseFloat(strDouble);
        PodcastReview review = new PodcastReview();
        review.setPodcastIdId(currentPod);
-       review.setUserIdId(HomeView.getCurrentUser());
+       review.setUserIdId(UserHolder.getInstance().getUser());
        review.setRating(rating);
        System.out.println(review.getRating());
        currentRev = ServicePodcastReview.getInstance().addReview(review);
@@ -734,7 +735,7 @@ public class PodcastComments extends com.codename1.ui.Form {
     public void retePodcast(){
         if (currentRev == null) {
         for(PodcastReview rev: currentPod.getPodcastReviewCollection()) {
-            if (Objects.equals(rev.getUserIdId().getId(), HomeView.getCurrentUser().getId())) {
+            if (Objects.equals(rev.getUserIdId().getId(), UserHolder.getInstance().getUser().getId())) {
                 currentRev = rev;
                 break;
             }
@@ -818,7 +819,7 @@ public class PodcastComments extends com.codename1.ui.Form {
     
     public void addRmvFav(Command com1, Command com2){
         
-        if (ServiceFavorites.getInstance().addRmvFav(currentPod.getId(), HomeView.getCurrentUser().getId())) {
+        if (ServiceFavorites.getInstance().addRmvFav(currentPod.getId(), UserHolder.getInstance().getUser().getId())) {
         
         this.getToolbar().removeOverflowCommand(com1);
         this.getToolbar().addCommandToOverflowMenu(com2);
