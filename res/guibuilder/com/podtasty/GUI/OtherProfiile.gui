@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="OtherProfiile" scrollableY="true" name="OtherProfiile">
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  styles="alignment:center;" name="container">
+    <layoutConstraint insets="5.0mm 5.0mm 5.0mm 5.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+    <component type="Label" styles="alignment:center;" name="ImageContainer">
+    </component>
+    <component type="Label" text="Label" styles="alignment:center; margin:5.0mm inherit inherit inherit;" name="Firstname">
+    </component>
+    <component type="Label" text="Label" styles="alignment:center; margin:1.0mm inherit inherit inherit;" name="Lastname	">
+    </component>
+    <component type="Label" text="Label" styles="alignment:center; margin:1.0mm inherit inherit inherit;" name="Bio">
+    </component>
+    <component type="Button" text="Follow" styles="margin:1.0mm inherit inherit inherit;" icon="fontImage:e7fe" name="Followbtn">
+    </component>
+    <component type="Label" text="Followers" styles="alignment:center; margin:1.0mm inherit inherit inherit;" name="Label">
+    </component>
+    <component type="Label" styles="alignment:center; margin:1.0mm inherit inherit inherit;" name="NbFollowers">
+    </component>
+    <component type="Label" text="Following" styles="alignment:center; margin:1.0mm inherit inherit inherit;" name="Label_1">
+    </component>
+    <component type="Label" styles="alignment:center; margin:1.0mm inherit inherit inherit;" name="followNb">
+    </component>
+  </component>
+</component>

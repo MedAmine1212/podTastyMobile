@@ -31,11 +31,13 @@ import java.net.URISyntaxException;
  * @author Douiri Amine
  */
 public class MyProfile extends com.codename1.ui.Form {
-
+    private static boolean isCom;
     public MyProfile() throws URISyntaxException, IOException {
         this(com.codename1.ui.util.Resources.getGlobalResources());
     }
-
+    public static void setIsCom(boolean com) {
+        isCom = com;
+    }
     public MyProfile(com.codename1.ui.util.Resources resourceObjectInstance) throws URISyntaxException, IOException {
         initGuiBuilderComponents(resourceObjectInstance);
         
@@ -67,8 +69,13 @@ public class MyProfile extends com.codename1.ui.Form {
     
 private void backToHome() {
     this.deinitialize();
+    if (!isCom) {
     HomeView.destroyFavViews();
     PodTasty.getHomeView().show();
+        
+    } else {
+        HomeView.getPodView().show();
+    }
 }
 
 public void refreshThis() {
@@ -111,7 +118,7 @@ public void setpic(){
 System.out.print(ex);        }
      
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_ImageContainer = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_FirstNameLabel = new com.codename1.ui.Label();

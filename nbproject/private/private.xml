@@ -7,6 +7,7 @@
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/utils/Statics.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/CommentView.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/services/ServiceChannel.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/services/ServiceReclamation.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/ContinueReg.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/HomeView.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/Favorites.java</file>
@@ -14,6 +15,8 @@
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/Register.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/MyProfile.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/Login.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/ServiceReclamation.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/AddRec.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/PodcastComments.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/UpdateProfile.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/ProfileSettings.java</file>

@@ -16,7 +16,7 @@
   <component type="Button" text="Login" preferredSize="85.71429mm inherit" name="ButtonLogin" actionEvent="true">
     <layoutConstraint insets="2.380951mm auto auto auto" referenceComponents="3 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
   </component>
-  <component type="Label" text="You don't have an account" styles="font:4.0mm;" preferredSize="81.48148mm inherit" name="Label_1">
+  <component type="Label" text="You don't have an account" styles="font:4.0mm; alignment:center;" preferredSize="81.48148mm inherit" name="Label_1">
     <layoutConstraint insets="4.4973545mm auto auto auto" referenceComponents="4 0 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
   </component>
   <component type="Button" text="Register" preferredSize="81.216934mm inherit" name="ButtonReg" actionEvent="true">

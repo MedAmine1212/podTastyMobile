@@ -40,10 +40,37 @@ PodcastComments parent;
         simpleDateFormat = new SimpleDateFormat("dd MMM, yyyy");
         initGuiBuilderComponents(resourceObjectInstance);
     }
+    
+       private void showOther(int id) {
+        
+             OtherProfile.setUserId(id, true);
+             OtherProfile pr = new OtherProfile();
+             pr.show();
+    }
     public void setView(PodcastComment com, PodcastComments podView) throws URISyntaxException, IOException{
         parent = podView;
         this.comm = com;
         gui_userName.setText(com.getUserName());
+        
+        gui_userName.addPointerPressedListener((e) ->{
+             if (UserHolder.getInstance().getUser() != null) {
+                 if (Objects.equals(UserHolder.getInstance().getUser().getId(), com.getUserIdId().getId())){
+                 MyProfile pr;
+                     try {
+                         MyProfile.setIsCom(true);
+                         pr = new MyProfile();
+                        pr.show();
+                     } catch (URISyntaxException | IOException ex) {
+                         System.out.println(ex.getMessage());
+                     }
+             } else {
+                 showOther(com.getUserIdId().getId());
+                     
+                     }
+             } else {
+                 showOther(com.getUserIdId().getId());
+             }
+         });
         String date = simpleDateFormat.format(com.getCommentDate());  
         gui_commentDate.setText(date);
         gui_commentText.setText(com.getCommentText());
@@ -54,12 +81,16 @@ PodcastComments parent;
                    gui_userImg.setImage(loadImg);
                    
                     gui_userImg.addLongPressListener(e -> {
+                        if (UserHolder.getInstance().getUser() != null) {
                                if (!Objects.equals(com.getUserIdId().getId(), UserHolder.getInstance().getUser().getId())) {
                                     Dialog.show("Comment details", "Owner: "+com.getUserName()+"\n\nDate: "+date, "Close", null);
                                } else {
                                    
                                    setDialog(com, date);
                                }
+                        } else {
+                             Dialog.show("Comment details", "Owner: "+com.getUserName()+"\n\nDate: "+date, "Close", null);
+                        }
                                 
                               });   
                } catch (IOException ex) {
@@ -157,13 +188,13 @@ public void showEdit(PodcastComment com, Dialog par) {
         });
         d.show();
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_Y_2 = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.ImageViewer gui_userImg = new com.codename1.components.ImageViewer();
     protected com.codename1.components.SpanLabel gui_commentDate = new com.codename1.components.SpanLabel();
     protected com.codename1.ui.Container gui_Box_Layout_Y = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
-    protected com.codename1.components.SpanLabel gui_userName = new com.codename1.components.SpanLabel();
+    protected com.codename1.ui.Label gui_userName = new com.codename1.ui.Label();
     protected com.codename1.ui.Container gui_Box_Layout_Y_1 = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.components.SpanLabel gui_commentText = new com.codename1.components.SpanLabel();
 
@@ -176,7 +207,7 @@ public void showEdit(PodcastComment com, Dialog par) {
                 setInlineStylesTheme(resourceObjectInstance);
         setTitle("");
         setName("CommentView");
-        gui_Box_Layout_X.setPreferredSizeStr("124.89416mm 24.767147mm");
+        gui_Box_Layout_X.setPreferredSizeStr("53.55631mm 24.767147mm");
                 gui_Box_Layout_X.setInlineStylesTheme(resourceObjectInstance);
         gui_Box_Layout_X.setName("Box_Layout_X");
         addComponent(gui_Box_Layout_X);
@@ -196,9 +227,8 @@ public void showEdit(PodcastComment com, Dialog par) {
         gui_Box_Layout_Y_2.addComponent(gui_userImg);
         gui_Box_Layout_Y_2.addComponent(gui_commentDate);
         gui_Box_Layout_X.addComponent(gui_Box_Layout_Y);
-        gui_userName.setText("Span Label");
+        gui_userName.setText("Label");
                 gui_userName.setInlineStylesTheme(resourceObjectInstance);
-        gui_userName.setInlineAllStyles("font:70px;");
         gui_userName.setName("userName");
         gui_Box_Layout_Y_1.setScrollableY(true);
                 gui_Box_Layout_Y_1.setInlineStylesTheme(resourceObjectInstance);
@@ -210,7 +240,7 @@ public void showEdit(PodcastComment com, Dialog par) {
         gui_commentText.setInlineAllStyles("font:50px;");
         gui_commentText.setName("commentText");
         gui_Box_Layout_Y_1.addComponent(gui_commentText);
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Box_Layout_X.getParent().getLayout()).setInsets(gui_Box_Layout_X, "2.4233701mm 0.72988987mm 1.57663mm 3.2701101mm").setReferenceComponents(gui_Box_Layout_X, "-1 -1 -1 -1").setReferencePositions(gui_Box_Layout_X, "0.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Box_Layout_X.getParent().getLayout()).setInsets(gui_Box_Layout_X, "2.4233701mm 8.77392mm 1.57663mm 3.2701101mm").setReferenceComponents(gui_Box_Layout_X, "-1 -1 -1 -1").setReferencePositions(gui_Box_Layout_X, "0.0 0.0 0.0 0.0");
     }// </editor-fold>
 
 //-- DON'T EDIT ABOVE THIS LINE!!!

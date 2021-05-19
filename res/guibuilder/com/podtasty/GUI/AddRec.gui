@@ -1,3 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" layout="LayeredLayout" title="AddRec" name="AddRec" autoLayout="true"></component>
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="AddRec" scrollableY="true" name="AddRec">
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  name="Box_Layout_Y">
+    <layoutConstraint insets="5.0mm 5.0mm 5.0mm 5.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+    <component type="Label" text=" 	" name="Label">
+    </component>
+    <component type="Label" text="Report This Podcast		" styles="font:5.0mm; alignment:center;" name="Label_1">
+    </component>
+    <component type="RadioButton" text="Sexual Content" styles="alignment:center; margin:5.0mm inherit inherit inherit;" name="Radio_Button">
+    </component>
+    <component type="RadioButton" text="Violent or Bloody Content" styles="alignment:center; margin:5.0mm inherit inherit inherit;" name="Radio_Button_1">
+    </component>
+    <component type="RadioButton" text="Violent or Hateful Content" styles="alignment:center; margin:5.0mm inherit inherit inherit;" name="Radio_Button_2">
+    </component>
+    <component type="RadioButton" text="Dangerous or Pernicious Acts" styles="alignment:center; margin:5.0mm inherit inherit inherit;" name="Radio_Button_3">
+    </component>
+    <component type="RadioButton" text="Spam or Misleading Content" styles="alignment:center; margin:5.0mm inherit inherit inherit;" name="Radio_Button_4">
+    </component>
+    <component type="TextArea" text="	" styles="margin:5.0mm inherit inherit inherit;" hint="Report description	" hintIcon="fontImage:e3c9" columns="8" name="Text_Area	">
+    </component>
+    <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  styles="alignment:center; margin:10.0mm inherit inherit inherit;" name="Box_Layout_X">
+      <component type="Button" text="Sumbit report" styles="margin:inherit 10.0mm inherit inherit;" name="sumbitReport" actionEvent="true">
+      </component>
+      <component type="Button" text="Cancel" name="cancelReport" actionEvent="true">
+      </component>
+    </component>
+  </component>
+</component>

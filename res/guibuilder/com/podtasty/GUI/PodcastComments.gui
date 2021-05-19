@@ -39,7 +39,7 @@
         </component>
       </component>
     </component>
-    <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  preferredSize="inherit 125.7409mm" name="commentsContainer">
+    <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  styles="bgColor:ffffff;" preferredSize="inherit 125.7409mm" name="commentsContainer">
     </component>
   </component>
 </component>

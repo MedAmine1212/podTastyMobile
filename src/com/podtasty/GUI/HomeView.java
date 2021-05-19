@@ -5,6 +5,7 @@
  */
 package com.podtasty.GUI;
 
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.gif.GifImage;
 import com.codename1.ui.Button;
 import static com.codename1.ui.CN.callSerially;
@@ -37,6 +38,7 @@ public class HomeView extends com.codename1.ui.Form {
     ArrayList<Podcast> podcasts;
     private Tag currentTag = new Tag();
     private static Favorites favView;
+    private static PodcastComments podView;
     private static MyProfile profileView;
     private static Login loginView;
     
@@ -50,6 +52,7 @@ public class HomeView extends com.codename1.ui.Form {
     
     public HomeView(com.codename1.ui.util.Resources resourceObjectInstance) {
         initGuiBuilderComponents(resourceObjectInstance);
+        
         this.setTitle("PodTasty");
         
             setTheSideBar();
@@ -100,6 +103,13 @@ public class HomeView extends com.codename1.ui.Form {
     
     public static Favorites geFavView() {
         return favView;
+    }
+    
+    public static PodcastComments getPodView() {
+        return podView;
+    }
+      public static void setPodView(PodcastComments view) {
+        podView = view;
     }
      public static void destroyFavViews() {
          favView = null;
@@ -227,7 +237,7 @@ public class HomeView extends com.codename1.ui.Form {
             this.refreshTheme();
         }
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_bigContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_tagsContainer = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));

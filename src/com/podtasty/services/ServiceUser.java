@@ -121,7 +121,9 @@ public class ServiceUser {
     public ArrayList<User> getUserById(int id) {
         String url = Statics.BASE_URL + "/mobile/getUserById/" + id;
         req.setUrl(url);
-        req.setPost(false);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -160,7 +162,9 @@ public class ServiceUser {
         
         String url = Statics.BASE_URL + "/mobile/login";
         req.setUrl(url);
-        req.setPost(true);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addArgument("mail", mail);
         req.addArgument("password", pass);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -190,7 +194,9 @@ public class ServiceUser {
     public ArrayList<UserInfo> getUserInfoById(int id) {
         String url = Statics.BASE_URL + "/mobile/getUserInfoById/" + id;
         req.setUrl(url);
-        req.setPost(false);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -209,7 +215,9 @@ public class ServiceUser {
     public boolean checkMailExist(String mail) {
         String url = Statics.BASE_URL + "/mobile/CheckMail";
         req.setUrl(url);
-        req.setPost(true);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addArgument("mail", mail);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -234,7 +242,9 @@ public class ServiceUser {
     public boolean RegisterUser(User u, UserInfo info) {
         String url = Statics.BASE_URL + "/mobile/addUser";
         req.setUrl(url);
-        req.setPost(true);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addArgument("email", u.getUserEmail());
         req.addArgument("password", u.getUserPassword());
         req.addArgument("firstname", info.getUserFirstName());
@@ -257,7 +267,9 @@ public class ServiceUser {
     public boolean ContinueReg(User u) {
         String url = Statics.BASE_URL + "/mobile/continueReg";
         req.setUrl(url);
-        req.setPost(true);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addArgument("id", u.getId().toString());
         req.addArgument("gender", u.getUserInfoIdId().getUserGender());
         req.addArgument("birthdate", u.getUserInfoIdId().getUserBirthDate());
@@ -280,7 +292,9 @@ public class ServiceUser {
     public int getfollowers(User u) {
         String url = Statics.BASE_URL + "/mobile/getFollowers";
         req.setUrl(url);
-        req.setPost(false);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addArgument("id", u.getId().toString());
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -306,7 +320,9 @@ public class ServiceUser {
     public int getfollowing(User u) {
         String url = Statics.BASE_URL + "/mobile/getFollowing";
         req.setUrl(url);
-        req.setPost(false);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addArgument("id", u.getId().toString());
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -324,7 +340,9 @@ public class ServiceUser {
     public boolean desactiveAccount(User u){
         String url = Statics.BASE_URL + "/mobile/desactiveAccount";
         req.setUrl(url);
-        req.setPost(true);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addArgument("id", u.getId().toString());
          req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -343,7 +361,9 @@ public class ServiceUser {
     public boolean updateProfile(int id,String fs,String ls,String bio){
         String url = Statics.BASE_URL + "/mobile/updateProfile";
         req.setUrl(url);
-        req.setPost(true);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         req.addArgument("id",String.valueOf(id));
         req.addArgument("firstanme", fs);
         req.addArgument("lastname", ls);
@@ -366,7 +386,9 @@ public class ServiceUser {
         String url = Statics.BASE_URL + "/mobile/updatePic";
         MultipartRequest request=new MultipartRequest();
         request.setUrl(url);
-        request.setPost(true);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
         try {
             request.addArgument("id", u.getId().toString());
             request.addData("myFile", path, "image/png");
@@ -385,6 +407,91 @@ public class ServiceUser {
         });
         NetworkManager.getInstance().addToQueue(request);
         return ok;
+    }
+    
+    public boolean follow (int idCurrent, int idOther){
+        String url = Statics.BASE_URL + "/mobile/follow";
+        req.setUrl(url);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
+        req.addArgument("idCurrent",String.valueOf(idCurrent));
+        req.addArgument("idOther", String.valueOf(idOther));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    if (req.getResponseCode() == 200) {
+                        ok = true;
+                    } else {
+                        ok = false;
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return ok;
+        
+    }
+    public boolean unfollow (int idCurrent, int idOther){
+        String url = Statics.BASE_URL + "/mobile/unfollow";
+        req.setUrl(url);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
+        req.addArgument("idCurrent",String.valueOf(idCurrent));
+        req.addArgument("idOther", String.valueOf(idOther));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    if (req.getResponseCode() == 200) {
+                        ok = true;
+                    } else {
+                        ok = false;
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return ok;
+        
+    }
+    
+    public boolean checkFollowed(int idCurrent, int idOther){
+        String url = Statics.BASE_URL + "/mobile/CheckFollowed";
+        req.setUrl(url);
+        try{
+         req.setPost(false);
+        }catch(Exception ex) {}
+        req.addArgument("idCurrent",String.valueOf(idCurrent));
+        req.addArgument("idOther", String.valueOf(idOther));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    if (req.getResponseCode() == 200) {
+                        ok = true;
+                    } else {
+                        ok = false;
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        System.out.println("response: "+ok);
+        return ok;
+        
+      
     }
     
 }

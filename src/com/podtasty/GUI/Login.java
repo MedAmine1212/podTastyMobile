@@ -46,7 +46,7 @@ private void backToHome() {
     HomeView.destroyFavViews();
     PodTasty.getHomeView().show();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_ImageContainer = new com.codename1.ui.Label();
     protected com.codename1.ui.TextField gui_Email = new com.codename1.ui.TextField();
@@ -123,7 +123,7 @@ private void backToHome() {
         gui_Label_1.setPreferredSizeStr("81.48148mm inherit");
         gui_Label_1.setText("You don't have an account");
                 gui_Label_1.setInlineStylesTheme(resourceObjectInstance);
-        gui_Label_1.setInlineAllStyles("font:4.0mm;");
+        gui_Label_1.setInlineAllStyles("font:4.0mm; alignment:center;");
         gui_Label_1.setName("Label_1");
         gui_ButtonReg.setPreferredSizeStr("81.216934mm inherit");
         gui_ButtonReg.setText("Register");

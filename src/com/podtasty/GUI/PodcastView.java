@@ -73,6 +73,7 @@ SimpleDateFormat simpleDateFormat;
         try {
             PodcastComments.setCurrentPodcast(pod);
             podCom = new PodcastComments();
+            HomeView.setPodView(podCom);
             podCom.show();
             podCom.setUpView(isFav);
         } catch (IOException | URISyntaxException ex) {
@@ -104,13 +105,35 @@ SimpleDateFormat simpleDateFormat;
              openPodcast();
          });
          gui_owner.addPointerPressedListener((e) ->{
-             // 7el Chaine
+             if (UserHolder.getInstance().getUser() != null) {
+                 if (Objects.equals(UserHolder.getInstance().getUser().getId(), channel.getUser().getId())){
+                 MyProfile pr;
+                     try {
+                         MyProfile.setIsCom(false);
+                         pr = new MyProfile();
+                        pr.show();
+                     } catch (URISyntaxException | IOException ex) {
+                         System.out.println(ex.getMessage());
+                     }
+             } else {
+                 showOther(channel.getUser().getId());
+                     
+                     }
+             } else {
+                 showOther(channel.getUser().getId());
+             }
          });
          gui_views.setText(pod.getPodcastViews()+" views");
         String date = simpleDateFormat.format(pod.getPodcastDate());  
          gui_date.setText(date);
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+    private void showOther(int id) {
+        
+             OtherProfile.setUserId(id, false);
+             OtherProfile pr = new OtherProfile();
+             pr.show();
+    }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Container gui_Box_Layout_Y = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Button gui_podcastImage = new com.codename1.ui.Button();
     protected com.codename1.ui.Container gui_Box_Layout_X = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
