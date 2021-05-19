@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import static com.codename1.ui.CN.* ;
 import com.codename1.ui.Display;
 import com.codename1.ui.events.ActionListener;
+import com.podtasty.entities.Playlist;
 
 
 /**
@@ -49,6 +50,8 @@ public class AddPodcast extends com.codename1.ui.Form {
     Image logo;
     String hi;
     String ext;
+    String fileName ;
+    public String imgpath;
     
     String podcastImage ;
     String podcastSource ;
@@ -204,21 +207,25 @@ public class AddPodcast extends com.codename1.ui.Form {
              Dialog.show("Alert" , "Please fill all the fields",new Command("OK"));
          }
          else {
+             InfiniteProgress ip = new InfiniteProgress();
+             final Dialog iDialog = ip.showInfiniteBlocking();
+             
              ServicePodcast sr = ServicePodcast.getInstance();
-             this.podcast.setPodcastName(gui_podcastname.getText());
-             this.podcast.setPodcastDescription(gui_poddesc.getText());
-             // this.podcast.setPodcastImage();
+             podcast.setPodcastName(gui_podcastname.getText());
+             podcast.setPodcastDescription(gui_poddesc.getText());
+             podcast.setPodcastImage(imgpath);
+             
+             Playlist p = new Playlist();
+             p.setId(1);
+             podcast.setPlaylistIdId(p);
+             // podcast.setPodcastImage();
              // this.podcast.setPodcastSource();
               //this.podcast.setPodcastImage();
              // this.podcast.setPodcastSource(podcastSource);
              sr.AjoutPodcast(podcast);
-             //InfiniteProgress ip = new InfiniteProgress();
-             //final Dialog iDialog = ip.showInfiniteBlocking();
+             iDialog.dispose();
+                          
              
-             // ServicePodcast sr = ServicePodcast.getInstance();
-             // Podcast podcast = new Podcast(gui_podcastname.getText(),gui_poddesc.getText(), podcastImage , podcastSource , gui_CBplaylist  );
-             // if (ServicePodcast.getInstance().AjoutPodcast(podcast));
-             // Pod.setPodcastName(gui_podcastname.getText());
              System.out.println("ajout mrigla");
          }
      }catch (Exception ex){
@@ -229,29 +236,80 @@ public class AddPodcast extends com.codename1.ui.Form {
 
 
     public void onBtnupaudioActionEvent(com.codename1.ui.events.ActionEvent ev) {
+        
          if (FileChooser.isAvailable()) {
-         FileChooser.showOpenDialog(".mp3, .WAV, mp3/plain", (ActionEvent e2)-> {
-        if (ev != null && ev.getSource() != null) {
-             String fileaudioPath  = (String)e2.getSource();
-         int fileNameIndex = fileaudioPath.lastIndexOf("/") + 1;
-         String fileaudioName = fileaudioPath.substring(fileNameIndex);
-
-        fileaudioPath  = null ;
-        ServicePodcast pod = new ServicePodcast();
-                       try {
-                        OutputStream os =  FileSystemStorage.getInstance().openOutputStream(fileaudioPath);  
-                            pod.podcastaudio( fileaudioPath, fileaudioName);
-                            podcast.setPodcastSource(fileaudioName);                 
-                   } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                
-        }
+                FileChooser.setOpenFilesInPlace(true);
+                FileChooser.showOpenDialog(multiSelect.isSelected(), ".mp3, .WAV, .mp3/plain", (ActionEvent e2) -> {
+                  String fileaudiopath = (String) e2.getSource();
+                  ServicePodcast pod = new ServicePodcast();        
+                    if (fileaudiopath == null) {
+                        add("No file was selected");
+                        revalidate();
+                    } else {
+			String extension = null;
+                        fileaudiopath = null;
+                        if (fileaudiopath.lastIndexOf(".") > 0) {
+               extension = fileaudiopath.substring(fileaudiopath.lastIndexOf(".")+1);
+           }
+                        if ("mp3".equals(extension)) {
+               FileSystemStorage fs = FileSystemStorage.getInstance();
+               try {
+                   OutputStream fis = fs.openOutputStream(fileaudiopath);
+                  // addComponent(new SpanLabel(Util.readToString(fis)));
+                  //podcast.setPodcastSource(podcastSource);
+               } catch (Exception ex) {
+                   Log.e(ex);
+               }
+           }// else {
+              // add("Selected file "+file);
               
-         });
-                 }
-                 
+                      pod.podcastaudio(fileaudiopath, extension);
+                       podcast.setPodcastSource(fileaudiopath);
+           }
+        
+        revalidate();
+    });
+                      /*  try (OutputStream os = FileSystemStorage.getInstance().openOutputStream(imageFile)) {
+                            System.out.println(imageFile);
+                            ImageIO.getImageIO().save(logo, os, ImageIO.FORMAT_PNG, 1);
+                        } catch (IOException err) {
+                        }
+
+                        String extension = null;
+                        if (file.lastIndexOf(".") > 0) {
+                            extension = file.substring(file.lastIndexOf(".") + 1);
+                            StringBuilder hi = new StringBuilder(file);
+                            if (file.startsWith("file://")) {
+                                hi.delete(0, 7);
+                            }
+                            int lastIndexPeriod = hi.toString().lastIndexOf(".");
+                            Log.p(hi.toString());
+                            String ext = hi.toString().substring(lastIndexPeriod);
+                            String hmore = hi.toString().substring(0, lastIndexPeriod - 1);
+                            try {
+                                String namePic = saveFileToDevice(file, ext);
+                                System.out.println(namePic);
+                            } catch (IOException ex) {
+                            }
+
+                            revalidate();
+
+                        
+                    }
+                    }
+                        });
+            }*/
+                }
     }
+        
+        
+        
+        
+        
+        
+
+                 
+   
                
         
     
@@ -269,8 +327,7 @@ public class AddPodcast extends com.codename1.ui.Form {
 
                     Image img = null;
                     ServicePodcast pod = new ServicePodcast();
-                    //UserHolder holder = UserHolder.getInstance();
-
+                  
                     try {
                        img  = Image.createImage(FileSystemStorage.getInstance().openInputStream(filePath));  
                         
