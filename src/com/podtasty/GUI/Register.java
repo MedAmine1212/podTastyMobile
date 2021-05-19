@@ -9,6 +9,7 @@ import com.codename1.ui.Display;
 import com.codename1.ui.Image;
 import static com.codename1.ui.TextArea.PASSWORD;
 import com.podtasty.entities.User;
+import com.podtasty.entities.UserHolder;
 import com.podtasty.entities.UserInfo;
 import com.podtasty.services.ServiceUser;
 import java.io.IOException;
@@ -30,11 +31,14 @@ public class Register extends com.codename1.ui.Form {
         InputStream in = Display.getInstance().getResourceAsStream(null, "/logo.png");
         Image logo = Image.createImage(in);
         this.gui_ImageContainer.setIcon(logo);
+        this.gui_PWInput.setConstraint(PASSWORD);
+        this.gui_CPWInput.setConstraint(PASSWORD);
+        
         //    this.gui_PasswordInput.setConstraint(PASSWORD);
 
     }
 
-////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_ImageContainer = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_emaillabel = new com.codename1.ui.Label();
@@ -48,12 +52,14 @@ public class Register extends com.codename1.ui.Form {
     protected com.codename1.ui.Label gui_ConfirmPasswordLabel = new com.codename1.ui.Label();
     protected com.codename1.ui.TextField gui_CPWInput = new com.codename1.ui.TextField();
     protected com.codename1.ui.Button gui_RegisterBtn = new com.codename1.ui.Button();
+    protected com.codename1.ui.Button gui_Backtologinbtn = new com.codename1.ui.Button();
 
 
 // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void guiBuilderBindComponentListeners() {
         EventCallbackClass callback = new EventCallbackClass();
         gui_RegisterBtn.addActionListener(callback);
+        gui_Backtologinbtn.addActionListener(callback);
     }
 
     class EventCallbackClass implements com.codename1.ui.events.ActionListener, com.codename1.ui.events.DataChangedListener {
@@ -74,6 +80,9 @@ public class Register extends com.codename1.ui.Form {
 
             if(sourceComponent == gui_RegisterBtn) {
                 onRegisterBtnActionEvent(ev);
+            }
+            if(sourceComponent == gui_Backtologinbtn) {
+                onBacktologinbtnActionEvent(ev);
             }
         }
 
@@ -135,6 +144,10 @@ public class Register extends com.codename1.ui.Form {
                 gui_RegisterBtn.setInlineStylesTheme(resourceObjectInstance);
         gui_RegisterBtn.setName("RegisterBtn");
         com.codename1.ui.FontImage.setMaterialIcon(gui_RegisterBtn,"\ue163".charAt(0));
+        gui_Backtologinbtn.setText("Back to login");
+                gui_Backtologinbtn.setInlineStylesTheme(resourceObjectInstance);
+        gui_Backtologinbtn.setName("Backtologinbtn");
+        com.codename1.ui.FontImage.setMaterialIcon(gui_Backtologinbtn,"\ue5c4".charAt(0));
         addComponent(gui_Label);
         addComponent(gui_ImageContainer);
         addComponent(gui_emaillabel);
@@ -148,6 +161,7 @@ public class Register extends com.codename1.ui.Form {
         addComponent(gui_ConfirmPasswordLabel);
         addComponent(gui_CPWInput);
         addComponent(gui_RegisterBtn);
+        addComponent(gui_Backtologinbtn);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Label.getParent().getLayout()).setInsets(gui_Label, "0.0mm 10.0% auto 10.0%").setReferenceComponents(gui_Label, "-1 -1 -1 -1").setReferencePositions(gui_Label, "0.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_ImageContainer.getParent().getLayout()).setInsets(gui_ImageContainer, "0.0mm auto auto auto").setReferenceComponents(gui_ImageContainer, "0 -1 -1 -1").setReferencePositions(gui_ImageContainer, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_emaillabel.getParent().getLayout()).setInsets(gui_emaillabel, "0.0mm auto auto auto").setReferenceComponents(gui_emaillabel, "1 -1 -1 -1").setReferencePositions(gui_emaillabel, "1.0 0.0 0.0 0.0");
@@ -160,7 +174,8 @@ public class Register extends com.codename1.ui.Form {
         ((com.codename1.ui.layouts.LayeredLayout)gui_PWInput.getParent().getLayout()).setInsets(gui_PWInput, "0.0mm auto auto 0.0mm").setReferenceComponents(gui_PWInput, "8 -1 -1 3 ").setReferencePositions(gui_PWInput, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_ConfirmPasswordLabel.getParent().getLayout()).setInsets(gui_ConfirmPasswordLabel, "0.0mm auto auto 0.0mm").setReferenceComponents(gui_ConfirmPasswordLabel, "9 -1 -1 2 ").setReferencePositions(gui_ConfirmPasswordLabel, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_CPWInput.getParent().getLayout()).setInsets(gui_CPWInput, "0.0mm auto auto auto").setReferenceComponents(gui_CPWInput, "10 -1 -1 -1").setReferencePositions(gui_CPWInput, "1.0 0.0 0.0 0.0");
-        ((com.codename1.ui.layouts.LayeredLayout)gui_RegisterBtn.getParent().getLayout()).setInsets(gui_RegisterBtn, "0.0mm auto auto 0.0mm").setReferenceComponents(gui_RegisterBtn, "11 -1 -1 2 ").setReferencePositions(gui_RegisterBtn, "1.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_RegisterBtn.getParent().getLayout()).setInsets(gui_RegisterBtn, "2.1164021mm auto auto 0.0mm").setReferenceComponents(gui_RegisterBtn, "11 -1 -1 4 ").setReferencePositions(gui_RegisterBtn, "1.0 0.0 0.0 1.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Backtologinbtn.getParent().getLayout()).setInsets(gui_Backtologinbtn, "0.0mm auto auto 1.3227539mm").setReferenceComponents(gui_Backtologinbtn, "12 -1 -1 3 ").setReferencePositions(gui_Backtologinbtn, "0.0 0.0 0.0 0.0");
     }// </editor-fold>
 
 //-- DON'T EDIT ABOVE THIS LINE!!!
@@ -186,10 +201,13 @@ public class Register extends com.codename1.ui.Form {
                 info.setUserFirstName(this.gui_FSInput.getText());
                 info.setUserLastName(this.gui_LSInput.getText());
                 su.RegisterUser(user, info);
-                /* if(su.RegisterUser(user, info))
+                 if(su.RegisterUser(user, info))
             {
-                
-            }*/
+                User currentuser = su.getUserByMail(user.getUserEmail()).get(0);
+                UserHolder holder = UserHolder.getInstance();
+                holder.setUser(currentuser);
+                new ContinueReg().show();                
+            }
             } else {
                 this.gui_emaillabel.setText("Email : Already Exist");
             }
@@ -211,4 +229,12 @@ public class Register extends com.codename1.ui.Form {
         
     }
     
+    public void onBacktologinbtnActionEvent(com.codename1.ui.events.ActionEvent ev) {
+        try {
+            new Login().show();
+        } catch (IOException ex) {
+            System.out.print(ex);
+        }
+    }
+
 }

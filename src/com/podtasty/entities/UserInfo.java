@@ -19,7 +19,7 @@ public class UserInfo {
     private String userFirstName;
     private String userImage;
     private String userGender;
-    private Date userBirthDate;
+    private String userBirthDate;
     private String userBio;
     private Collection<UserInfo> Followers;
     private Collection<UserInfo> Following;
@@ -32,7 +32,7 @@ public class UserInfo {
         this.id = id;
     }
 
-    public UserInfo(Integer id, String userLastName, String userFirstName, String userGender, Date userBirthDate) {
+    public UserInfo(Integer id, String userLastName, String userFirstName, String userGender, String userBirthDate) {
         this.id = id;
         this.userLastName = userLastName;
         this.userFirstName = userFirstName;
@@ -80,11 +80,11 @@ public class UserInfo {
         this.userGender = userGender;
     }
 
-    public Date getUserBirthDate() {
+    public String getUserBirthDate() {
         return userBirthDate;
     }
 
-    public void setUserBirthDate(Date userBirthDate) {
+    public void setUserBirthDate(String userBirthDate) {
         this.userBirthDate = userBirthDate;
     }
 
