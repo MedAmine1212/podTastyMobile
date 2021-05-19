@@ -14,10 +14,10 @@ import java.util.Date;
  */
 public class Channel {
 
-     private Integer id;
-      private String channelName;
+    private Integer id;
+    private String channelName;
     private String channelDescription;
-    private Date channelCreationDate;
+    private String channelCreationDate;
     private int channelStatus;
     private Collection<User> userCollection;
     private Collection<Playlist> playlistCollection;
@@ -30,9 +30,12 @@ public class Channel {
         this.id = id;
     }
 
-    
+    public Channel(String channelName, String channelDescription) {
+        this.channelName = channelName;
+        this.channelDescription = channelDescription;
+    }
 
-    public Channel(Integer id, String channelName, String channelDescription, Date channelCreationDate, int channelStatus, Collection<Playlist> playlistCollection) {
+    public Channel(Integer id, String channelName, String channelDescription, String channelCreationDate, int channelStatus, Collection<Playlist> playlistCollection) {
         this.id = id;
         this.channelName = channelName;
         this.channelDescription = channelDescription;
@@ -41,7 +44,7 @@ public class Channel {
         this.playlistCollection = playlistCollection;
     }
 
-    public Channel(Integer id, String channelName, String channelDescription, Date channelCreationDate, int channelStatus) {
+    public Channel(Integer id, String channelName, String channelDescription, String channelCreationDate, int channelStatus) {
         this.id = id;
         this.channelName = channelName;
         this.channelDescription = channelDescription;
@@ -73,11 +76,11 @@ public class Channel {
         this.channelDescription = channelDescription;
     }
 
-    public Date getChannel_CreationDate() {
+    public String getChannel_CreationDate() {
         return channelCreationDate;
     }
 
-    public void setChannel_CreationDate(Date channelCreationDate) {
+    public void setChannel_CreationDate(String channelCreationDate) {
         this.channelCreationDate = channelCreationDate;
     }
 
@@ -138,6 +141,4 @@ public class Channel {
         return "Channel{" + "id=" + id + ", channelName=" + channelName + ", channelDescription=" + channelDescription + ", channelCreationDate=" + channelCreationDate + ", channelStatus=" + channelStatus + ", userCollection=" + userCollection + ", playlistCollection=" + playlistCollection + ", user=" + user + '}';
     }
 
-   
-    
 }

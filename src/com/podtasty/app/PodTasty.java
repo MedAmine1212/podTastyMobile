@@ -7,7 +7,11 @@ import com.codename1.ui.Dialog;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.Toolbar;
+import com.podtasty.GUI.AllChannels;
+import com.podtasty.GUI.Menu;
+import com.podtasty.GUI.MyChannel;
 import com.podtasty.GUI.PodcastComments;
+import com.podtasty.GUI.addChannel;
 import com.podtasty.GUI.addPlaylist;
 
 /**
@@ -44,7 +48,7 @@ public class PodTasty {
     
     public void start() {
         
-        new addPlaylist().show();
+        new Menu().show();
        
     }
 

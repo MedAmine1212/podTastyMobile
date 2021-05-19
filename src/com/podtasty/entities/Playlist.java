@@ -17,16 +17,16 @@ public class Playlist {
    private Integer id;
     private String playlistName;
     private String playlistDescription;
-    private Date playlistCreationDate;
+    private String playlistCreationDate;
     private String imageName;
     private Date updatedAt;
-    private Channel channelIdId;
+    private int channelIdId;
     private Collection<Podcast> podcastCollection;
 
     
     
     
-    public Playlist(Integer id, String playlistName, String playlistDescription, Date playlistCreationDate) {
+    public Playlist(Integer id, String playlistName, String playlistDescription, String playlistCreationDate) {
         this.id = id;
         this.playlistName = playlistName;
         this.playlistDescription = playlistDescription;
@@ -72,11 +72,11 @@ public class Playlist {
         this.playlistDescription = playlistDescription;
     }
 
-    public Date getPlaylistCreationDate() {
+    public String getPlaylistCreationDate() {
         return playlistCreationDate;
     }
 
-    public void setPlaylistCreationDate(Date playlistCreationDate) {
+    public void setPlaylistCreationDate(String playlistCreationDate) {
         this.playlistCreationDate = playlistCreationDate;
     }
 
@@ -96,11 +96,11 @@ public class Playlist {
         this.updatedAt = updatedAt;
     }
 
-    public Channel getChannelIdId() {
+    public int getChannelIdId() {
         return channelIdId;
     }
 
-    public void setChannelIdId(Channel channelIdId) {
+    public void setChannelIdId(int channelIdId) {
         this.channelIdId = channelIdId;
     }
 
