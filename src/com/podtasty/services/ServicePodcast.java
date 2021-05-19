@@ -8,6 +8,7 @@ package com.podtasty.services;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
+import com.codename1.io.MultipartRequest;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
@@ -62,7 +63,7 @@ public class ServicePodcast {
     //initialisation connection request
     private ConnectionRequest req;
     
-     private ServicePodcast() {
+     public ServicePodcast() {
          req = new ConnectionRequest();
     }
 
@@ -72,7 +73,7 @@ public class ServicePodcast {
         }
         return instance;
     }
-   /* public Podcast parsePodcast(String jsonText) throws IOException, ParseException{
+    /*public Podcast parsePodcast(String jsonText) throws IOException, ParseException{
         Podcast pod = new Podcast();
          JSONParser j = new JSONParser();
         Map<String,Object> podcastJSON = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
@@ -132,9 +133,9 @@ public class ServicePodcast {
                 float views = Float.parseFloat(obj.get("PodcastViews").toString());
                 pod.setPodcastViews((int)views);
                 pod.setPodcastImage(obj.get("PodcastImage").toString());
-                pod.setPlaylistIdId(ServicePlaylist.getInstance().parsePlaylist((Map<String,Object>)obj.get("PlaylistId")));
-                pod.setPodcastReviewCollection(ServicePodcastReview.getInstance().parseReviews((ArrayList<Map<String,Object>>)obj.get("ReviewList")));
-                pod.setTagCollection(ServiceTag.getInstance().parseTags((ArrayList<Map<String,Object>>)obj.get("tagsList")));
+                //pod.setPlaylistIdId(ServicePlaylist.getInstance().parsePlaylist((Map<String,Object>)obj.get("PlaylistId")));
+                //pod.setPodcastReviewCollection(ServicePodcastReview.getInstance().parseReviews((ArrayList<Map<String,Object>>)obj.get("ReviewList")));
+                //pod.setTagCollection(ServiceTag.getInstance().parseTags((ArrayList<Map<String,Object>>)obj.get("tagsList")));
                 pod.setPodcastSource(obj.get("PodcastSource").toString());
                 podcasts.add(pod);
               }
@@ -156,10 +157,10 @@ public class ServicePodcast {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 try {
-                    podcast = parsePodcast(new String(req.getResponseData()));
-                } catch (ParseException | IOException ex) {
-                    System.out.println("getPod ex: "+ex.getMessage());
-                }
+                podcasts = parsePodcasts(new String(req.getResponseData()));
+            } catch (IOException | ParseException ex) {
+                System.out.println(ex.getMessage());
+            }
                 req.removeResponseListener(this);
             }
         });
@@ -171,24 +172,15 @@ public class ServicePodcast {
     //ArrayList<Podcast> = parsePodcasts(new String(req.getgetResponseData()))
     
     public boolean AjoutPodcast (Podcast podcast){
-//        String url = Statics.BASE_URL+"/mobile/AddPodcast?podcastName"+podcast.getPodcastName()+"podcastDescription"+podcast.getPodcastDescription()+"podcastImage"+podcast.getPodcastImage()+"podcastSource"+podcast.getPodcastSource();
-//        
-//        req.setUrl(url);
-//        req.addResponseListener((e) -> {
-//            String str = new String(req.getResponseData());
-//            System.out.println("data == "+str);
-//    });
-//        NetworkManager.getInstance().addToQueueAndWait(req);
-
         String utl = Statics.BASE_URL + "/AddPodcast";
         req.setUrl(utl);
         req.setPost(true);
-        req.addArgument("podcastName", podcast.getPodcastName());
-        req.addArgument("podcastDescription", podcast.getPodcastDescription());
-        //req.addArgument("podcastDate", podcast.getPodcastDate().toString());
+        req.addArgument("PodcastName", podcast.getPodcastName());
+        req.addArgument("PodcastDescription", podcast.getPodcastDescription());
+        req.addArgument("podcastDate", podcast.getPodcastDate().toString());
         req.addArgument("podcastImage", podcast.getPodcastImage());
         req.addArgument("podcastSource", podcast.getPodcastSource());
-     //   req.addArgument("playlistIdId", podcast.getPlaylistIdId().getId().toString());
+        req.addArgument("playlistIdId", podcast.getPlaylistIdId().getId().toString());
         
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -200,13 +192,9 @@ public class ServicePodcast {
                 NetworkManager.getInstance().addToQueueAndWait(req);
                 return resultOK;
 
-        
-    }
+      }
     
-    
-    
-    
-  /*  public ArrayList<Podcast>getPodcasts() {
+    public ArrayList<Podcast>getPodcasts() {
         podcasts = new ArrayList<>();
         
         String url = Statics.BASE_URL+ "/getPodcast";
@@ -215,26 +203,25 @@ public class ServicePodcast {
             
                 @Override
                 public void actionPerformed(NetworkEvent evt) {
-                    try {
-                    podcasts = parsePodcast(new String(req.getResponseData()));
-                } catch (ParseException ex) {
-                    System.out.println(ex.getMessage());
-                }
-                req.removeResponseListener(this);
-                    /*try {
-                        podcasts = Parsepodcast(new String(req.getResponseData()));
-                    }catch (ParseException ex){
-                        System.out.println(ex.getMessage());
-                    }*/
-                    
-                /*req.removeResponseListener(this);
+            try {
+                podcasts = parsePodcasts(new String(req.getResponseData()));
+            } catch (IOException | ParseException ex) {
+                System.out.println(ex.getMessage());
+            }
+            
+            req.removeResponseListener(this);
             }
         });
         
         NetworkManager.getInstance().addToQueueAndWait(req);
         return podcasts;
         
-    }*/
+    }
+    
+    
+    
+    
+        
     
     public ArrayList<Podcast>affichePodcast() {
         ArrayList<Podcast> result = new ArrayList<>();
@@ -273,6 +260,54 @@ public class ServicePodcast {
                 return result;
 
 }
+    
+     public boolean podcastaudio( String pathaudio,  String nameaudio ) {
+        String url = Statics.BASE_URL + "/insertaudio";
+        MultipartRequest request=new MultipartRequest();
+        request.setUrl(url);
+        request.setPost(true);
+         try {
+            //request.addArgument("id", pod.getId().toString());
+            request.addData("myaudio", pathaudio, "audio/mp3");
+            request.setFilename("AUDIOUpload", nameaudio);
+        } catch (IOException ex) {
+            System.out.print(ex);
+        }
+        request.setPriority(ConnectionRequest.PRIORITY_CRITICAL);
+        request.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+            }
+        });
+        NetworkManager.getInstance().addToQueue(request);
+        return resultOK;
+    }
+   
+    
+    
+   public boolean podcastimg( String path,  String name ) {
+        String url = Statics.BASE_URL + "/insertimg";
+        MultipartRequest request=new MultipartRequest();
+        request.setUrl(url);
+        request.setPost(true);
+        try {
+           // request.addArgument("id", pod.getId().toString());
+            request.addData("myimg", path, "image/png");
+            request.setFilename("IMGUpload", name);
+        } catch (IOException ex) {
+            System.out.print(ex);
+        }       
+        request.setPriority(ConnectionRequest.PRIORITY_CRITICAL);
+        request.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+            }
+        });
+        NetworkManager.getInstance().addToQueue(request);
+        return resultOK;
+    }
     
     
     public boolean deletePodcast(int id) {
