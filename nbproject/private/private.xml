@@ -5,12 +5,24 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/utils/Statics.java</file>
-            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/PodcastComments.java</file>
-            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/Favorites.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/CommentView.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/services/ServiceChannel.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/ContinueReg.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/HomeView.java</file>
-            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/services/LoadImage.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/Favorites.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/services/ServicePodcastComment.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/Register.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/MyProfile.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/Login.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/PodcastComments.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/UpdateProfile.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/ProfileSettings.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/services/ServicePodcastReview.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/services/ServicePodcast.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/entities/UserHolder.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/app/PodTasty.java</file>
             <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/GUI/PodcastView.java</file>
+            <file>file:/C:/Users/khail/Documents/NetBeansProjects/PodTastyMobile/src/com/podtasty/services/ServiceUser.java</file>
         </group>
     </open-files>
 </project-private>
