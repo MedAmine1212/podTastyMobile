@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="BoxLayout" boxLayoutAxis="Y"  title="addPlaylist" scrollableY="false" name="addPlaylist">
+  <component type="Label" text="Add new Playlist" styles="alignment:center;" name="Label">
+  </component>
+  <component type="TextField" hint="Playlist Name" name="playlistName">
+  </component>
+  <component type="TextField" hint="Playlist Description" name="playlistDescription">
+  </component>
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  name="Container">
+    <component type="Button" text="Upload Cover" pressedIcon="fontImage:e439" name="btnUpload" actionEvent="true">
+    </component>
+  </component>
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  styles="transparency:0;" name="Container_1">
+    <component type="Button" text="Create" name="btnAdd" actionEvent="true">
+    </component>
+    <component type="Button" text="Cancel" name="btnCancel" actionEvent="true">
+    </component>
+  </component>
+  <component type="ImageViewer" name="cover">
+  </component>
+</component>

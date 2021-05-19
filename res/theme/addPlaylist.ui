@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="addPlaylist" cloudDestinationProperty="addPlaylist" layout="BoxLayout" boxLayoutAxis="Y" >
+  <component type="Label" name="Label" cloudDestinationProperty="Label" text="Add a new Playlist" verticalAlignment="4" textPosition="0" >
+  </component>
+  <component type="TextField" name="playlistName" cloudBoundProperty="text" cloudDestinationProperty="playlistName" text="" hint="Playlist Name" >
+  </component>
+  <component type="TextField" name="playlistDescription" cloudBoundProperty="text" cloudDestinationProperty="playlistDescription" text="" hint="Playlist Description" >
+  </component>
+  <component type="Container" name="Container" cloudDestinationProperty="Container" layout="BoxLayout" boxLayoutAxis="Y" >
+  </component>
+  <component type="Button" name="btnImage" cloudDestinationProperty="Button" text="Upload cover" >
+  </component>
+  <component type="Container" name="Container1" cloudDestinationProperty="Container1" rtl="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+  </component>
+  <component type="Button" name="btnAdd" cloudDestinationProperty="Button1" text="Create" verticalAlignment="4" >
+  </component>
+  <component type="Button" name="btnReturn" cloudDestinationProperty="Button2" text="Return" >
+  </component>
+</component>
