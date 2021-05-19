@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="HomeView" scrollableY="true" name="HomeView">
-  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  preferredSize="51.22777mm 121.29551mm" scrollableY="false" name="bigContainer">
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  preferredSize="71.97291mm 121.29551mm" scrollableY="false" name="bigContainer">
     <layoutConstraint insets="5.0mm 1.0mm 5.0mm 1.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
     <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  scrollableX="true" name="tagsContainer">
     </component>
@@ -13,7 +13,7 @@
     </component>
     <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  preferredSize="98.01016mm 0.0mm" scrollableY="true" name="podcastContainer">
     </component>
-    <component type="ImageViewer" name="loadingImg">
+    <component type="ImageViewer" preferredSize="28.154106mm 22.438612mm" name="loadingImg">
     </component>
   </component>
 </component>
