@@ -224,9 +224,10 @@ public class AddPodcast extends com.codename1.ui.Form {
              // this.podcast.setPodcastSource(podcastSource);
              sr.AjoutPodcast(podcast);
              iDialog.dispose();
+             refreshTheme();
                           
              
-             System.out.println("ajout mrigla");
+              Dialog.show("Alert" , " Podcast added successfully ",new Command("OK"));
          }
      }catch (Exception ex){
           ex.printStackTrace();
@@ -241,13 +242,14 @@ public class AddPodcast extends com.codename1.ui.Form {
                 FileChooser.setOpenFilesInPlace(true);
                 FileChooser.showOpenDialog(multiSelect.isSelected(), ".mp3, .WAV, .mp3/plain", (ActionEvent e2) -> {
                   String fileaudiopath = (String) e2.getSource();
+                  int fileNameIndex = fileaudiopath.lastIndexOf("/") + 1;
+                    String fileaudioName = fileaudiopath.substring(fileNameIndex);
                   ServicePodcast pod = new ServicePodcast();        
                     if (fileaudiopath == null) {
                         add("No file was selected");
                         revalidate();
                     } else {
 			String extension = null;
-                        fileaudiopath = null;
                         if (fileaudiopath.lastIndexOf(".") > 0) {
                extension = fileaudiopath.substring(fileaudiopath.lastIndexOf(".")+1);
            }
@@ -255,16 +257,20 @@ public class AddPodcast extends com.codename1.ui.Form {
                FileSystemStorage fs = FileSystemStorage.getInstance();
                try {
                    OutputStream fis = fs.openOutputStream(fileaudiopath);
+                   
                   // addComponent(new SpanLabel(Util.readToString(fis)));
                   //podcast.setPodcastSource(podcastSource);
                } catch (Exception ex) {
                    Log.e(ex);
                }
+               System.out.println("bbbbbbbbb"+fileaudiopath);
+               System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaa"+fileaudioName);
+               System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaa"+extension);
            }// else {
               // add("Selected file "+file);
               
-                      pod.podcastaudio(fileaudiopath, extension);
-                       podcast.setPodcastSource(fileaudiopath);
+                       pod.podcastaudio(fileaudiopath, fileaudioName ,extension);
+                      
            }
         
         revalidate();
@@ -332,11 +338,13 @@ public class AddPodcast extends com.codename1.ui.Form {
                        img  = Image.createImage(FileSystemStorage.getInstance().openInputStream(filePath));  
                         
                        pod.podcastimg( filePath, fileName);
-                       podcast.setPodcastImage(fileName);
+                       
                                                
                    } catch (IOException e) {
                         e.printStackTrace();
                     }
+               System.out.println(fileName);
+               System.out.println(filePath);
 
                     // Do something, add to List
                 }
