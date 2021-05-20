@@ -57,7 +57,7 @@ public class AddRec extends com.codename1.ui.Form {
         
     }
 
-//////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_Label_1 = new com.codename1.ui.Label();
     protected com.codename1.ui.RadioButton gui_Radio_Button = new com.codename1.ui.RadioButton();
@@ -164,7 +164,7 @@ public class AddRec extends com.codename1.ui.Form {
         addComponent(gui_Text_Area);
         addComponent(gui_Button);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Label.getParent().getLayout()).setInsets(gui_Label, "5.0mm 5.0mm 93.0% 5.0mm").setReferenceComponents(gui_Label, "-1 -1 -1 -1").setReferencePositions(gui_Label, "0.0 0.0 0.0 0.0");
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Label_1.getParent().getLayout()).setInsets(gui_Label_1, "1.061007% 0.0mm auto 0.0mm").setReferenceComponents(gui_Label_1, "0 0 -1 0 ").setReferencePositions(gui_Label_1, "1.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Label_1.getParent().getLayout()).setInsets(gui_Label_1, "1.4817951mm 0.0mm auto 0.0mm").setReferenceComponents(gui_Label_1, "0 0 -1 0 ").setReferencePositions(gui_Label_1, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_Radio_Button.getParent().getLayout()).setInsets(gui_Radio_Button, "4.831625% 0.0mm auto 0.0mm").setReferenceComponents(gui_Radio_Button, "1 0 -1 0 ").setReferencePositions(gui_Radio_Button, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_Radio_Button_1.getParent().getLayout()).setInsets(gui_Radio_Button_1, "11.638723% 0.0mm auto 0.0mm").setReferenceComponents(gui_Radio_Button_1, "1 0 -1 0 ").setReferencePositions(gui_Radio_Button_1, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_Radio_Button_2.getParent().getLayout()).setInsets(gui_Radio_Button_2, "19.59937% 0.0mm auto 0.0mm").setReferenceComponents(gui_Radio_Button_2, "1 0 -1 0 ").setReferencePositions(gui_Radio_Button_2, "1.0 0.0 0.0 0.0");
@@ -194,8 +194,8 @@ public class AddRec extends com.codename1.ui.Form {
           report.setDescription(gui_Text_Area.getText());
 
              Podcast pod = new Podcast();
-          pod.setId(10);
-                    User usr = new User();
+             pod.setId(10);
+            User usr = new User();
             usr.setId(1);
 
             report.setPodcastIdId(pod);
