@@ -54,15 +54,17 @@ public class ServicePodcast {
 //    }
      public Podcast podcast;
     public ArrayList<Podcast> podcasts;
-    
+    String audioname;
+    String imgname;
     //singelton
     private static ServicePodcast instance=null;
     
     public boolean resultOK;
     
     //initialisation connection request
-    private ConnectionRequest req;
-    
+    private ConnectionRequest req ;
+            
+                
      public ServicePodcast() {
          req = new ConnectionRequest();
     }
@@ -178,8 +180,8 @@ public class ServicePodcast {
         req.addArgument("PodcastName", podcast.getPodcastName());
         req.addArgument("PodcastDescription", podcast.getPodcastDescription());
         //req.addArgument("podcastDate", podcast.getPodcastDate().toString());
-        req.addArgument("podcastImage", podcast.getPodcastImage());
-        req.addArgument("podcastSource", podcast.getPodcastSource());
+        req.addArgument("podcastImage",imgname);
+        req.addArgument("podcastSource",audioname);
         req.addArgument("playlistIdId", podcast.getPlaylistIdId().getId().toString());
         
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -261,15 +263,18 @@ public class ServicePodcast {
 
 }
     
-     public boolean podcastaudio( String pathaudio,  String nameaudio ) {
-        String url = Statics.BASE_URL + "/insertaudio";
+     public boolean podcastaudio( String pathaudio,  String nameaudio , String ext ) {
+       // String name = null ;
+         String url = Statics.BASE_URL + "/insertaudio";
         MultipartRequest request=new MultipartRequest();
         request.setUrl(url);
         request.setPost(true);
          try {
             //request.addArgument("id", pod.getId().toString());
+            //request.addData("myaudio", pathaudio, "audio/mp3");
             request.addData("myaudio", pathaudio, "audio/mp3");
-            request.setFilename("AUDIOUpload", nameaudio);
+            request.setFilename("fileUpload", nameaudio);
+            request.addArgument("extension", ext);
         } catch (IOException ex) {
             System.out.print(ex);
         }
@@ -278,9 +283,14 @@ public class ServicePodcast {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 resultOK = req.getResponseCode() == 200;
+               //if (resultOK){
+                    //audioname = new String(req.getResponseData()); 
+             //  }
             }
         });
         NetworkManager.getInstance().addToQueue(request);
+         System.out.println("EMCHI NIK OMEK" + nameaudio);
+         System.out.println("EMCHI NIK OMEK !!!!!!!!!!!!!!!!!!!" + pathaudio);
         return resultOK;
     }
    
@@ -303,9 +313,14 @@ public class ServicePodcast {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 resultOK = req.getResponseCode() == 200;
+                if (resultOK){
+                    imgname = new String(req.getResponseData()); 
+                }
             }
         });
         NetworkManager.getInstance().addToQueue(request);
+        System.out.println("EMCHI Nayek !!!!!!!!!!!" + name);
+         System.out.println("!!!!!!!!!!!!!!!!!!!" + path);
         return resultOK;
     }
     
