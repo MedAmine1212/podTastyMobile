@@ -38,7 +38,7 @@ public class UpdateProfile extends com.codename1.ui.Form {
         this.gui_LNInput.setText(u.getUserInfoIdId().getUserLastName());
     }
 
-//////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_FNLabel = new com.codename1.ui.Label();
     protected com.codename1.ui.TextField gui_FNInput = new com.codename1.ui.TextField();

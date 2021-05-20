@@ -57,7 +57,6 @@ public class ServiceUser {
             User user = parseUser(obj);
             users.add(user);
         }
-        
         return users;
     }
     
@@ -99,8 +98,7 @@ public class ServiceUser {
         userInfo.setUserLastName(obj.get("UserLastName").toString());
         if (obj.get("UserImage") != null) {
             userInfo.setUserImage(obj.get("UserImage").toString());
-            userInfo.setUserGender(obj.get("UserGender").toString());
-            
+            userInfo.setUserGender(obj.get("UserGender").toString()); 
         }
         if (obj.get("UserBio") != null) {
             userInfo.setUserBio(obj.get("UserBio").toString());
@@ -110,7 +108,6 @@ public class ServiceUser {
             System.out.print(obj.get("UserBirthDate").toString());
             String date1 = obj.get("UserBirthDate").toString().substring(0, 10);
             userInfo.setUserBirthDate(date1);
-            
         }
         
         return userInfo;
@@ -134,7 +131,83 @@ public class ServiceUser {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return users;
     }
+    public boolean follow (int idCurrent, int idOther){
+        String url = Statics.BASE_URL + "/follow";
+        req.setUrl(url);
+        req.setPost(true);
+        req.addArgument("idCurrent",String.valueOf(idCurrent));
+        req.addArgument("idOther", String.valueOf(idOther));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    if (req.getResponseCode() == 200) {
+                        ok = true;
+                    } else {
+                        ok = false;
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return ok;
+        
+    }
+    public boolean unfollow (int idCurrent, int idOther){
+        String url = Statics.BASE_URL + "/unfollow";
+        req.setUrl(url);
+        req.setPost(true);
+        req.addArgument("idCurrent",String.valueOf(idCurrent));
+        req.addArgument("idOther", String.valueOf(idOther));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    if (req.getResponseCode() == 200) {
+                        ok = true;
+                    } else {
+                        ok = false;
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return ok;
+        
+    }
     
+    public boolean checkFollowed(int idCurrent, int idOther){
+        String url = Statics.BASE_URL + "/CheckFollowed";
+        req.setUrl(url);
+        req.setPost(true);
+        req.addArgument("idCurrent",String.valueOf(idCurrent));
+        req.addArgument("idOther", String.valueOf(idOther));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    if (req.getResponseCode() == 200) {
+                        ok = true;
+                    } else {
+                        ok = false;
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return ok;
+        
+      
+    }
     public ArrayList<User> getUserByMail(String mail) {
         String url = Statics.BASE_URL + "/getUserByMail/" + mail;
         req.setUrl(url);
@@ -285,14 +358,7 @@ public class ServiceUser {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 String jsonText = new String(req.getResponseData());
-                /* jsonText = "[" + jsonText + "]";
-                JSONParser j = new JSONParser();
-                /* Map<String, Object> userJSON = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-                List<Map<String, Object>> list = (List<Map<String, Object>>) userJSON.get("root");
-                for (Map<String, Object> obj : list) {
-                nb=Integer.parseInt(obj.get("followers").toString());
-                }
-                 */
+
                 nb = Integer.parseInt(jsonText);
                 req.removeResponseListener(this);
             }
@@ -310,8 +376,7 @@ public class ServiceUser {
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                String jsonText = new String(req.getResponseData());
-                
+                String jsonText = new String(req.getResponseData());                
                 nb = Integer.parseInt(jsonText);
                 req.removeResponseListener(this);
             }

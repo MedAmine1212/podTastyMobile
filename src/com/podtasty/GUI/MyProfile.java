@@ -15,6 +15,7 @@ import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
+import com.podtasty.entities.User;
 import com.podtasty.entities.UserHolder;
 import com.podtasty.services.ServiceUser;
 
@@ -61,13 +62,10 @@ public class MyProfile extends com.codename1.ui.Form {
 public void setpic(){
         try {
             UserHolder holder = UserHolder.getInstance();
-            
             URL url = new URL("http://127.0.0.1:8000/Files/podcastFiles/" + holder.getUser().getUserInfoIdId().getUserImage());
             URL.URLConnection httpcon = url.openConnection();
-            InputStream stream = new BufferedInputStream(httpcon.getInputStream());
-            
-            Image img = Image.createImage(stream).fill(350, 350);
-            
+            InputStream stream = new BufferedInputStream(httpcon.getInputStream());            
+            Image img = Image.createImage(stream).fill(350, 350);            
             int w = 350;
             int h = 350;
             
@@ -88,7 +86,7 @@ public void setpic(){
 System.out.print(ex);        }
      
 }
-////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
+////////////////////////////////////////////////////////////////////////////////////////////////////-- DON'T EDIT BELOW THIS LINE!!!
     protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_ImageContainer = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_FirstNameLabel = new com.codename1.ui.Label();
@@ -102,6 +100,7 @@ System.out.print(ex);        }
     protected com.codename1.ui.Label gui_Label_2 = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_FollowerNb = new com.codename1.ui.Label();
     protected com.codename1.ui.Label gui_FollowingNb = new com.codename1.ui.Label();
+    protected com.codename1.ui.Button gui_VisitFreind = new com.codename1.ui.Button();
 
 
 // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
@@ -109,6 +108,7 @@ System.out.print(ex);        }
         EventCallbackClass callback = new EventCallbackClass();
         gui_Settings.addActionListener(callback);
         gui_Picture.addActionListener(callback);
+        gui_VisitFreind.addActionListener(callback);
     }
 
     class EventCallbackClass implements com.codename1.ui.events.ActionListener, com.codename1.ui.events.DataChangedListener {
@@ -132,6 +132,9 @@ System.out.print(ex);        }
             }
             if(sourceComponent == gui_Picture) {
                 onPictureActionEvent(ev);
+            }
+            if(sourceComponent == gui_VisitFreind) {
+                onVisitFreindActionEvent(ev);
             }
         }
 
@@ -189,6 +192,9 @@ System.out.print(ex);        }
         gui_FollowingNb.setText("dsfq");
                 gui_FollowingNb.setInlineStylesTheme(resourceObjectInstance);
         gui_FollowingNb.setName("FollowingNb");
+        gui_VisitFreind.setText("Button");
+                gui_VisitFreind.setInlineStylesTheme(resourceObjectInstance);
+        gui_VisitFreind.setName("VisitFreind");
         addComponent(gui_Label);
         addComponent(gui_ImageContainer);
         addComponent(gui_FirstNameLabel);
@@ -202,6 +208,7 @@ System.out.print(ex);        }
         addComponent(gui_Label_2);
         addComponent(gui_FollowerNb);
         addComponent(gui_FollowingNb);
+        addComponent(gui_VisitFreind);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Label.getParent().getLayout()).setInsets(gui_Label, "0.0mm auto auto auto").setReferenceComponents(gui_Label, "-1 -1 -1 -1").setReferencePositions(gui_Label, "0.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_ImageContainer.getParent().getLayout()).setInsets(gui_ImageContainer, "0.0mm auto auto auto").setReferenceComponents(gui_ImageContainer, "0 -1 -1 -1").setReferencePositions(gui_ImageContainer, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_FirstNameLabel.getParent().getLayout()).setInsets(gui_FirstNameLabel, "0.0mm auto auto auto").setReferenceComponents(gui_FirstNameLabel, "1 -1 -1 -1").setReferencePositions(gui_FirstNameLabel, "1.0 0.0 0.0 0.0");
@@ -215,10 +222,12 @@ System.out.print(ex);        }
         ((com.codename1.ui.layouts.LayeredLayout)gui_Label_2.getParent().getLayout()).setInsets(gui_Label_2, "0.0mm auto auto auto").setReferenceComponents(gui_Label_2, "11 -1 -1 -1").setReferencePositions(gui_Label_2, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_FollowerNb.getParent().getLayout()).setInsets(gui_FollowerNb, "6.878307mm auto auto auto").setReferenceComponents(gui_FollowerNb, "5 -1 -1 -1").setReferencePositions(gui_FollowerNb, "1.0 0.0 0.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_FollowingNb.getParent().getLayout()).setInsets(gui_FollowingNb, "6.878307mm auto auto auto").setReferenceComponents(gui_FollowingNb, "10 -1 -1 -1").setReferencePositions(gui_FollowingNb, "0.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_VisitFreind.getParent().getLayout()).setInsets(gui_VisitFreind, "0.0mm auto auto auto").setReferenceComponents(gui_VisitFreind, "12 -1 -1 -1").setReferencePositions(gui_VisitFreind, "1.0 0.0 0.0 0.0");
     }// </editor-fold>
 
 //-- DON'T EDIT ABOVE THIS LINE!!!
     public void onPictureActionEvent(com.codename1.ui.events.ActionEvent ev) {
+      
         Display.getInstance().openGallery(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ev) {
@@ -236,7 +245,8 @@ System.out.print(ex);        }
                         
                         su.updateProfilPic(holder.getUser(),filePath,fileName);
                         int id = holder.getUser().getId();
-                        holder.setUser(su.getUserById(id).get(0));
+                        User newUser = su.getUserById(id).get(0);
+                        holder.setUser(newUser);
                         setpic();
 
                         
@@ -254,10 +264,47 @@ System.out.print(ex);        }
     }
 
     public void onButtonActionEvent(com.codename1.ui.events.ActionEvent ev) {
+        Display.getInstance().capturePhoto(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                if (ev != null && ev.getSource() != null) {
+                    String filePath = (String) ev.getSource();
+                    int fileNameIndex = filePath.lastIndexOf("/") + 1;
+                    String fileName = filePath.substring(fileNameIndex);
+
+                    Image img = null;
+                    ServiceUser su = new ServiceUser();
+                    UserHolder holder = UserHolder.getInstance();
+
+                    try {
+                       img  = Image.createImage(FileSystemStorage.getInstance().openInputStream(filePath));  
+                        
+                        su.updateProfilPic(holder.getUser(),filePath,fileName);
+                        int id = holder.getUser().getId();
+                        User newUser = su.getUserById(id).get(0);
+                        holder.setUser(newUser);
+                        setpic();
+
+                        
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Do something, add to List
+                }
+            }
+
+        });
+        ;
     }
 
     public void onSettingsActionEvent(com.codename1.ui.events.ActionEvent ev) {
         new ProfileSettings().show();
+    }
+
+    public void onVisitFreindActionEvent(com.codename1.ui.events.ActionEvent ev) {
+        new OtherProfile(78).show();
     }
 
 }

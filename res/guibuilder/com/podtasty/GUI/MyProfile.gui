@@ -40,4 +40,7 @@
   <component type="Label" text="dsfq" name="FollowingNb">
     <layoutConstraint insets="6.878307mm auto auto auto" referenceComponents="10 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
   </component>
+  <component type="Button" text="Button" name="VisitFreind" actionEvent="true">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="12 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
 </component>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="OtherProfile" scrollableY="true" name="OtherProfile">
+  <component type="Label" text="  " name="Label">
+    <layoutConstraint insets="0.0mm auto auto auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="   " name="ImageContainer">
+    <layoutConstraint insets="6.878307mm auto auto auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="Firstanme">
+    <layoutConstraint insets="10.569106% auto auto 47.206703%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="Lastname">
+    <layoutConstraint insets="15.853659% auto auto 47.206703%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" preferredSize="inherit inherit" name="Bio">
+    <layoutConstraint insets="21.138212% auto auto 47.206703%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Button" text="Follow" icon="fontImage:e7fe" pressedIcon="fontImage:e7fe" name="Followbtn" actionEvent="true">
+    <layoutConstraint insets="26.422764% auto auto 44.97207%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Followers" name="Label_1">
+    <layoutConstraint insets="32.92683% auto auto auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="NbFollowers">
+    <layoutConstraint insets="38.211384% auto auto 47.206703%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Following" name="Label_2">
+    <layoutConstraint insets="56.613758mm auto auto 86.772484mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="Label" name="followNb">
+    <layoutConstraint insets="63.492065mm auto auto 89.41799mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  preferredSize="89.15344mm 55.291004mm" name="Box_Layout_Y">
+    <layoutConstraint insets="-2.6455026mm 61.45252% 45.027626% -61px" referenceComponents="4 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+</component>
